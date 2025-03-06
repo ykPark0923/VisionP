@@ -17,8 +17,7 @@ namespace JidamVision
     {
         InspNone = 0,
         InspBinary,
-        InspMatch,
-        InstTest
+        InspMatch
     }
 
     public partial class PropertiesForm : DockContent

@@ -141,12 +141,17 @@ namespace JidamVision.Core
 
             DisplayGrabImage(bufferIndex);  //실제 뷰어에 올림
 
+            if (_previewImage != null)
+            {
+                Bitmap bitmap = ImageSpace.GetBitmap(0);
+                _previewImage.SetImage(BitmapConverter.ToMat(bitmap));
+            }
 
             if (LiveMode == true)
             {
-                Task.Factory.StartNew(() =>
+                await Task.Factory.StartNew(async() =>
                 {
-                    //await.Test.Delay(100) //비동기 대기
+                    await Task.Delay(100);  //비동기 대기
                     _grabManager.Grab(bufferIndex, true); //다음 촬영 시작
                 });
             }

@@ -14,7 +14,7 @@ namespace JidamVision.Core
     {
         private Mat _orinalImage = null;
         private Mat _previewImage = null;
-        private Mat _tempImage = null;
+        //private Mat _tempImage = null;
 
         public void SetImage(Mat image)
         {
@@ -28,6 +28,7 @@ namespace JidamVision.Core
         {
             if (_orinalImage == null)
                 return;
+            
 
             Mat grayImage = new Mat();
             if (_orinalImage.Type() == MatType.CV_8UC3)
@@ -36,7 +37,11 @@ namespace JidamVision.Core
                 grayImage = _orinalImage;
 
             Mat binaryMask = new Mat();
+
+            // 임계값 기준 하나
             //Cv2.Threshold(grayImage, binaryMask, lowerValue, upperValue, ThresholdTypes.Binary);
+
+            // 임계값 기준 둘, 범위
             Cv2.InRange(grayImage, lowerValue, upperValue, binaryMask);
 
             // 원본 이미지 복사본을 만들어 이진화된 부분에만 색을 덧씌우기
