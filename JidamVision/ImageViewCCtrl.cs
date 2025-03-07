@@ -319,5 +319,18 @@ namespace JidamVision
             // 다시 그리기
             Invalidate();
         }
+
+        private void ImageViewCCtrl_Resize(object sender, EventArgs e)
+        {
+            Invalidate();
+            // 캔버스를 UserControl 크기만큼 생성
+            Canvas = new Bitmap(Width, Height);
+            CanvasSize.Width = Width;
+            CanvasSize.Height = Height;
+
+            // 초기 이미지 크기를 UserControl 크기로 설정
+            ImageRect = new RectangleF(0, 0, Width, Height);
+
+        }
     }
 }

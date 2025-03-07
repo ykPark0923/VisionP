@@ -57,8 +57,31 @@ namespace JidamVision
             imageViewer.LoadBitmap(bitmap);
         }
 
+        //카메라 채널 선택 값 반환
+        public eImageChannel GetSelectedChannel()
+        {
+            if (rbtnRedChannel.Checked) return eImageChannel.Red;
+            if (rbtnGreenChannel.Checked) return eImageChannel.Green;
+            if (rbtnBlueChannel.Checked) return eImageChannel.Blue;
+            if (rbtnGrayChannel.Checked) return eImageChannel.Gray;
+            return eImageChannel.Color;
+        }
+
         private void CameraForm_Resize(object sender, EventArgs e)
         {
+            int margin = 10;
+
+            int xPos = Location.X + this.Width - btnGrab.Width - margin;
+
+            btnGrab.Location = new Point(xPos, btnGrab.Location.Y);
+            btnLive.Location = new Point(xPos, btnLive.Location.Y);
+            groupBox1.Location = new Point(xPos, groupBox1.Location.Y);
+            //btnSetROI.Location = new Point(xPos, btnSetROI.Location.Y);
+
+            imageViewer.Width = this.Width - btnGrab.Width - margin * 2;
+            imageViewer.Height = this.Height - margin * 2;
+
+            imageViewer.Location = new Point(margin, margin);
         }
 
         private void btnGrab_Click(object sender, EventArgs e)
