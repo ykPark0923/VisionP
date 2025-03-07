@@ -35,9 +35,9 @@
             this.rbtnGreenChannel = new System.Windows.Forms.RadioButton();
             this.rbtnBlueChannel = new System.Windows.Forms.RadioButton();
             this.rbtnRedChannel = new System.Windows.Forms.RadioButton();
-            this.imageViewer = new JidamVision.ImageViewCCtrl();
             this.btnSetRoi = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.imageViewer = new JidamVision.ImageViewCCtrl();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -124,18 +124,6 @@
             this.rbtnRedChannel.UseVisualStyleBackColor = true;
             this.rbtnRedChannel.CheckedChanged += new System.EventHandler(this.rbtnRedChannel_CheckedChanged_1);
             // 
-            // imageViewer
-            // 
-            this.imageViewer.AutoSize = true;
-            this.imageViewer.BackColor = System.Drawing.SystemColors.AppWorkspace;
-            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.imageViewer.Location = new System.Drawing.Point(17, 18);
-            this.imageViewer.Margin = new System.Windows.Forms.Padding(6);
-            this.imageViewer.Name = "imageViewer";
-            this.imageViewer.RoiMode = false;
-            this.imageViewer.Size = new System.Drawing.Size(473, 406);
-            this.imageViewer.TabIndex = 2;
-            // 
             // btnSetRoi
             // 
             this.btnSetRoi.Location = new System.Drawing.Point(500, 102);
@@ -156,6 +144,19 @@
             this.btnSave.TabIndex = 6;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click_1);
+            // 
+            // imageViewer
+            // 
+            this.imageViewer.AutoSize = true;
+            this.imageViewer.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.imageViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.imageViewer.Location = new System.Drawing.Point(17, 18);
+            this.imageViewer.Margin = new System.Windows.Forms.Padding(6);
+            this.imageViewer.Name = "imageViewer";
+            this.imageViewer.RoiMode = false;
+            this.imageViewer.Size = new System.Drawing.Size(473, 406);
+            this.imageViewer.TabIndex = 2;
             // 
             // CameraForm
             // 

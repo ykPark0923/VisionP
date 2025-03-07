@@ -140,21 +140,27 @@ namespace JidamVision
          #SAVE ROI# - <<<ROI 영역 이미지 파일 저장>>> 
         이미지 상에서 ROI 영역을 파일로 저장하여, 템플릿 매칭에서 사용
         */
-        private void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click_1(object sender, EventArgs e)
         {
             //# SAVE ROI#5 현재 채널 이미지에서, 설정된 ROI 영역을 파일로 저장
             OpenCvSharp.Mat currentImage = Global.Inst.InspStage.GetMat(0, _currentImageChannel);
             if (currentImage != null)
             {
-                //현재 설정된 ROI 영역을 가져옴
+                //현재 설정된 ROI 영역을 가져옴s
                 Rectangle roiRect = imageViewer.GetRoiRect();
+
+
                 //전체 이미지에서 ROI 영역만을 roiImage에 저장
                 Mat roiImage = new Mat(currentImage, new Rect(roiRect.X, roiRect.Y, roiRect.Width, roiRect.Height));
 
+                if (roiImage.Empty())
+                    return;
+
                 //현재 실행파일이 있는 경로에, 저장할 경로 만들기
-                //string savePath = Path.Combine(Directory.GetCurrentDirectory(), Define.ROI_IMAGE_NAME);
+                string savePath = Path.Combine(Directory.GetCurrentDirectory(), Define.ROI_IMAGE_NAME);
+
                 //이미지 저장
-                //Cv2.ImWrite(savePath, roiImage);
+                Cv2.ImWrite(savePath, roiImage);
             }
         }
 
@@ -164,6 +170,7 @@ namespace JidamVision
             imageViewer.AddRect(rectangles);
 
         }
+
 
     }
 }

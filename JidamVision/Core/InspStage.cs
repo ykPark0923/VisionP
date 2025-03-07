@@ -1,5 +1,4 @@
 ﻿using JidamVision.Grab;
-//using JidamVision.Teach;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
@@ -12,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using JidamVision.Core;
 
 namespace JidamVision.Core
 {
