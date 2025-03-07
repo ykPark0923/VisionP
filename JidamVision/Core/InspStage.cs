@@ -1,4 +1,5 @@
 ﻿using JidamVision.Grab;
+//using JidamVision.Teach;
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System;
@@ -6,10 +7,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
+using System.Web;
 
 namespace JidamVision.Core
 {
@@ -23,6 +25,8 @@ namespace JidamVision.Core
         private CameraType _camType = CameraType.WebCam;
         private PreviewImage _previewImage = null;
 
+        //private InspWindow _inspWindow = null;
+
         public ImageSpace ImageSpace
         {
             get => _imageSpace;
@@ -33,7 +37,15 @@ namespace JidamVision.Core
             get => _previewImage;
         }
 
+        //public InspWindow InspWindow
+        //{
+        //    get => _inspWindow;
+        //}
+
         public bool LiveMode { get; set; } = false;
+
+        public int SelBufferIndex { get; set; } = 0;
+        public eImageChannel SelImageChannel { get; set; } = eImageChannel.Gray;
 
         public InspStage() { }
 
@@ -68,11 +80,10 @@ namespace JidamVision.Core
                 InitModelGrab(MAX_GRAB_BUF);
             }
 
-            
+            //InitInspWindow();
 
             return true;
         }
-
 
 
         public void InitModelGrab(int bufferCount)
@@ -83,28 +94,65 @@ namespace JidamVision.Core
             int pixelBpp = 8;
             _grabManager.GetPixelBpp(out pixelBpp);
 
-            int inspectionWidth;
-            int inspectionHeight;
-            int inspectionStride;
-            _grabManager.GetResolution(out inspectionWidth, out inspectionHeight, out inspectionStride);
+            int imageWidth;
+            int imageHeight;
+            int imageStride;
+            _grabManager.GetResolution(out imageWidth, out imageHeight, out imageStride);
 
             if (_imageSpace != null)
             {
-                _imageSpace.SetImageInfo(pixelBpp, inspectionWidth, inspectionHeight, inspectionStride);
+                _imageSpace.SetImageInfo(pixelBpp, imageWidth, imageHeight, imageStride);
             }
 
             SetBuffer(bufferCount);
+        }
+        public void SetImageBuffer(string filePath)
+        {
+            if (_grabManager == null)
+                return;
 
-            //_grabManager.SetExposureTime(25000);
+            Mat matImage = Cv2.ImRead(filePath);
 
+            int pixelBpp = 8;
+            int imageWidth;
+            int imageHeight;
+            int imageStride;
+
+            if (matImage.Type() == MatType.CV_8UC3)
+                pixelBpp = 24;
+
+            imageWidth = (matImage.Width + 3) / 4 * 4;
+            imageHeight = matImage.Height;
+            //imageStride = (int)matImage.Step();
+            imageStride = imageWidth * matImage.ElemSize();
+
+            if (_imageSpace != null)
+            {
+                _imageSpace.SetImageInfo(pixelBpp, imageWidth, imageHeight, imageStride);
+            }
+
+            SetBuffer(1);
+
+            int bufferIndex = 0;
+
+            // Mat의 데이터를 byte 배열로 복사
+            int bufSize = (int)(matImage.Total() * matImage.ElemSize());
+            Marshal.Copy(matImage.Data, ImageSpace.GetInspectionBuffer(bufferIndex), 0, bufSize);
+
+            _imageSpace.Split(bufferIndex);
+
+            DisplayGrabImage(bufferIndex);
+
+            if (_previewImage != null)
+            {
+                Bitmap bitmap = ImageSpace.GetBitmap(0);
+                _previewImage.SetImage(BitmapConverter.ToMat(bitmap));
+            }
         }
 
         public void SetBuffer(int bufferCount)
         {
             if (_grabManager == null)
-                return;
-
-            if (_imageSpace.BufferCount == bufferCount)
                 return;
 
             _imageSpace.InitImageSpace(bufferCount);
@@ -128,10 +176,11 @@ namespace JidamVision.Core
             _grabManager.Grab(bufferIndex, true);
         }
 
-        // async await
-        // 비동기 프로그래밍을 쉽게 구현할 수 있도록 도와주는 것, 작업이 끝날때까지 기다리지 않고 다른 작업을 진행할 수 있도록 함.
-        // 이를 통해 UI가 멈추지 않으며(프리징 방지) 응답성이 높은 프로그램 제작가능
-        // private async void _multiGrab_TransferCompleted(object sender, object e)
+        // NOTE
+        // async / await란?
+        // async / await는 비동기 프로그래밍(Asynchronous Programming)을 쉽게 구현할 수 있도록 도와주는 키워드입니다.
+        //기본 개념은 작업(Task)이 끝날 때까지 기다리지 않고 다른 작업을 진행할 수 있도록 하는 것입니다.
+        //이를 통해 UI가 멈추지 않으며(프리징 방지), 응답성이 높은 프로그램을 만들 수 있습니다.
         private async void _multiGrab_TransferCompleted(object sender, object e)
         {
             int bufferIndex = (int)e;
@@ -139,7 +188,7 @@ namespace JidamVision.Core
 
             _imageSpace.Split(bufferIndex);
 
-            DisplayGrabImage(bufferIndex);  //실제 뷰어에 올림
+            DisplayGrabImage(bufferIndex);
 
             if (_previewImage != null)
             {
@@ -147,19 +196,12 @@ namespace JidamVision.Core
                 _previewImage.SetImage(BitmapConverter.ToMat(bitmap));
             }
 
-            if (LiveMode == true)
+            if (LiveMode)
             {
-                await Task.Factory.StartNew(async() =>
-                {
-                    await Task.Delay(100);  //비동기 대기
-                    _grabManager.Grab(bufferIndex, true); //다음 촬영 시작
-                });
+                await Task.Delay(100);  // 비동기 대기
+                _grabManager.Grab(bufferIndex, true);  // 다음 촬영 시작
             }
         }
-
-
-
-
 
         private void DisplayGrabImage(int bufferIndex)
         {
@@ -170,5 +212,43 @@ namespace JidamVision.Core
             }
         }
 
+        public void SaveCurrentImage(string filePath)
+        {
+            var cameraForm = MainForm.GetDockForm<CameraForm>();
+            if (cameraForm != null)
+            {
+                Mat displayImage = cameraForm.GetDisplayImage();
+                Cv2.ImWrite(filePath, displayImage);
+            }
+        }
+
+        public Bitmap GetBitmap(int bufferIndex = -1, eImageChannel imageChannel = eImageChannel.Gray)
+        {
+            if (bufferIndex >= 0)
+                SelBufferIndex = bufferIndex;
+
+            SelImageChannel = imageChannel;
+
+            return Global.Inst.InspStage.ImageSpace.GetBitmap(SelBufferIndex, SelImageChannel);
+        }
+        public Mat GetMat(int bufferIndex = -1, eImageChannel imageChannel = eImageChannel.Gray)
+        {
+            if (bufferIndex >= 0)
+                SelBufferIndex = bufferIndex;
+
+            SelImageChannel = imageChannel;
+            return Global.Inst.InspStage.ImageSpace.GetMat(SelBufferIndex, SelImageChannel);
+        }
+
+        //private void InitInspWindow()
+        //{
+        //    _inspWindow = new InspWindow();
+
+        //    var propForm = MainForm.GetDockForm<PropertiesForm>();
+        //    if (propForm != null)
+        //    {
+        //        propForm.SetInspType(InspPropType.InspMatch);
+        //    }
+        //}
     }
 }
