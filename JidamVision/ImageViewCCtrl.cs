@@ -110,6 +110,12 @@ namespace JidamVision
             float NewWidth = Bitmap.Width * Scale;
             float NewHeight = Bitmap.Height * Scale;
 
+            if (InitialStartX == 0 || InitialStartY == 0)
+            {
+                InitialStartX = ImageRect.X;
+                InitialStartY = ImageRect.Y;
+            }
+
             // 이미지가 UserControl 중앙에 배치되도록 정렬
             ImageRect = new RectangleF(
                 (Width - NewWidth) / 2, // UserControl 너비에서 이미지 너비를 뺀 후, 절반을 왼쪽 여백으로 설정하여 중앙 정렬
@@ -123,6 +129,7 @@ namespace JidamVision
             //줌아웃위한 초기값 저장
             InitialCenterX = ImageRect.X + (ImageRect.Width / 2);
             InitialCenterY = ImageRect.Y + (ImageRect.Height / 2);
+
             InitialStartX = ImageRect.X;
             InitialStartY = ImageRect.Y;
             InitialWidth = NewWidth;
