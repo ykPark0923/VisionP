@@ -11,7 +11,7 @@ using WeifenLuo.WinFormsUI.Docking;
 using JidamVision.Core;
 using OpenCvSharp.Extensions;
 using System.Web;
-//using JidamVision.Teach;
+using JidamVision.Teach;
 using System.IO;
 using OpenCvSharp;
 
@@ -149,6 +149,12 @@ namespace JidamVision
                 //현재 설정된 ROI 영역을 가져옴s
                 Rectangle roiRect = imageViewer.GetRoiRect();
 
+                // ROI 영역이 설정되지 않았을 경우 예외 처리
+                if (roiRect.Width == 0 || roiRect.Height == 0)
+                {
+                    MessageBox.Show("ROI 영역을 설정하세요.", "알림", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
 
                 //전체 이미지에서 ROI 영역만을 roiImage에 저장
                 Mat roiImage = new Mat(currentImage, new Rect(roiRect.X, roiRect.Y, roiRect.Width, roiRect.Height));
