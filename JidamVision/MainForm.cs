@@ -81,5 +81,19 @@ namespace JidamVision
             }
         }
 
+        private void imageloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "이미지 파일 선택";
+                openFileDialog.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.gif";
+                openFileDialog.Multiselect = false;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    Global.Inst.InspStage.SetImageBuffer(filePath);
+                }
+            }
+        }
     }
 }

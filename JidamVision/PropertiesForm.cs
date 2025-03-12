@@ -86,5 +86,10 @@ namespace JidamVision
             int upperValue = e.UpperValue;
             Global.Inst.InspStage.PreView?.SetBinary(lowerValue, upperValue);
         }
+
+        private void PropertiesForm_Resize(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -39,13 +39,13 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.imageFilterToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 3, 0, 3);
             this.menuStrip1.Size = new System.Drawing.Size(1143, 35);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
@@ -64,6 +64,7 @@
             this.imageloadToolStripMenuItem.Name = "imageloadToolStripMenuItem";
             this.imageloadToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
             this.imageloadToolStripMenuItem.Text = "Image Load";
+            this.imageloadToolStripMenuItem.Click += new System.EventHandler(this.imageloadToolStripMenuItem_Click);
             // 
             // imagesaveToolStripMenuItem
             // 
@@ -92,7 +93,7 @@
             this.ClientSize = new System.Drawing.Size(1143, 675);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.menuStrip1.ResumeLayout(false);

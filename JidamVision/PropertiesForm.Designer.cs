@@ -35,19 +35,22 @@ namespace JidamVision
             // 
             // panelContainer
             // 
-            this.panelContainer.Location = new System.Drawing.Point(13, 22);
+            this.panelContainer.Location = new System.Drawing.Point(19, 33);
+            this.panelContainer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelContainer.Name = "panelContainer";
-            this.panelContainer.Size = new System.Drawing.Size(310, 313);
+            this.panelContainer.Size = new System.Drawing.Size(443, 470);
             this.panelContainer.TabIndex = 0;
             // 
             // PropertiesForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(342, 390);
+            this.ClientSize = new System.Drawing.Size(489, 585);
             this.Controls.Add(this.panelContainer);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "PropertiesForm";
             this.Text = "PropertiesForm";
+            this.Resize += new System.EventHandler(this.PropertiesForm_Resize);
             this.ResumeLayout(false);
 
         }
