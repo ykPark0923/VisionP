@@ -124,7 +124,7 @@ namespace JidamVision.Core
 
             imageWidth = (matImage.Width + 3) / 4 * 4;
             imageHeight = matImage.Height;
-            //imageStride = (int)matImage.Step();
+            imageStride = (int)matImage.Step();
             imageStride = imageWidth * matImage.ElemSize();
 
             if (_imageSpace != null)

@@ -28,6 +28,7 @@ namespace JidamVision.Teach
         //템플릿 매칭으로 찾은 위치 리스트
         private List<OpenCvSharp.Point> _outPoints;
 
+        // 내부(internal)에서만 접근 가능하며, MatchAlgorithm 타입의 읽기 전용 속성
         internal MatchAlgorithm MatchAlgorithm => _matchAlgorithm;
 
         public InspWindow()
@@ -90,6 +91,7 @@ namespace JidamVision.Teach
         }
 
         //#MATCH PROP#6 템플릿 매칭 검사 결과 위치를 Rectangle 리스트로 반환
+        // 창 리사이즈 또는 줌, 이미지 이동시 rectangles 위치 변경필요--------------------------------
         public int GetMatchRect(out List<Rectangle> rectangles)
         {
             rectangles = new List<Rectangle>();

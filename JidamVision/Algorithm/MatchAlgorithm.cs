@@ -52,6 +52,7 @@ namespace JidamVision.Algorithm
             Cv2.MatchTemplate(image, _templateImage, result, TemplateMatchModes.CCoeffNormed);
 
             // 가장 높은 점수 위치 찾기
+            // 갑 없으면 out _
             Cv2.MinMaxLoc(result, out _, out double maxVal, out _, out Point maxLoc);
 
             OutScore = (int)(maxVal * 100);
