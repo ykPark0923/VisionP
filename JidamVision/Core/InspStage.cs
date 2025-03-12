@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using JidamVision.Core;
+using JidamVision.Teach;
 
 namespace JidamVision.Core
 {
@@ -25,7 +26,7 @@ namespace JidamVision.Core
         private CameraType _camType = CameraType.WebCam;
         private PreviewImage _previewImage = null;
 
-        //private InspWindow _inspWindow = null;
+        private InspWindow _inspWindow = null;
 
         public ImageSpace ImageSpace
         {
@@ -37,10 +38,10 @@ namespace JidamVision.Core
             get => _previewImage;
         }
 
-        //public InspWindow InspWindow
-        //{
-        //    get => _inspWindow;
-        //}
+        public InspWindow InspWindow
+        {
+            get => _inspWindow;
+        }
 
         public bool LiveMode { get; set; } = false;
 
@@ -80,7 +81,7 @@ namespace JidamVision.Core
                 InitModelGrab(MAX_GRAB_BUF);
             }
 
-            //InitInspWindow();
+            InitInspWindow();
 
             return true;
         }
@@ -240,15 +241,15 @@ namespace JidamVision.Core
             return Global.Inst.InspStage.ImageSpace.GetMat(SelBufferIndex, SelImageChannel);
         }
 
-        //private void InitInspWindow()
-        //{
-        //    _inspWindow = new InspWindow();
+        private void InitInspWindow()
+        {
+            _inspWindow = new InspWindow();
 
-        //    var propForm = MainForm.GetDockForm<PropertiesForm>();
-        //    if (propForm != null)
-        //    {
-        //        propForm.SetInspType(InspPropType.InspMatch);
-        //    }
-        //}
+            var propForm = MainForm.GetDockForm<PropertiesForm>();
+            if (propForm != null)
+            {
+                propForm.SetInspType(InspPropType.InspMatch);
+            }
+        }
     }
 }

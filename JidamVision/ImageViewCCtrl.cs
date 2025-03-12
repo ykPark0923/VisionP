@@ -186,36 +186,36 @@ namespace JidamVision
             Invalidate();
         }
 
-        //public Bitmap GetRoiImage()
-        //{
-        //    if (Bitmap == null || _roiRect.IsEmpty)
-        //        return null;
+        public Bitmap GetRoiImage()
+        {
+            if (Bitmap == null || _roiRect.IsEmpty)
+                return null;
 
-        //    // 원본 이미지에서 ROI 크롭
-        //    Bitmap roiBitmap = new Bitmap(_roiRect.Width, _roiRect.Height);
-        //    using (Graphics g = Graphics.FromImage(roiBitmap))
-        //    {
-        //        g.DrawImage(Bitmap, new Rectangle(0, 0, _roiRect.Width, _roiRect.Height), _roiRect, GraphicsUnit.Pixel);
-        //    }
+            // 원본 이미지에서 ROI 크롭
+            Bitmap roiBitmap = new Bitmap(_roiRect.Width, _roiRect.Height);
+            using (Graphics g = Graphics.FromImage(roiBitmap))
+            {
+                g.DrawImage(Bitmap, new Rectangle(0, 0, _roiRect.Width, _roiRect.Height), _roiRect, GraphicsUnit.Pixel);
+            }
 
-        //    return roiBitmap;
-        //}
+            return roiBitmap;
+        }
 
-        //public void SaveROI(string savePath)
-        //{
-        //    if (Bitmap == null || _roiRect.IsEmpty)
-        //        return;
+        public void SaveROI(string savePath)
+        {
+            if (Bitmap == null || _roiRect.IsEmpty)
+                return;
 
-        //    // 원본 이미지에서 ROI 크롭
-        //    using (Bitmap roiBitmap = new Bitmap(_roiRect.Width, _roiRect.Height))
-        //    {
-        //        using (Graphics g = Graphics.FromImage(roiBitmap))
-        //        {
-        //            g.DrawImage(Bitmap, new Rectangle(0, 0, _roiRect.Width, _roiRect.Height), _roiRect, GraphicsUnit.Pixel);
-        //        }
-        //        roiBitmap.Save(savePath, ImageFormat.Png);
-        //    }
-        //}
+            // 원본 이미지에서 ROI 크롭
+            using (Bitmap roiBitmap = new Bitmap(_roiRect.Width, _roiRect.Height))
+            {
+                using (Graphics g = Graphics.FromImage(roiBitmap))
+                {
+                    g.DrawImage(Bitmap, new Rectangle(0, 0, _roiRect.Width, _roiRect.Height), _roiRect, GraphicsUnit.Pixel);
+                }
+                roiBitmap.Save(savePath, ImageFormat.Png);
+            }
+        }
 
         // Windows Forms에서 컨트롤이 다시 그려질 때 자동으로 호출되는 메서드
         // 화면새로고침(Invalidate()), 창 크기변경, 컨트롤이 숨겨졌다가 나타날때 실행
@@ -241,29 +241,29 @@ namespace JidamVision
                      * HighQualityBilinear	Bilinear보다 품질이 높고 Bicubic보다 빠름
                      ****************************************************************/
 
-                    ////#MATCH PROP#12 템플릿 매칭 위치 그리기
-                    //float scaleX = ImageRect.Width / Bitmap.Width;
-                    //float scaleY = ImageRect.Height / Bitmap.Height;
+                    //#MATCH PROP#12 템플릿 매칭 위치 그리기
+                    float scaleX = ImageRect.Width / Bitmap.Width;
+                    float scaleY = ImageRect.Height / Bitmap.Height;
 
-                    //// 이미지 좌표 → 화면 좌표 변환 후 사각형 그리기
-                    //if (_rectangles != null)
-                    //{
-                    //    using (Pen pen = new Pen(Color.LightCoral, 2))
-                    //    {
-                    //        foreach (var rect in _rectangles)
-                    //        {
-                    //            // 이미지 좌표를 화면 좌표로 변환
-                    //            int screenX = (int)(rect.X * scaleX + ImageRect.X);
-                    //            int screenY = (int)(rect.Y * scaleY + ImageRect.Y);
-                    //            int screenWidth = (int)(rect.Width * scaleX);
-                    //            int screenHeight = (int)(rect.Height * scaleY);
+                    // 이미지 좌표 → 화면 좌표 변환 후 사각형 그리기
+                    if (_rectangles != null)
+                    {
+                        using (Pen pen = new Pen(Color.LightCoral, 2))
+                        {
+                            foreach (var rect in _rectangles)
+                            {
+                                // 이미지 좌표를 화면 좌표로 변환
+                                int screenX = (int)(rect.X * scaleX + ImageRect.X);
+                                int screenY = (int)(rect.Y * scaleY + ImageRect.Y);
+                                int screenWidth = (int)(rect.Width * scaleX);
+                                int screenHeight = (int)(rect.Height * scaleY);
 
-                    //            g.DrawRectangle(pen, screenX, screenY, screenWidth, screenHeight);
-                    //        }
-                    //    }
-                    //}
+                                g.DrawRectangle(pen, screenX, screenY, screenWidth, screenHeight);
+                            }
+                        }
+                    }
 
-                    //#SETROI#3 ROI 그리기
+                    //#SETROI#6 ROI 그리기
                     if (RoiMode && !_roiRect.IsEmpty)
                     {
                         Rectangle rect = _roiRect;
