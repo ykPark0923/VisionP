@@ -197,6 +197,7 @@ namespace JidamVision.Core
 
             Dispose();
 
+            //MarshalCopy버그 수정
             _imageByChannel.Clear();
             _imageInfo.Clear();
 
