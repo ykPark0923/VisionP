@@ -31,10 +31,20 @@ namespace JidamVision.Teach
         // 내부(internal)에서만 접근 가능하며, MatchAlgorithm 타입의 읽기 전용 속성
         internal MatchAlgorithm MatchAlgorithm => _matchAlgorithm;
 
+        //#BINARY FILTER#5 이진화 알고리즘 추가
+        //이진화 검사 클래스
+        private BlobAlgorithm _blobAlgorithm;
+
+        internal BlobAlgorithm BlobAlgorithm => _blobAlgorithm;
+
         public InspWindow()
         {
             _matchAlgorithm = new MatchAlgorithm();
+
+            //#BINARY FILTER#6 이진화 알고리즘 인스턴스 생성
+            _blobAlgorithm = new BlobAlgorithm();
         }
+
 
         public bool SetTeachingImage(Mat image, System.Drawing.Rectangle rect)
         {

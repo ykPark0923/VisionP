@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using JidamVision.Core;
+using JidamVision.Teach;
 
 namespace JidamVision.Property
 {
@@ -25,6 +27,10 @@ namespace JidamVision.Property
         public FilterInspProp()
         {
             InitializeComponent();
+        }
+
+        public void LoadInspParam()
+        {
         }
 
         private void select_effect_SelectedIndexChanged_1(object sender, EventArgs e)

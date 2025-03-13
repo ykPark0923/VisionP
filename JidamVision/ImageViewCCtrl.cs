@@ -530,12 +530,12 @@ namespace JidamVision
             if (ZoomChange < 1.0f)
             {
 
-                /******************************************************************************************************
-                 * Lerp(Linear Interpolation, 선형 보간)은 두 값 사이를 일정한 비율로 보간하여 중간 값을 계산하는 기법
-                 * 두 값 A와 B 사이의 중간 값을 단계적으로 계산하여 부드러운 변화 효과
-                 * Lerp(A, B, t) = A * (1 - t) + B * t
-                 * A: 시작 값 (현재 값), B: 목표 값 (최종 값), t: 보간 비율 (0.0f ~ 1.0f, 값이 클수록 더 빠르게 B에 가까워짐)
-                 *******************************************************************************************************/
+                ///******************************************************************************************************
+                // * Lerp(Linear Interpolation, 선형 보간)은 두 값 사이를 일정한 비율로 보간하여 중간 값을 계산하는 기법
+                // * 두 값 A와 B 사이의 중간 값을 단계적으로 계산하여 부드러운 변화 효과
+                // * Lerp(A, B, t) = A * (1 - t) + B * t
+                // * A: 시작 값 (현재 값), B: 목표 값 (최종 값), t: 보간 비율 (0.0f ~ 1.0f, 값이 클수록 더 빠르게 B에 가까워짐)
+                // *******************************************************************************************************/
 
 
                 float t = 0.5f; // 이미지 점진적으로 줄어들도록 보간
@@ -591,7 +591,7 @@ namespace JidamVision
             LastOffset = Offset;
 
 
-            //ZoomROI();
+            ZoomROI();
 
 
 
@@ -644,19 +644,6 @@ namespace JidamVision
                 InitialHeight = ImageRect.Height;
             }
 
-            // ROI 크기를 현재 줌 상태에 맞게 조정
-            float roiX_ratio = (_roiRect.X - InitialStartX) / InitialWidth;
-            float roiY_ratio = (_roiRect.Y - InitialStartY) / InitialHeight;
-            float roiW_ratio = _roiRect.Width / InitialWidth;
-            float roiH_ratio = _roiRect.Height / InitialHeight;
-
-            // 새로운 ImageRect 크기에 맞춰 ROI 업데이트
-            _roiRect.X = (int)(ImageRect.X + roiX_ratio * ImageRect.Width);
-            _roiRect.Y = (int)(ImageRect.Y + roiY_ratio * ImageRect.Height);
-            _roiRect.Width = (int)(roiW_ratio * ImageRect.Width);
-            _roiRect.Height = (int)(roiH_ratio * ImageRect.Height);
-
-            // 최종적으로 UpdateROI() 실행
             UpdateROI();
         }
         public Rectangle GetRoiRect()

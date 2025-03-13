@@ -10,15 +10,17 @@ using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 using JidamVision.Property;
 using JidamVision.Core;
+using OpenCvSharp.XFeatures2D;
 
 namespace JidamVision
 {
-    public enum InspPropType
+    public enum InspectType
     {
-        InspNone = 0,
+        InspNone = -1,
         InspBinary,
         InspMatch,
-        InspFilter
+        InspFilter,
+        InspCount  //전체 enum의 count를 알고 있음, InspNone = -1이므로 카운트 제외
     }
 
     public partial class PropertiesForm : DockContent
@@ -27,47 +29,71 @@ namespace JidamVision
         {
             InitializeComponent();
             //속성창 설정
-            SetInspType(InspPropType.InspFilter);
+            //SetInspType(InspectType.InspFilter);
         }
 
-        public void SetInspType(InspPropType inspPropType)
+        public void SetInspType(InspectType inspPropType)
         {
             LoadOptionControl(inspPropType);
         }
 
         //옵션창에서 입력된 타입의 속성창 생성
-        private void LoadOptionControl(InspPropType inspPropType)
+        private void LoadOptionControl(InspectType inspType)
         {
-            // Panel 초기화
-            panelContainer.Controls.Clear();
-            UserControl _inspProp = null;
+            string tabName = inspType.ToString();
 
+            // 이미 있는 TabPage인지 확인
+            foreach (TabPage tabPage in tabPropControl.TabPages)
+            {
+                if (tabPage.Text == tabName)
+                {
+                    tabPropControl.SelectedTab = tabPage;
+                    return;
+                }
+            }
 
-            // 옵션에 맞는 UserControl 생성
+            // 새로운 UserControl 생성
+            UserControl _inspProp = CreateUserControl(inspType);
+            if (_inspProp == null)
+                return;
+
+            // 새 탭 추가
+            TabPage newTab = new TabPage(tabName)
+            {
+                Dock = DockStyle.Fill
+            };
+            _inspProp.Dock = DockStyle.Fill;
+            newTab.Controls.Add(_inspProp);
+            tabPropControl.TabPages.Add(newTab);
+            tabPropControl.SelectedTab = newTab; // 새 탭 선택
+        }
+
+        private UserControl CreateUserControl(InspectType inspPropType)
+        {
+            UserControl _InspProp = null;
             switch (inspPropType)
             {
-                case InspPropType.InspBinary:
-                    _inspProp = new BinaryInspProp();
-                    ((BinaryInspProp)_inspProp).RangeChanged += RangeSlider_RangeChanged;
+                case InspectType.InspBinary:
+                    BinaryInspProp blobProp = new BinaryInspProp(); ;
+                    blobProp.LoadInspParam();
+                    blobProp.RangeChanged += RangeSlider_RangeChanged;
+                    _InspProp = blobProp;
                     break;
-                case InspPropType.InspMatch:
-                    _inspProp = new MatchInspProp();
+                case InspectType.InspMatch:
+                    MatchInspProp matchProp = new MatchInspProp();
+                    matchProp.LoadInspParam();
+                    _InspProp = matchProp;
                     break;
-                case InspPropType.InspFilter:
-                    _inspProp = new FilterInspProp();
-                    ((FilterInspProp)_inspProp).FilterSelected += FilterSelect_FilterChanged;
+                case InspectType.InspFilter:
+                    FilterInspProp filterProp = new FilterInspProp();
+                    filterProp.LoadInspParam();
+                    _InspProp = filterProp;
                     break;
                 default:
                     MessageBox.Show("유효하지 않은 옵션입니다.");
-                    return;
+                    return null;
             }
-
-            // UserControl을 Panel에 추가
-            if (_inspProp != null)
-            {
-                _inspProp.Dock = DockStyle.Fill; // 패널을 꽉 채움
-                panelContainer.Controls.Add(_inspProp);
-            }
+            return _InspProp;
         }
 
         private void FilterSelect_FilterChanged(object sender, FilterSelectedEventArgs e)

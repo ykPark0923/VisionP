@@ -248,7 +248,7 @@ namespace JidamVision.Core
             var propForm = MainForm.GetDockForm<PropertiesForm>();
             if (propForm != null)
             {
-                propForm.SetInspType(InspPropType.InspMatch);
+                propForm.SetInspType(InspectType.InspMatch);
             }
         }
     }

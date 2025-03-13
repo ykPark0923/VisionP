@@ -96,7 +96,7 @@
             this.Controls.Add(this.grpBinary);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BinaryInspProp";
-            this.Size = new System.Drawing.Size(318, 243);
+            this.Size = new System.Drawing.Size(338, 569);
             this.grpBinary.ResumeLayout(false);
             this.grpBinary.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarUpper)).EndInit();
