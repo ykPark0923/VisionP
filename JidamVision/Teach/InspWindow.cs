@@ -31,6 +31,7 @@ namespace JidamVision.Teach
         // 내부(internal)에서만 접근 가능하며, MatchAlgorithm 타입의 읽기 전용 속성
         internal MatchAlgorithm MatchAlgorithm => _matchAlgorithm;
 
+
         //#BINARY FILTER#5 이진화 알고리즘 추가
         //이진화 검사 클래스
         private BlobAlgorithm _blobAlgorithm;
@@ -74,11 +75,8 @@ namespace JidamVision.Teach
         //#MATCH PROP#5 템플릿 매칭 검사
         public bool DoInpsect()
         {
-            if (_teachingImage is null)
+            if (_teachingImage is null || _matchAlgorithm is null)
                 return false;
-
-            if (_matchAlgorithm is null)
-                _matchAlgorithm = new MatchAlgorithm();
 
             Mat srcImage = Global.Inst.InspStage.GetMat();
 
@@ -101,10 +99,9 @@ namespace JidamVision.Teach
         }
 
         //#MATCH PROP#6 템플릿 매칭 검사 결과 위치를 Rectangle 리스트로 반환
-        // 창 리사이즈 또는 줌, 이미지 이동시 rectangles 위치 변경필요--------------------------------
-        public int GetMatchRect(out List<Rectangle> rectangles)
+        public int GetMatchRect(out List<Rect> rects)
         {
-            rectangles = new List<Rectangle>();
+            rects = new List<Rect>();
 
             int halfWidth = _teachingImage.Width;
             int halfHeight = _teachingImage.Height;
@@ -112,11 +109,10 @@ namespace JidamVision.Teach
             foreach (var point in _outPoints)
             {
                 Console.WriteLine($"매칭된 위치: {_outPoints}");
-                rectangles.Add(new Rectangle(point.X - halfWidth, point.Y - halfHeight, _teachingImage.Width, _teachingImage.Height));
+                rects.Add(new Rect(point.X - halfWidth, point.Y - halfHeight, _teachingImage.Width, _teachingImage.Height));
             }
 
-            return rectangles.Count;
+            return rects.Count;
         }
-
     }
 }

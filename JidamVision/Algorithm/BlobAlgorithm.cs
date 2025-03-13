@@ -17,7 +17,7 @@ namespace JidamVision.Algorithm
     {
         private List<Rect> _findArea;
 
-        public BinaryThreshold BinaryThreshold { get; private set; } = new BinaryThreshold();
+        public  BinaryThreshold BinThreshold { get; set; } = new BinaryThreshold();
 
         // min, max 추가해서 Area 범위 지정할 수 있오록, 범위에 해당하는 영역 찾아내기****************
         public int AreaFilter { get; set; } = 100;
@@ -26,7 +26,8 @@ namespace JidamVision.Algorithm
 
         public bool DoInspect(Mat srcImage)
         {
-            if (srcImage == null) return false;
+            if (srcImage == null)
+                return false;
 
             Mat grayImage = new Mat();
             if (srcImage.Type() == MatType.CV_8UC3)
@@ -35,16 +36,17 @@ namespace JidamVision.Algorithm
                 grayImage = srcImage;
 
             Mat binaryImage = new Mat();
+            //Cv2.Threshold(grayImage, binaryMask, lowerValue, upperValue, ThresholdTypes.Binary);
+            Cv2.InRange(grayImage, BinThreshold.lower, BinThreshold.upper, binaryImage);
 
-            Cv2.InRange(grayImage, BinaryThreshold.lower, BinaryThreshold.upper, binaryImage);
-
-            if (BinaryThreshold.invert)
+            if (BinThreshold.invert)
                 binaryImage = ~binaryImage;
 
             if (AreaFilter > 0)
             {
                 if (!BlobFilter(binaryImage, AreaFilter))
                     return false;
+
             }
             return true;
         }
@@ -66,20 +68,29 @@ namespace JidamVision.Algorithm
             _findArea.Clear();
 
             foreach(var contour in contours)
-            {
+            {                
+                double area = Cv2.ContourArea(contour);
+                if (area < areaFilter)
+                    continue;
+
+                // 필터링된 객체를 이미지에 그림
                 // Contour : 4개의 폐곡선을 이어서 내부영역을 계산
+                //Cv2.DrawContours(filteredImage, new Point[][] { contour }, -1, Scalar.White, -1);
+
+                // RotatedRect 정보 계산
                 // Bounding : 마름모모양일 경우 min, max x, y값을 기준으로 바운딩 영역 찾기
                 // Cv2.MinAreaRect : 마름모모양 그대로 꽉차게, 최외곽을 두르는 박스, RotatedRec 구조체에에 회전값 들어있음
-     
-
-                double area = Cv2.ContourArea(contour);
-                if (area < areaFilter) continue;
-
+                //RotatedRect rotatedRect = Cv2.MinAreaRect(contour);
                 Rect boundingRect = Cv2.BoundingRect(contour);
 
-                _findArea.Add(boundingRect);                   
-            }
+                _findArea.Add(boundingRect);
 
+                // RotatedRect 정보 출력
+                //Console.WriteLine($"RotatedRect - Center: {rotatedRect.Center}, Size: {rotatedRect.Size}, Angle: {rotatedRect.Angle}");
+
+                // BoundingRect 정보 출력
+                //Console.WriteLine($"BoundingRect - X: {boundingRect.X}, Y: {boundingRect.Y}, Width: {boundingRect.Width}, Height: {boundingRect.Height}");
+            }
             return true;
         }
 

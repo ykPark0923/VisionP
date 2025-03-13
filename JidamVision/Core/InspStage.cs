@@ -228,7 +228,9 @@ namespace JidamVision.Core
             if (bufferIndex >= 0)
                 SelBufferIndex = bufferIndex;
 
-            SelImageChannel = imageChannel;
+            //#BINARY FILTER#13 채널 정보가 유지되도록, eImageChannel.None 타입을 추가
+            if (imageChannel != eImageChannel.None)
+                SelImageChannel = imageChannel;
 
             return Global.Inst.InspStage.ImageSpace.GetBitmap(SelBufferIndex, SelImageChannel);
         }
@@ -237,7 +239,10 @@ namespace JidamVision.Core
             if (bufferIndex >= 0)
                 SelBufferIndex = bufferIndex;
 
-            SelImageChannel = imageChannel;
+            //#BINARY FILTER#14 채널 정보가 유지되도록, eImageChannel.None 타입을 추가
+            if (imageChannel != eImageChannel.None)
+                SelImageChannel = imageChannel;
+
             return Global.Inst.InspStage.ImageSpace.GetMat(SelBufferIndex, SelImageChannel);
         }
 
@@ -248,7 +253,9 @@ namespace JidamVision.Core
             var propForm = MainForm.GetDockForm<PropertiesForm>();
             if (propForm != null)
             {
+                propForm.SetInspType(InspectType.InspBinary);
                 propForm.SetInspType(InspectType.InspMatch);
+                propForm.SetInspType(InspectType.InspFilter);
             }
         }
     }

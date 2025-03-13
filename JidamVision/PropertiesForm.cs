@@ -28,14 +28,8 @@ namespace JidamVision
         public PropertiesForm()
         {
             InitializeComponent();
-            //속성창 설정
-            //SetInspType(InspectType.InspFilter);
         }
 
-        public void SetInspType(InspectType inspPropType)
-        {
-            LoadOptionControl(inspPropType);
-        }
 
         //옵션창에서 입력된 타입의 속성창 생성
         private void LoadOptionControl(InspectType inspType)
@@ -95,6 +89,10 @@ namespace JidamVision
             }
             return _InspProp;
         }
+        public void SetInspType(InspectType inspPropType)
+        {
+            LoadOptionControl(inspPropType);
+        }
 
         private void FilterSelect_FilterChanged(object sender, FilterSelectedEventArgs e)
         {
@@ -104,18 +102,20 @@ namespace JidamVision
             Global.Inst.InspStage.PreView?.ApplyFilter(filter1, filter2);
 
         }
+        private void PropertiesForm_Resize(object sender, EventArgs e)
+        {
 
+        }
+
+        //#BINARY FILTER#16 이진화 속성 변경시 발생하는 이벤트 수정
         private void RangeSlider_RangeChanged(object sender, RangeChangedEventArgs e)
         {
             // 속성값을 이용하여 이진화 임계값 설정
             int lowerValue = e.LowerValue;
             int upperValue = e.UpperValue;
-            Global.Inst.InspStage.PreView?.SetBinary(lowerValue, upperValue);
-        }
-
-        private void PropertiesForm_Resize(object sender, EventArgs e)
-        {
-
+            bool invert = e.Invert;
+            ShowBinaryMode showBinMode = e.ShowBinMode;
+            Global.Inst.InspStage.PreView?.SetBinary(lowerValue, upperValue, invert, showBinMode);
         }
     }
 }

@@ -11,9 +11,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.MonthCalendar;
 using JidamVision.Algorithm;
+using OpenCvSharp;
 
 namespace JidamVision.Property
 {
+    public enum ShowBinaryMode
+    {
+        ShowBinaryNone = 0,  //이진화 하이라이트 끄기
+        ShowBinaryHighlight,  //이진화 하이라이트 보기
+        ShowBinaryOnly  //배경 없이 이진화 이미지만 보기
+    }
     public partial class BinaryInspProp : UserControl
     {
         public event EventHandler<RangeChangedEventArgs> RangeChanged;
@@ -52,25 +59,106 @@ namespace JidamVision.Property
                 if (blobAlgo != null)
                 {
                     int filterArea = blobAlgo.AreaFilter;
-                    //txtArea.Text = filterArea.ToString();
+                    txtArea.Text = filterArea.ToString();
                 }
             }
         }
 
+        //#BINARY FILTER#10 이진화 옵션을 선택할때마다, 이진화 이미지가 갱신되도록 하는 함수
+        private void UpdateBinary()
+        {
+            bool invert = chkInvert.Checked;
+            bool highlight = chkHighlight.Checked;
+
+            ShowBinaryMode showBinaryMode = ShowBinaryMode.ShowBinaryNone;
+            if (highlight)
+            {
+                showBinaryMode = ShowBinaryMode.ShowBinaryHighlight;
+
+                bool showBinary = chkShowBinary.Checked;
+
+                if (showBinary)
+                    showBinaryMode = ShowBinaryMode.ShowBinaryOnly;
+            }
+
+            RangeChanged?.Invoke(this, new RangeChangedEventArgs(LowerValue, UpperValue, invert, showBinaryMode));
+        }
+
+        //#BINARY FILTER#11 GUI 이벤트와 UpdateBinary함수 연동
         private void OnValueChanged(object sender, EventArgs e)
         {
-            RangeChanged?.Invoke(this, new RangeChangedEventArgs(LowerValue, UpperValue));
+            UpdateBinary();
         }
+
+        private void chkShowBinary_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateBinary();
+        }
+
+        private void chkHighlight_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateBinary();
+        }
+
+        private void chkInvert_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateBinary();
+        }
+
+
+
+        private void btnFilter_Click(object sender, EventArgs e)
+        {
+            InspWindow inspWindow = Global.Inst.InspStage.InspWindow;
+            if (inspWindow is null)
+                return;
+
+            BlobAlgorithm blobAlgo = inspWindow.BlobAlgorithm;
+            if (blobAlgo is null)
+                return;
+
+            BinaryThreshold threshold = new BinaryThreshold();
+            threshold.upper = UpperValue;
+            threshold.lower = LowerValue;
+            threshold.invert = chkInvert.Checked;
+
+            blobAlgo.BinThreshold = threshold;
+
+            int filterArea = int.Parse(txtArea.Text);
+            blobAlgo.AreaFilter = filterArea;
+
+            Mat srcImage = Global.Inst.InspStage.GetMat();
+
+            if (blobAlgo.DoInspect(srcImage))
+            {
+                List<Rect> rects;
+                int findCount = blobAlgo.GetResultRect(out rects);
+                if (findCount > 0)
+                {
+                    //찾은 위치를 이미지상에서 표시
+                    var cameraForm = MainForm.GetDockForm<CameraForm>();
+                    if (cameraForm != null)
+                    {
+                        cameraForm.AddRect(rects);
+                    }
+                }
+            }
+        }
+
     }
     public class RangeChangedEventArgs : EventArgs
     {
         public int LowerValue { get; }
         public int UpperValue { get; }
+        public bool Invert { get; }
+        public ShowBinaryMode ShowBinMode { get; }
 
-        public RangeChangedEventArgs(int lowerValue, int upperValue)
+        public RangeChangedEventArgs(int lowerValue, int upperValue, bool invert, ShowBinaryMode showBinaryMode)
         {
             LowerValue = lowerValue;
             UpperValue = upperValue;
+            Invert = invert;
+            ShowBinMode = showBinaryMode;
         }
     }
 }
