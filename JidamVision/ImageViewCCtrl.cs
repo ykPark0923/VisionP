@@ -540,7 +540,7 @@ namespace JidamVision
 
                 float t = 0.5f; // 이미지 점진적으로 줄어들도록 보간
 
-                // 현재 크기를 점진적으로 초기 크기로 조정
+                // 현재 크기를 점진적으로 초기 크기로 조정********************************************************************************
                 float NewWidth = ImageRect.Width * (1 - t) + InitialWidth * t;
                 float NewHeight = ImageRect.Height * (1 - t) + InitialHeight * t;
 
@@ -591,7 +591,7 @@ namespace JidamVision
             LastOffset = Offset;
 
 
-            ZoomROI();
+            UpdateROI();
 
 
 
@@ -610,6 +610,15 @@ namespace JidamVision
         {
             if (Bitmap == null || _roiRect.IsEmpty || InitialWidth == 0 || InitialHeight == 0)
                 return;
+
+            // 초기화되지 않은 경우, ImageRect 기준으로 초기값 설정
+            if (InitialStartX == 0 && InitialStartY == 0)
+            {
+                InitialStartX = ImageRect.X;
+                InitialStartY = ImageRect.Y;
+                InitialWidth = ImageRect.Width;
+                InitialHeight = ImageRect.Height;
+            }
 
             // 기존 ROI 좌표를 원본 ImageRect 기준으로 변환 (비율)
             float roiX_ratio = (_roiRect.X - InitialStartX) / InitialWidth;
@@ -630,22 +639,6 @@ namespace JidamVision
             InitialHeight = ImageRect.Height;
         }
 
-        private void ZoomROI()
-        {
-            if (Bitmap == null || _roiRect.IsEmpty || InitialWidth == 0 || InitialHeight == 0)
-                return;
-
-            // 📌 초기화되지 않은 경우, ImageRect 기준으로 초기값 설정
-            if (InitialStartX == 0 && InitialStartY == 0)
-            {
-                InitialStartX = ImageRect.X;
-                InitialStartY = ImageRect.Y;
-                InitialWidth = ImageRect.Width;
-                InitialHeight = ImageRect.Height;
-            }
-
-            UpdateROI();
-        }
         public Rectangle GetRoiRect()
         {
             if (Bitmap == null || _roiRect.IsEmpty)
