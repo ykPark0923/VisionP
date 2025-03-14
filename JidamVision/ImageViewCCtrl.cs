@@ -86,13 +86,13 @@ namespace JidamVision
         private void InitializeCanvas()
         {
             // 캔버스를 UserControl 크기만큼 생성
-            ResizeCanas();
+            ResizeCanvas();
 
             // 화면 깜빡임을 방지하기 위한 더블 버퍼링 설정
             DoubleBuffered = true;
         }
 
-        private void ResizeCanas()
+        private void ResizeCanvas()
         {
             // 캔버스를 UserControl 크기만큼 생성
             Canvas = new Bitmap(Width, Height);
@@ -538,7 +538,7 @@ namespace JidamVision
                 // *******************************************************************************************************/
 
 
-                float t = 0.5f; // 이미지 점진적으로 줄어들도록 보간
+                float t = 1f; // 이미지 점진적으로 줄어들도록 보간
 
                 // 현재 크기를 점진적으로 초기 크기로 조정********************************************************************************
                 float NewWidth = ImageRect.Width * (1 - t) + InitialWidth * t;
@@ -584,6 +584,8 @@ namespace JidamVision
                 ZoomFactor = NewZoomFactor;
             }
 
+            UpdateROI();
+
 
 
             // 줌 후 이동할 때 중심을 기준으로 좌표 갱신
@@ -591,7 +593,6 @@ namespace JidamVision
             LastOffset = Offset;
 
 
-            UpdateROI();
 
 
 
@@ -601,7 +602,7 @@ namespace JidamVision
 
         private void ImageViewCCtrl_Resize(object sender, EventArgs e)
         {
-            ResizeCanas();
+            ResizeCanvas();
             Invalidate();
         }
 
@@ -626,11 +627,13 @@ namespace JidamVision
             float roiW_ratio = _roiRect.Width / InitialWidth;
             float roiH_ratio = _roiRect.Height / InitialHeight;
 
+
             // 새로운 ImageRect 크기에 맞춰 ROI 조정
             _roiRect.X = (int)(ImageRect.X + roiX_ratio * ImageRect.Width);
             _roiRect.Y = (int)(ImageRect.Y + roiY_ratio * ImageRect.Height);
             _roiRect.Width = (int)(roiW_ratio * ImageRect.Width);
             _roiRect.Height = (int)(roiH_ratio * ImageRect.Height);
+
 
             // 새로운 초기 크기 갱신
             InitialStartX = ImageRect.X;
