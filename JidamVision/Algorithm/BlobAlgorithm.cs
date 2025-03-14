@@ -22,18 +22,23 @@ namespace JidamVision.Algorithm
         // min, max 추가해서 Area 범위 지정할 수 있오록, 범위에 해당하는 영역 찾아내기****************
         public int AreaFilter { get; set; } = 100;
 
-        public BlobAlgorithm() { }
-
-        public bool DoInspect(Mat srcImage)
+        public BlobAlgorithm()
         {
-            if (srcImage == null)
+            InspectType = InspectType.InspBinary;
+        }
+
+        public override bool DoInspect()
+        {
+            isInspected = false;
+
+            if (_srcImage == null)
                 return false;
 
             Mat grayImage = new Mat();
-            if (srcImage.Type() == MatType.CV_8UC3)
-                Cv2.CvtColor(srcImage, grayImage, ColorConversionCodes.BGR2GRAY);
+            if (_srcImage.Type() == MatType.CV_8UC3)
+                Cv2.CvtColor(_srcImage, grayImage, ColorConversionCodes.BGR2GRAY);
             else
-                grayImage = srcImage;
+                grayImage = _srcImage;
 
             Mat binaryImage = new Mat();
             //Cv2.Threshold(grayImage, binaryMask, lowerValue, upperValue, ThresholdTypes.Binary);

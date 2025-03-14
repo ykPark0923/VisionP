@@ -1,6 +1,8 @@
-﻿using OpenCvSharp;
+﻿using JidamVision.Core;
+using OpenCvSharp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,8 @@ namespace JidamVision.Algorithm
         //찾은 위치
         public Point OutPoint { get; set; } = new Point(0, 0);
 
+        public List<Point> OutPoints { get; set; } = new List<Point>();
+
         //템플릿 매칭으로 찾고 싶은 갯수
         public int MatchCount { get; set; } = 1;
 
@@ -31,6 +35,7 @@ namespace JidamVision.Algorithm
 
         public MatchAlgorithm()
         {
+            InspectType = InspectType.InspMatch;
         }
 
         public void SetTemplateImage(Mat templateImage)
@@ -169,6 +174,32 @@ namespace JidamVision.Algorithm
             }
 
             return matchedPositions.Count;
+        }
+
+        public override bool DoInspect()
+        {
+
+            isInspected = false;
+
+            Mat srcImage = Global.Inst.InspStage.GetMat();
+
+            if(MatchCount == 1)
+            {
+                if (MatchTemplateSingle(srcImage) == false) return false;
+
+                OutPoints.Clear();
+                OutPoints.Add(OutPoint);
+            }
+            else
+            {
+                List<Point> outPoints = new List<Point>();
+                int matchCount = MatchTemplateMultiple(srcImage, out outPoints);
+                if (matchCount <= 0) return false;
+                OutPoints = outPoints;
+            }
+
+            isInspected = true;
+            return true;
         }
     }
 }

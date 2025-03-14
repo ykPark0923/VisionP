@@ -33,12 +33,6 @@ namespace JidamVision.Property
         {
             InitializeComponent();
 
-            // TrackBar 초기 설정
-            trackBarLower.ValueChanged += OnValueChanged;
-            trackBarUpper.ValueChanged += OnValueChanged;
-
-            trackBarLower.Value = 0;
-            trackBarUpper.Value = 128;
         }
 
         //#BIN PROP# 이진화 검사 속성값을 GUI에 설정
@@ -55,7 +49,7 @@ namespace JidamVision.Property
             InspWindow inspWindow = Global.Inst.InspStage.InspWindow;
             if (inspWindow != null)
             {
-                BlobAlgorithm blobAlgo = inspWindow.BlobAlgorithm;
+                BlobAlgorithm blobAlgo = (BlobAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspBinary);
                 if (blobAlgo != null)
                 {
                     int filterArea = blobAlgo.AreaFilter;
@@ -113,7 +107,8 @@ namespace JidamVision.Property
             if (inspWindow is null)
                 return;
 
-            BlobAlgorithm blobAlgo = inspWindow.BlobAlgorithm;
+            //#INSP WORKER#9 inspWindow에서 이진화 알고리즘 찾는 코드 추가
+            BlobAlgorithm blobAlgo = (BlobAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspBinary);
             if (blobAlgo is null)
                 return;
 
@@ -127,22 +122,9 @@ namespace JidamVision.Property
             int filterArea = int.Parse(txtArea.Text);
             blobAlgo.AreaFilter = filterArea;
 
-            Mat srcImage = Global.Inst.InspStage.GetMat();
+            //#INSP WORKER#10 이진화 검사시, 해당 InspWindow와 이진화 알고리즘만 실행
+            Global.Inst.InspStage.InspWorker.TryInspect(inspWindow, InspectType.InspBinary);
 
-            if (blobAlgo.DoInspect(srcImage))
-            {
-                List<Rect> rects;
-                int findCount = blobAlgo.GetResultRect(out rects);
-                if (findCount > 0)
-                {
-                    //찾은 위치를 이미지상에서 표시
-                    var cameraForm = MainForm.GetDockForm<CameraForm>();
-                    if (cameraForm != null)
-                    {
-                        cameraForm.AddRect(rects);
-                    }
-                }
-            }
         }
 
     }

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web;
 using JidamVision.Core;
 using JidamVision.Teach;
+using JidamVision.Inspect;
 
 namespace JidamVision.Core
 {
@@ -27,6 +28,8 @@ namespace JidamVision.Core
         private PreviewImage _previewImage = null;
 
         private InspWindow _inspWindow = null;
+        private InspWorker _inspWorker = null;
+        //private InspWindow _baseWindow = null;
 
         public ImageSpace ImageSpace
         {
@@ -38,10 +41,17 @@ namespace JidamVision.Core
             get => _previewImage;
         }
 
+        public InspWorker InspWorker
+        { 
+            get => _inspWorker;
+        }
+
         public InspWindow InspWindow
         {
             get => _inspWindow;
         }
+
+        public List<InspWindow> InspWindowList { get; set; } = new List<InspWindow>();
 
         public bool LiveMode { get; set; } = false;
 
@@ -54,6 +64,7 @@ namespace JidamVision.Core
         {
             _imageSpace = new ImageSpace();
             _previewImage = new PreviewImage();
+            _inspWorker = new InspWorker();
 
             switch (_camType)
             {
@@ -249,13 +260,16 @@ namespace JidamVision.Core
         private void InitInspWindow()
         {
             _inspWindow = new InspWindow();
+            InspWindowList.Add(_inspWindow);
 
             var propForm = MainForm.GetDockForm<PropertiesForm>();
             if (propForm != null)
             {
-                propForm.SetInspType(InspectType.InspBinary);
-                propForm.SetInspType(InspectType.InspMatch);
-                propForm.SetInspType(InspectType.InspFilter);
+                for(int i =0; i<(int)InspectType.InspCount; i++)
+                    propForm.AddInspType((InspectType)i);
+                //propForm.SetInspType(InspectType.InspBinary);
+                //propForm.SetInspType(InspectType.InspMatch);
+                //propForm.SetInspType(InspectType.InspFilter);
             }
         }
     }

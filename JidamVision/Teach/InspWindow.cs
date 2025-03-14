@@ -22,28 +22,37 @@ namespace JidamVision.Teach
         //템플릿 매칭 이미지
         private Mat _teachingImage;
 
-        //템플릿 매칭 클래스
-        private MatchAlgorithm _matchAlgorithm;
 
         //템플릿 매칭으로 찾은 위치 리스트
         private List<OpenCvSharp.Point> _outPoints;
 
+
+        internal List<InspAlgorithm> AlgorithmList { get; set; } = new List<InspAlgorithm>();
+
+
+        ////#BINARY FILTER#5 이진화 알고리즘 추가
+        ////이진화 검사 클래스
+        //private BlobAlgorithm _blobAlgorithm;
+
+        //internal BlobAlgorithm BlobAlgorithm => _blobAlgorithm;
+
+
+
+        //템플릿 매칭 클래스
+        //private MatchAlgorithm _matchAlgorithm;
+
         // 내부(internal)에서만 접근 가능하며, MatchAlgorithm 타입의 읽기 전용 속성
-        internal MatchAlgorithm MatchAlgorithm => _matchAlgorithm;
-
-
-        //#BINARY FILTER#5 이진화 알고리즘 추가
-        //이진화 검사 클래스
-        private BlobAlgorithm _blobAlgorithm;
-
-        internal BlobAlgorithm BlobAlgorithm => _blobAlgorithm;
+        //internal MatchAlgorithm MatchAlgorithm => _matchAlgorithm;
 
         public InspWindow()
         {
-            _matchAlgorithm = new MatchAlgorithm();
+            //_matchAlgorithm = new MatchAlgorithm();
 
-            //#BINARY FILTER#6 이진화 알고리즘 인스턴스 생성
-            _blobAlgorithm = new BlobAlgorithm();
+            ////#BINARY FILTER#6 이진화 알고리즘 인스턴스 생성
+            //_blobAlgorithm = new BlobAlgorithm();
+            AddInspAlgorithm(InspectType.InspMatch);
+            AddInspAlgorithm(InspectType.InspBinary);
+
         }
 
 
@@ -57,44 +66,67 @@ namespace JidamVision.Teach
         //#MATCH PROP#4 템플릿 매칭 이미지 로딩
         public bool PatternLearn()
         {
-            if (_matchAlgorithm == null)
-                return false;
-
-            string templatePath = Path.Combine(Directory.GetCurrentDirectory(), Define.ROI_IMAGE_NAME);
-            if (File.Exists(templatePath))
+            foreach (var algorithm in AlgorithmList)
             {
-                _teachingImage = Cv2.ImRead(templatePath);
+                if (algorithm.InspectType != InspectType.InspMatch)
+                    continue;
 
-                if (_teachingImage != null)
-                    _matchAlgorithm.SetTemplateImage(_teachingImage);
+                MatchAlgorithm matchAlgo = (MatchAlgorithm)algorithm;
+
+                string templatePath = Path.Combine(Directory.GetCurrentDirectory(), Define.ROI_IMAGE_NAME);
+                if (File.Exists(templatePath))
+                {
+                    _teachingImage = Cv2.ImRead(templatePath);
+
+                    if (_teachingImage != null)
+                        matchAlgo.SetTemplateImage(_teachingImage);
+                }
             }
 
             return true;
         }
 
-        //#MATCH PROP#5 템플릿 매칭 검사
-        public bool DoInpsect()
+        public bool AddInspAlgorithm(InspectType inspType)
         {
-            if (_teachingImage is null || _matchAlgorithm is null)
+            InspAlgorithm inspAlgo = null;
+
+            switch (inspType)
+            {
+                case InspectType.InspBinary:
+                    inspAlgo = new BlobAlgorithm();
+                    break;
+                case InspectType.InspMatch:
+                    inspAlgo = new MatchAlgorithm();
+                    break;
+            }
+
+            if (inspAlgo is null)
                 return false;
 
-            Mat srcImage = Global.Inst.InspStage.GetMat();
+            AlgorithmList.Add(inspAlgo);
 
-            if (_matchAlgorithm.MatchCount == 1)
+            return true;
+        }
+
+        internal InspAlgorithm FindInspAlgorithm(InspectType inspType)
+        {
+            foreach (var algorithm in AlgorithmList)
             {
-                if (_matchAlgorithm.MatchTemplateSingle(srcImage) == false)
-                    return false;
-
-                _outPoints = new List<OpenCvSharp.Point>();
-                _outPoints.Add(_matchAlgorithm.OutPoint);
+                if (algorithm.InspectType == inspType) return algorithm;
             }
-            else
+            return null;
+        }
+
+        //#MATCH PROP#5 템플릿 매칭 검사
+        public bool DoInpsect(InspectType inspType)
+        {
+            foreach(var inspAlgo in AlgorithmList)
             {
-                int matchCount = _matchAlgorithm.MatchTemplateMultiple(srcImage, out _outPoints);
-                if (matchCount <= 0)
-                    return false;
+                if(inspAlgo.InspectType == inspType || inspAlgo.InspectType == InspectType.InspNone)
+                {
+                    inspAlgo.DoInspect();
+                }
             }
-
             return true;
         }
 
