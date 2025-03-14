@@ -85,7 +85,8 @@ namespace JidamVision
             btnLive.Location = new System.Drawing.Point(xPos, btnLive.Location.Y);
             btnSetRoi.Location = new System.Drawing.Point(xPos, btnSetRoi.Location.Y);
             btnSave.Location = new System.Drawing.Point(xPos, btnSave.Location.Y);
-            groupBox1.Location = new System.Drawing.Point(xPos, groupBox1.Location.Y);
+            btnInspect.Location = new System.Drawing.Point(xPos, btnInspect.Location.Y);
+            groupBox1.Location = new System.Drawing.Point(xPos, groupBox1.Location.Y+7);  // groupBox1 위치 버그로 임시적으로 +7, 리사이즈될때마다 +5, 추후 수정필요
 
             imageViewer.Width = this.Width - btnGrab.Width - margin * 2;
             imageViewer.Height = this.Height - margin * 2;
@@ -109,6 +110,14 @@ namespace JidamVision
         private void CameraForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+
+
+        private void rbtnColorChannel_CheckedChanged(object sender, EventArgs e)
+        {
+
+            UpdateDisplay();
         }
         private void rbtnRedChannel_CheckedChanged_1(object sender, EventArgs e)
         {
@@ -185,6 +194,10 @@ namespace JidamVision
 
         }
 
+        private void btnInspect_Click(object sender, EventArgs e)
+        {
+            Global.Inst.InspStage.InspWorker.RunInspect();
+        }
 
     }
 }

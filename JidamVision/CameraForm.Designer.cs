@@ -31,12 +31,14 @@
             this.btnGrab = new System.Windows.Forms.Button();
             this.btnLive = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rbtnColorChannel = new System.Windows.Forms.RadioButton();
             this.rbtnGrayChannel = new System.Windows.Forms.RadioButton();
             this.rbtnGreenChannel = new System.Windows.Forms.RadioButton();
             this.rbtnBlueChannel = new System.Windows.Forms.RadioButton();
             this.rbtnRedChannel = new System.Windows.Forms.RadioButton();
             this.btnSetRoi = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.btnInspect = new System.Windows.Forms.Button();
             this.imageViewer = new JidamVision.ImageViewCCtrl();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -54,7 +56,7 @@
             // 
             // btnLive
             // 
-            this.btnLive.Location = new System.Drawing.Point(500, 60);
+            this.btnLive.Location = new System.Drawing.Point(497, 60);
             this.btnLive.Margin = new System.Windows.Forms.Padding(4);
             this.btnLive.Name = "btnLive";
             this.btnLive.Size = new System.Drawing.Size(107, 34);
@@ -65,21 +67,35 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rbtnColorChannel);
             this.groupBox1.Controls.Add(this.rbtnGrayChannel);
             this.groupBox1.Controls.Add(this.rbtnGreenChannel);
             this.groupBox1.Controls.Add(this.rbtnBlueChannel);
             this.groupBox1.Controls.Add(this.rbtnRedChannel);
-            this.groupBox1.Location = new System.Drawing.Point(499, 270);
+            this.groupBox1.Location = new System.Drawing.Point(502, 253);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(105, 154);
+            this.groupBox1.Size = new System.Drawing.Size(105, 178);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Channel";
             // 
+            // rbtnColorChannel
+            // 
+            this.rbtnColorChannel.AutoSize = true;
+            this.rbtnColorChannel.Location = new System.Drawing.Point(13, 27);
+            this.rbtnColorChannel.Name = "rbtnColorChannel";
+            this.rbtnColorChannel.Size = new System.Drawing.Size(76, 22);
+            this.rbtnColorChannel.TabIndex = 4;
+            this.rbtnColorChannel.TabStop = true;
+            this.rbtnColorChannel.Text = "Color";
+            this.rbtnColorChannel.UseVisualStyleBackColor = true;
+            this.rbtnColorChannel.CheckedChanged += new System.EventHandler(this.rbtnColorChannel_CheckedChanged);
+            // 
             // rbtnGrayChannel
             // 
             this.rbtnGrayChannel.AutoSize = true;
-            this.rbtnGrayChannel.Location = new System.Drawing.Point(6, 122);
+            this.rbtnGrayChannel.Location = new System.Drawing.Point(13, 139);
             this.rbtnGrayChannel.Name = "rbtnGrayChannel";
             this.rbtnGrayChannel.Size = new System.Drawing.Size(71, 22);
             this.rbtnGrayChannel.TabIndex = 3;
@@ -91,7 +107,7 @@
             // rbtnGreenChannel
             // 
             this.rbtnGreenChannel.AutoSize = true;
-            this.rbtnGreenChannel.Location = new System.Drawing.Point(6, 94);
+            this.rbtnGreenChannel.Location = new System.Drawing.Point(13, 111);
             this.rbtnGreenChannel.Name = "rbtnGreenChannel";
             this.rbtnGreenChannel.Size = new System.Drawing.Size(81, 22);
             this.rbtnGreenChannel.TabIndex = 2;
@@ -103,7 +119,7 @@
             // rbtnBlueChannel
             // 
             this.rbtnBlueChannel.AutoSize = true;
-            this.rbtnBlueChannel.Location = new System.Drawing.Point(6, 66);
+            this.rbtnBlueChannel.Location = new System.Drawing.Point(13, 83);
             this.rbtnBlueChannel.Name = "rbtnBlueChannel";
             this.rbtnBlueChannel.Size = new System.Drawing.Size(67, 22);
             this.rbtnBlueChannel.TabIndex = 1;
@@ -115,7 +131,7 @@
             // rbtnRedChannel
             // 
             this.rbtnRedChannel.AutoSize = true;
-            this.rbtnRedChannel.Location = new System.Drawing.Point(6, 38);
+            this.rbtnRedChannel.Location = new System.Drawing.Point(13, 55);
             this.rbtnRedChannel.Name = "rbtnRedChannel";
             this.rbtnRedChannel.Size = new System.Drawing.Size(64, 22);
             this.rbtnRedChannel.TabIndex = 0;
@@ -146,6 +162,17 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click_1);
             // 
+            // btnInspect
+            // 
+            this.btnInspect.Location = new System.Drawing.Point(499, 186);
+            this.btnInspect.Margin = new System.Windows.Forms.Padding(4);
+            this.btnInspect.Name = "btnInspect";
+            this.btnInspect.Size = new System.Drawing.Size(107, 34);
+            this.btnInspect.TabIndex = 7;
+            this.btnInspect.Text = "검사";
+            this.btnInspect.UseVisualStyleBackColor = true;
+            this.btnInspect.Click += new System.EventHandler(this.btnInspect_Click);
+            // 
             // imageViewer
             // 
             this.imageViewer.AutoSize = true;
@@ -163,6 +190,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 444);
+            this.Controls.Add(this.btnInspect);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnSetRoi);
             this.Controls.Add(this.groupBox1);
@@ -191,5 +219,7 @@
         private System.Windows.Forms.RadioButton rbtnBlueChannel;
         private System.Windows.Forms.Button btnSetRoi;
         private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnInspect;
+        private System.Windows.Forms.RadioButton rbtnColorChannel;
     }
 }
