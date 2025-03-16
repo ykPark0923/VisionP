@@ -600,6 +600,84 @@ namespace JidamVision
             Invalidate();
         }
 
+        //commit 수정테스트해보기
+        //private void ImageViewCCtrl_MouseWheel(object sender, MouseEventArgs e)
+        //{
+        //    float ZoomChange = e.Delta > 0 ? 1.1f : 0.9f;
+        //    float NewZoomFactor = ZoomFactor * ZoomChange;
+
+        //    if (NewZoomFactor > MaxZoom)
+        //    {
+        //        NewZoomFactor = MaxZoom;
+        //    }
+        //    if (NewZoomFactor < MinZoom)
+        //    {
+        //        NewZoomFactor = MinZoom;
+        //    }
+
+        //    // ✅ 줌아웃 시 InitialX, InitialY 값이 올바른지 확인하고 설정
+        //    if (InitialWidth == 0 || InitialHeight == 0)
+        //    {
+        //        InitialWidth = ImageRect.Width;
+        //        InitialHeight = ImageRect.Height;
+        //        InitialCenterX = ImageRect.X + (ImageRect.Width / 2);
+        //        InitialCenterY = ImageRect.Y + (ImageRect.Height / 2);
+        //    }
+
+        //    if (ZoomChange < 1.0f) // 줌 아웃
+        //    {
+        //        float t = 0.75f;
+
+        //        // ✅ InitialX, InitialY가 잘못된 경우 올바르게 보정
+        //        if (InitialStartX == 0 || InitialStartY == 0)
+        //        {
+        //            InitialStartX = ImageRect.X;
+        //            InitialStartY = ImageRect.Y;
+        //        }
+
+        //        float NewWidth = ImageRect.Width * (1 - t) + InitialWidth * t;
+        //        float NewHeight = ImageRect.Height * (1 - t) + InitialHeight * t;
+
+        //        float CurrentCenterX = ImageRect.X + (ImageRect.Width / 2);
+        //        float CurrentCenterY = ImageRect.Y + (ImageRect.Height / 2);
+
+        //        float NewCenterX = CurrentCenterX * (1 - t) + InitialCenterX * t;
+        //        float NewCenterY = CurrentCenterY * (1 - t) + InitialCenterY * t;
+
+        //        ImageRect = new RectangleF(
+        //            NewCenterX - (NewWidth / 2),
+        //            NewCenterY - (NewHeight / 2),
+        //            NewWidth,
+        //            NewHeight
+        //        );
+
+        //        ZoomFactor = Math.Max(ZoomFactor * (1 - t) + MinZoom * t, MinZoom);
+        //    }
+        //    else // 줌 인
+        //    {
+        //        float MouseXRatio = (e.X - ImageRect.X) / ImageRect.Width;
+        //        float MouseYRatio = (e.Y - ImageRect.Y) / ImageRect.Height;
+
+        //        float NewWidth = ImageRect.Width * ZoomChange;
+        //        float NewHeight = ImageRect.Height * ZoomChange;
+
+        //        float NewX = e.X - (MouseXRatio * NewWidth);
+        //        float NewY = e.Y - (MouseYRatio * NewHeight);
+
+        //        ImageRect = new RectangleF(NewX, NewY, NewWidth, NewHeight);
+        //        ZoomFactor = NewZoomFactor;
+        //    }
+
+        //    // ✅ ROI 업데이트 추가
+        //    UpdateROI();
+
+        //    Offset = new Point((int)ImageRect.X, (int)ImageRect.Y);
+        //    LastOffset = Offset;
+
+        //    Invalidate();
+        //}
+
+
         private void ImageViewCCtrl_Resize(object sender, EventArgs e)
         {
             ResizeCanvas();
