@@ -39,11 +39,13 @@
             this.txtExtendX = new System.Windows.Forms.TextBox();
             this.lbX = new System.Windows.Forms.Label();
             this.lbExtent = new System.Windows.Forms.Label();
+            this.btnTraceSearch = new System.Windows.Forms.Button();
             this.grpMatch.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpMatch
             // 
+            this.grpMatch.Controls.Add(this.btnTraceSearch);
             this.grpMatch.Controls.Add(this.btnTeach);
             this.grpMatch.Controls.Add(this.txtMatchCount);
             this.grpMatch.Controls.Add(this.lbMatchCount);
@@ -54,21 +56,18 @@
             this.grpMatch.Controls.Add(this.txtExtendX);
             this.grpMatch.Controls.Add(this.lbX);
             this.grpMatch.Controls.Add(this.lbExtent);
-            this.grpMatch.Location = new System.Drawing.Point(4, 4);
-            this.grpMatch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpMatch.Location = new System.Drawing.Point(3, 3);
             this.grpMatch.Name = "grpMatch";
-            this.grpMatch.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.grpMatch.Size = new System.Drawing.Size(400, 378);
+            this.grpMatch.Size = new System.Drawing.Size(280, 252);
             this.grpMatch.TabIndex = 0;
             this.grpMatch.TabStop = false;
             this.grpMatch.Text = "패턴매칭";
             // 
             // btnTeach
             // 
-            this.btnTeach.Location = new System.Drawing.Point(13, 148);
-            this.btnTeach.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTeach.Location = new System.Drawing.Point(9, 99);
             this.btnTeach.Name = "btnTeach";
-            this.btnTeach.Size = new System.Drawing.Size(94, 38);
+            this.btnTeach.Size = new System.Drawing.Size(66, 25);
             this.btnTeach.TabIndex = 6;
             this.btnTeach.Text = "티칭";
             this.btnTeach.UseVisualStyleBackColor = true;
@@ -76,28 +75,25 @@
             // 
             // txtMatchCount
             // 
-            this.txtMatchCount.Location = new System.Drawing.Point(124, 105);
-            this.txtMatchCount.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMatchCount.Location = new System.Drawing.Point(87, 70);
             this.txtMatchCount.Name = "txtMatchCount";
-            this.txtMatchCount.Size = new System.Drawing.Size(70, 28);
+            this.txtMatchCount.Size = new System.Drawing.Size(50, 21);
             this.txtMatchCount.TabIndex = 5;
             // 
             // lbMatchCount
             // 
             this.lbMatchCount.AutoSize = true;
-            this.lbMatchCount.Location = new System.Drawing.Point(13, 110);
-            this.lbMatchCount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbMatchCount.Location = new System.Drawing.Point(9, 73);
             this.lbMatchCount.Name = "lbMatchCount";
-            this.lbMatchCount.Size = new System.Drawing.Size(86, 18);
+            this.lbMatchCount.Size = new System.Drawing.Size(57, 12);
             this.lbMatchCount.TabIndex = 4;
             this.lbMatchCount.Text = "매칭 갯수";
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(124, 146);
-            this.btnSearch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSearch.Location = new System.Drawing.Point(87, 97);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(177, 44);
+            this.btnSearch.Size = new System.Drawing.Size(124, 29);
             this.btnSearch.TabIndex = 3;
             this.btnSearch.Text = "찾기";
             this.btnSearch.UseVisualStyleBackColor = true;
@@ -106,65 +102,68 @@
             // lbScore
             // 
             this.lbScore.AutoSize = true;
-            this.lbScore.Location = new System.Drawing.Point(10, 68);
-            this.lbScore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbScore.Location = new System.Drawing.Point(7, 45);
             this.lbScore.Name = "lbScore";
-            this.lbScore.Size = new System.Drawing.Size(98, 18);
+            this.lbScore.Size = new System.Drawing.Size(65, 12);
             this.lbScore.TabIndex = 2;
             this.lbScore.Text = "매칭스코어";
             // 
             // txtExtendY
             // 
-            this.txtExtendY.Location = new System.Drawing.Point(230, 18);
-            this.txtExtendY.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtExtendY.Location = new System.Drawing.Point(161, 12);
             this.txtExtendY.Name = "txtExtendY";
-            this.txtExtendY.Size = new System.Drawing.Size(70, 28);
+            this.txtExtendY.Size = new System.Drawing.Size(50, 21);
             this.txtExtendY.TabIndex = 1;
             // 
             // txtScore
             // 
-            this.txtScore.Location = new System.Drawing.Point(124, 63);
-            this.txtScore.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtScore.Location = new System.Drawing.Point(87, 42);
             this.txtScore.Name = "txtScore";
-            this.txtScore.Size = new System.Drawing.Size(70, 28);
+            this.txtScore.Size = new System.Drawing.Size(50, 21);
             this.txtScore.TabIndex = 1;
             // 
             // txtExtendX
             // 
-            this.txtExtendX.Location = new System.Drawing.Point(124, 18);
-            this.txtExtendX.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtExtendX.Location = new System.Drawing.Point(87, 12);
             this.txtExtendX.Name = "txtExtendX";
-            this.txtExtendX.Size = new System.Drawing.Size(70, 28);
+            this.txtExtendX.Size = new System.Drawing.Size(50, 21);
             this.txtExtendX.TabIndex = 1;
             // 
             // lbX
             // 
             this.lbX.AutoSize = true;
-            this.lbX.Location = new System.Drawing.Point(204, 27);
-            this.lbX.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbX.Location = new System.Drawing.Point(143, 18);
             this.lbX.Name = "lbX";
-            this.lbX.Size = new System.Drawing.Size(18, 18);
+            this.lbX.Size = new System.Drawing.Size(12, 12);
             this.lbX.TabIndex = 0;
             this.lbX.Text = "x";
             // 
             // lbExtent
             // 
             this.lbExtent.AutoSize = true;
-            this.lbExtent.Location = new System.Drawing.Point(10, 32);
-            this.lbExtent.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lbExtent.Location = new System.Drawing.Point(7, 21);
             this.lbExtent.Name = "lbExtent";
-            this.lbExtent.Size = new System.Drawing.Size(80, 18);
+            this.lbExtent.Size = new System.Drawing.Size(53, 12);
             this.lbExtent.TabIndex = 0;
             this.lbExtent.Text = "확장영역";
             // 
+            // btnTraceSearch
+            // 
+            this.btnTraceSearch.Location = new System.Drawing.Point(87, 132);
+            this.btnTraceSearch.Name = "btnTraceSearch";
+            this.btnTraceSearch.Size = new System.Drawing.Size(124, 29);
+            this.btnTraceSearch.TabIndex = 7;
+            this.btnTraceSearch.Text = "계속찾기";
+            this.btnTraceSearch.UseVisualStyleBackColor = true;
+            this.btnTraceSearch.Click += new System.EventHandler(this.btnTraceSearch_Click);
+            // 
             // MatchInspProp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.grpMatch);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MatchInspProp";
-            this.Size = new System.Drawing.Size(427, 404);
+            this.Size = new System.Drawing.Size(299, 269);
             this.grpMatch.ResumeLayout(false);
             this.grpMatch.PerformLayout();
             this.ResumeLayout(false);
@@ -184,5 +183,6 @@
         private System.Windows.Forms.TextBox txtMatchCount;
         private System.Windows.Forms.Label lbMatchCount;
         private System.Windows.Forms.Button btnTeach;
+        private System.Windows.Forms.Button btnTraceSearch;
     }
 }
