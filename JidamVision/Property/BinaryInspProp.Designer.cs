@@ -42,26 +42,20 @@
             this.trackBarUpper = new System.Windows.Forms.TrackBar();
             this.trackBarLower = new System.Windows.Forms.TrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.trackBar_heightMax = new System.Windows.Forms.TrackBar();
-            this.trackBar_heightMin = new System.Windows.Forms.TrackBar();
-            this.lbl_Height = new System.Windows.Forms.Label();
-            this.trackBar_widthMax = new System.Windows.Forms.TrackBar();
-            this.trackBar_widthMin = new System.Windows.Forms.TrackBar();
-            this.lbl_Width = new System.Windows.Forms.Label();
-            this.trackBar_areaMax = new System.Windows.Forms.TrackBar();
-            this.trackBar_areaMin = new System.Windows.Forms.TrackBar();
+            this.textBox_widthMax = new System.Windows.Forms.TextBox();
+            this.textBox_widthMin = new System.Windows.Forms.TextBox();
+            this.textBox_heightMax = new System.Windows.Forms.TextBox();
+            this.textBox_heightMin = new System.Windows.Forms.TextBox();
+            this.textBox_areaMax = new System.Windows.Forms.TextBox();
+            this.textBox_areaMin = new System.Windows.Forms.TextBox();
+            this.checkBox_height = new System.Windows.Forms.CheckBox();
+            this.checkBox_width = new System.Windows.Forms.CheckBox();
+            this.checkBox_area = new System.Windows.Forms.CheckBox();
             this.btnFilter = new System.Windows.Forms.Button();
-            this.lbl_Area = new System.Windows.Forms.Label();
             this.grpBinary.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarUpper)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarLower)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_heightMax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_heightMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_widthMax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_widthMin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_areaMax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_areaMin)).BeginInit();
             this.SuspendLayout();
             // 
             // grpBinary
@@ -72,20 +66,19 @@
             this.grpBinary.Controls.Add(this.chkHighlight);
             this.grpBinary.Controls.Add(this.trackBarUpper);
             this.grpBinary.Controls.Add(this.trackBarLower);
-            this.grpBinary.Location = new System.Drawing.Point(4, 4);
-            this.grpBinary.Margin = new System.Windows.Forms.Padding(4);
+            this.grpBinary.Location = new System.Drawing.Point(3, 3);
             this.grpBinary.Name = "grpBinary";
-            this.grpBinary.Padding = new System.Windows.Forms.Padding(4);
-            this.grpBinary.Size = new System.Drawing.Size(330, 210);
+            this.grpBinary.Size = new System.Drawing.Size(231, 140);
             this.grpBinary.TabIndex = 0;
             this.grpBinary.TabStop = false;
             this.grpBinary.Text = "이진화";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(187, 209);
+            this.button2.Location = new System.Drawing.Point(131, 139);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(8, 8);
+            this.button2.Size = new System.Drawing.Size(6, 5);
             this.button2.TabIndex = 6;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -93,10 +86,9 @@
             // chkInvert
             // 
             this.chkInvert.AutoSize = true;
-            this.chkInvert.Location = new System.Drawing.Point(43, 183);
-            this.chkInvert.Margin = new System.Windows.Forms.Padding(4);
+            this.chkInvert.Location = new System.Drawing.Point(30, 122);
             this.chkInvert.Name = "chkInvert";
-            this.chkInvert.Size = new System.Drawing.Size(70, 22);
+            this.chkInvert.Size = new System.Drawing.Size(48, 16);
             this.chkInvert.TabIndex = 5;
             this.chkInvert.Text = "반전";
             this.chkInvert.UseVisualStyleBackColor = true;
@@ -105,10 +97,9 @@
             // chkShowBinary
             // 
             this.chkShowBinary.AutoSize = true;
-            this.chkShowBinary.Location = new System.Drawing.Point(167, 153);
-            this.chkShowBinary.Margin = new System.Windows.Forms.Padding(4);
+            this.chkShowBinary.Location = new System.Drawing.Point(117, 102);
             this.chkShowBinary.Name = "chkShowBinary";
-            this.chkShowBinary.Size = new System.Drawing.Size(88, 22);
+            this.chkShowBinary.Size = new System.Drawing.Size(60, 16);
             this.chkShowBinary.TabIndex = 4;
             this.chkShowBinary.Text = "이진화";
             this.chkShowBinary.UseVisualStyleBackColor = true;
@@ -119,10 +110,9 @@
             this.chkHighlight.AutoSize = true;
             this.chkHighlight.Checked = true;
             this.chkHighlight.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHighlight.Location = new System.Drawing.Point(44, 153);
-            this.chkHighlight.Margin = new System.Windows.Forms.Padding(4);
+            this.chkHighlight.Location = new System.Drawing.Point(31, 102);
             this.chkHighlight.Name = "chkHighlight";
-            this.chkHighlight.Size = new System.Drawing.Size(99, 22);
+            this.chkHighlight.Size = new System.Drawing.Size(72, 16);
             this.chkHighlight.TabIndex = 3;
             this.chkHighlight.Text = "Highlight";
             this.chkHighlight.UseVisualStyleBackColor = true;
@@ -130,159 +120,140 @@
             // 
             // trackBarUpper
             // 
-            this.trackBarUpper.Location = new System.Drawing.Point(60, 106);
-            this.trackBarUpper.Margin = new System.Windows.Forms.Padding(4);
+            this.trackBarUpper.Location = new System.Drawing.Point(42, 71);
             this.trackBarUpper.Maximum = 255;
             this.trackBarUpper.Name = "trackBarUpper";
-            this.trackBarUpper.Size = new System.Drawing.Size(214, 69);
+            this.trackBarUpper.Size = new System.Drawing.Size(150, 45);
             this.trackBarUpper.TabIndex = 1;
             this.trackBarUpper.Value = 255;
             // 
             // trackBarLower
             // 
-            this.trackBarLower.Location = new System.Drawing.Point(60, 29);
-            this.trackBarLower.Margin = new System.Windows.Forms.Padding(4);
+            this.trackBarLower.Location = new System.Drawing.Point(42, 19);
             this.trackBarLower.Maximum = 255;
             this.trackBarLower.Name = "trackBarLower";
-            this.trackBarLower.Size = new System.Drawing.Size(214, 69);
+            this.trackBarLower.Size = new System.Drawing.Size(150, 45);
             this.trackBarLower.TabIndex = 0;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.trackBar_heightMax);
-            this.groupBox1.Controls.Add(this.trackBar_heightMin);
-            this.groupBox1.Controls.Add(this.lbl_Height);
-            this.groupBox1.Controls.Add(this.trackBar_widthMax);
-            this.groupBox1.Controls.Add(this.trackBar_widthMin);
-            this.groupBox1.Controls.Add(this.lbl_Width);
-            this.groupBox1.Controls.Add(this.trackBar_areaMax);
-            this.groupBox1.Controls.Add(this.trackBar_areaMin);
+            this.groupBox1.Controls.Add(this.textBox_widthMax);
+            this.groupBox1.Controls.Add(this.textBox_widthMin);
+            this.groupBox1.Controls.Add(this.textBox_heightMax);
+            this.groupBox1.Controls.Add(this.textBox_heightMin);
+            this.groupBox1.Controls.Add(this.textBox_areaMax);
+            this.groupBox1.Controls.Add(this.textBox_areaMin);
+            this.groupBox1.Controls.Add(this.checkBox_height);
+            this.groupBox1.Controls.Add(this.checkBox_width);
+            this.groupBox1.Controls.Add(this.checkBox_area);
             this.groupBox1.Controls.Add(this.btnFilter);
-            this.groupBox1.Controls.Add(this.lbl_Area);
-            this.groupBox1.Location = new System.Drawing.Point(14, 222);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Location = new System.Drawing.Point(10, 148);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox1.Size = new System.Drawing.Size(303, 331);
+            this.groupBox1.Size = new System.Drawing.Size(201, 210);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "필터";
             // 
-            // trackBar_heightMax
+            // textBox_widthMax
             // 
-            this.trackBar_heightMax.Location = new System.Drawing.Point(113, 254);
-            this.trackBar_heightMax.Margin = new System.Windows.Forms.Padding(4);
-            this.trackBar_heightMax.Maximum = 255;
-            this.trackBar_heightMax.Name = "trackBar_heightMax";
-            this.trackBar_heightMax.Size = new System.Drawing.Size(188, 69);
-            this.trackBar_heightMax.TabIndex = 14;
-            this.trackBar_heightMax.Value = 255;
+            this.textBox_widthMax.Location = new System.Drawing.Point(85, 101);
+            this.textBox_widthMax.Name = "textBox_widthMax";
+            this.textBox_widthMax.Size = new System.Drawing.Size(100, 21);
+            this.textBox_widthMax.TabIndex = 21;
             // 
-            // trackBar_heightMin
+            // textBox_widthMin
             // 
-            this.trackBar_heightMin.Location = new System.Drawing.Point(115, 208);
-            this.trackBar_heightMin.Margin = new System.Windows.Forms.Padding(4);
-            this.trackBar_heightMin.Maximum = 255;
-            this.trackBar_heightMin.Name = "trackBar_heightMin";
-            this.trackBar_heightMin.Size = new System.Drawing.Size(188, 69);
-            this.trackBar_heightMin.TabIndex = 13;
+            this.textBox_widthMin.Location = new System.Drawing.Point(85, 74);
+            this.textBox_widthMin.Name = "textBox_widthMin";
+            this.textBox_widthMin.Size = new System.Drawing.Size(100, 21);
+            this.textBox_widthMin.TabIndex = 20;
             // 
-            // lbl_Height
+            // textBox_heightMax
             // 
-            this.lbl_Height.AutoSize = true;
-            this.lbl_Height.Location = new System.Drawing.Point(30, 229);
-            this.lbl_Height.Name = "lbl_Height";
-            this.lbl_Height.Size = new System.Drawing.Size(57, 18);
-            this.lbl_Height.TabIndex = 12;
-            this.lbl_Height.Text = "Height";
+            this.textBox_heightMax.Location = new System.Drawing.Point(85, 152);
+            this.textBox_heightMax.Name = "textBox_heightMax";
+            this.textBox_heightMax.Size = new System.Drawing.Size(100, 21);
+            this.textBox_heightMax.TabIndex = 19;
             // 
-            // trackBar_widthMax
+            // textBox_heightMin
             // 
-            this.trackBar_widthMax.Location = new System.Drawing.Point(6, 144);
-            this.trackBar_widthMax.Margin = new System.Windows.Forms.Padding(4);
-            this.trackBar_widthMax.Maximum = 255;
-            this.trackBar_widthMax.Name = "trackBar_widthMax";
-            this.trackBar_widthMax.Size = new System.Drawing.Size(188, 69);
-            this.trackBar_widthMax.TabIndex = 11;
-            this.trackBar_widthMax.Value = 255;
+            this.textBox_heightMin.Location = new System.Drawing.Point(85, 125);
+            this.textBox_heightMin.Name = "textBox_heightMin";
+            this.textBox_heightMin.Size = new System.Drawing.Size(100, 21);
+            this.textBox_heightMin.TabIndex = 18;
             // 
-            // trackBar_widthMin
+            // textBox_areaMax
             // 
-            this.trackBar_widthMin.Location = new System.Drawing.Point(6, 107);
-            this.trackBar_widthMin.Margin = new System.Windows.Forms.Padding(4);
-            this.trackBar_widthMin.Maximum = 255;
-            this.trackBar_widthMin.Name = "trackBar_widthMin";
-            this.trackBar_widthMin.Size = new System.Drawing.Size(188, 69);
-            this.trackBar_widthMin.TabIndex = 10;
+            this.textBox_areaMax.Location = new System.Drawing.Point(85, 47);
+            this.textBox_areaMax.Name = "textBox_areaMax";
+            this.textBox_areaMax.Size = new System.Drawing.Size(100, 21);
+            this.textBox_areaMax.TabIndex = 17;
             // 
-            // lbl_Width
+            // textBox_areaMin
             // 
-            this.lbl_Width.AutoSize = true;
-            this.lbl_Width.Location = new System.Drawing.Point(229, 134);
-            this.lbl_Width.Name = "lbl_Width";
-            this.lbl_Width.Size = new System.Drawing.Size(51, 18);
-            this.lbl_Width.TabIndex = 9;
-            this.lbl_Width.Text = "Width";
+            this.textBox_areaMin.Location = new System.Drawing.Point(85, 20);
+            this.textBox_areaMin.Name = "textBox_areaMin";
+            this.textBox_areaMin.Size = new System.Drawing.Size(100, 21);
+            this.textBox_areaMin.TabIndex = 16;
             // 
-            // trackBar_areaMax
+            // checkBox_height
             // 
-            this.trackBar_areaMax.Location = new System.Drawing.Point(98, 51);
-            this.trackBar_areaMax.Margin = new System.Windows.Forms.Padding(4);
-            this.trackBar_areaMax.Maximum = 255;
-            this.trackBar_areaMax.Name = "trackBar_areaMax";
-            this.trackBar_areaMax.Size = new System.Drawing.Size(188, 69);
-            this.trackBar_areaMax.TabIndex = 8;
-            this.trackBar_areaMax.Value = 255;
+            this.checkBox_height.AutoSize = true;
+            this.checkBox_height.Location = new System.Drawing.Point(10, 130);
+            this.checkBox_height.Name = "checkBox_height";
+            this.checkBox_height.Size = new System.Drawing.Size(59, 16);
+            this.checkBox_height.TabIndex = 15;
+            this.checkBox_height.Text = "Height";
+            this.checkBox_height.UseVisualStyleBackColor = true;
+            this.checkBox_height.CheckedChanged += new System.EventHandler(this.checkBox_height_CheckedChanged);
             // 
-            // trackBar_areaMin
+            // checkBox_width
             // 
-            this.trackBar_areaMin.Location = new System.Drawing.Point(98, 6);
-            this.trackBar_areaMin.Margin = new System.Windows.Forms.Padding(4);
-            this.trackBar_areaMin.Maximum = 255;
-            this.trackBar_areaMin.Name = "trackBar_areaMin";
-            this.trackBar_areaMin.Size = new System.Drawing.Size(188, 69);
-            this.trackBar_areaMin.TabIndex = 7;
+            this.checkBox_width.AutoSize = true;
+            this.checkBox_width.Location = new System.Drawing.Point(10, 79);
+            this.checkBox_width.Name = "checkBox_width";
+            this.checkBox_width.Size = new System.Drawing.Size(54, 16);
+            this.checkBox_width.TabIndex = 14;
+            this.checkBox_width.Text = "Width";
+            this.checkBox_width.UseVisualStyleBackColor = true;
+            this.checkBox_width.CheckedChanged += new System.EventHandler(this.checkBox_width_CheckedChanged);
+            // 
+            // checkBox_area
+            // 
+            this.checkBox_area.AutoSize = true;
+            this.checkBox_area.Location = new System.Drawing.Point(10, 32);
+            this.checkBox_area.Name = "checkBox_area";
+            this.checkBox_area.Size = new System.Drawing.Size(50, 16);
+            this.checkBox_area.TabIndex = 13;
+            this.checkBox_area.Text = "Area";
+            this.checkBox_area.UseVisualStyleBackColor = true;
+            this.checkBox_area.CheckedChanged += new System.EventHandler(this.checkBox_area_CheckedChanged);
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(10, 276);
+            this.btnFilter.Location = new System.Drawing.Point(10, 164);
+            this.btnFilter.Margin = new System.Windows.Forms.Padding(2);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(98, 47);
+            this.btnFilter.Size = new System.Drawing.Size(69, 31);
             this.btnFilter.TabIndex = 2;
             this.btnFilter.Text = "필터적용";
             this.btnFilter.UseVisualStyleBackColor = true;
             this.btnFilter.Click += new System.EventHandler(this.btnFilter_Click);
             // 
-            // lbl_Area
-            // 
-            this.lbl_Area.AutoSize = true;
-            this.lbl_Area.Location = new System.Drawing.Point(18, 51);
-            this.lbl_Area.Name = "lbl_Area";
-            this.lbl_Area.Size = new System.Drawing.Size(46, 18);
-            this.lbl_Area.TabIndex = 0;
-            this.lbl_Area.Text = "Area";
-            // 
             // BinaryInspProp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpBinary);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BinaryInspProp";
-            this.Size = new System.Drawing.Size(338, 569);
+            this.Size = new System.Drawing.Size(237, 379);
             this.grpBinary.ResumeLayout(false);
             this.grpBinary.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarUpper)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarLower)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_heightMax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_heightMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_widthMax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_widthMin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_areaMax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar_areaMin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -298,14 +269,14 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button btnFilter;
-        private System.Windows.Forms.Label lbl_Area;
-        private System.Windows.Forms.TrackBar trackBar_heightMax;
-        private System.Windows.Forms.TrackBar trackBar_heightMin;
-        private System.Windows.Forms.Label lbl_Height;
-        private System.Windows.Forms.TrackBar trackBar_widthMax;
-        private System.Windows.Forms.TrackBar trackBar_widthMin;
-        private System.Windows.Forms.Label lbl_Width;
-        private System.Windows.Forms.TrackBar trackBar_areaMax;
-        private System.Windows.Forms.TrackBar trackBar_areaMin;
+        private System.Windows.Forms.TextBox textBox_widthMax;
+        private System.Windows.Forms.TextBox textBox_widthMin;
+        private System.Windows.Forms.TextBox textBox_heightMax;
+        private System.Windows.Forms.TextBox textBox_heightMin;
+        private System.Windows.Forms.TextBox textBox_areaMax;
+        private System.Windows.Forms.TextBox textBox_areaMin;
+        private System.Windows.Forms.CheckBox checkBox_height;
+        private System.Windows.Forms.CheckBox checkBox_width;
+        private System.Windows.Forms.CheckBox checkBox_area;
     }
 }

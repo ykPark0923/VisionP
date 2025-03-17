@@ -42,15 +42,6 @@ namespace JidamVision.Property
             trackBarLower.ValueChanged += OnValueChanged;
             trackBarUpper.ValueChanged += OnValueChanged;
 
-            trackBar_areaMin.ValueChanged += OnValueChanged;
-            trackBar_areaMax.ValueChanged += OnValueChanged;
-
-            trackBar_widthMin.ValueChanged += OnValueChanged;
-            trackBar_widthMax.ValueChanged += OnValueChanged;
-
-            trackBar_heightMin.ValueChanged += OnValueChanged;
-            trackBar_heightMax.ValueChanged += OnValueChanged;
-
 
             trackBarLower.Value = 0;
             trackBarUpper.Value = 128;
@@ -62,8 +53,20 @@ namespace JidamVision.Property
                 BlobAlgorithm blobAlgo = (BlobAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspBinary);
                 if (blobAlgo != null)
                 {
-                    int filterArea = blobAlgo.AreaFilter;
-                    //txtArea.Text = filterArea.ToString();
+                    int filterMinArea = blobAlgo.AreaMinFilter;
+                    textBox_areaMin.Text = filterMinArea.ToString();
+                    //int filterMaxArea = blobAlgo.AreaMaxFilter;
+                    //textBox_areaMax.Text = filterMaxArea.ToString();
+
+                    //int filterMinWidth = blobAlgo.WidthMinFilter;
+                    //textBox_widthMin.Text = filterMinWidth.ToString();
+                    //int filterMaxWidth = blobAlgo.WidthMaxFilter;
+                    //textBox_widthMax.Text = filterMaxWidth.ToString();
+
+                    //int filterMinHeight = blobAlgo.HeightMinFilter;
+                    //textBox_heightMin.Text = filterMinHeight.ToString();
+                    //int filterMaxHeight = blobAlgo.HeightMaxFilter;
+                    //textBox_heightMax.Text = filterMaxHeight.ToString();
                 }
             }
         }
@@ -129,14 +132,44 @@ namespace JidamVision.Property
 
             blobAlgo.BinThreshold = threshold;
 
-            //int filterArea = int.Parse(txtArea.Text);
-            //blobAlgo.AreaFilter = filterArea;
+            int filterAreaMin = int.Parse(textBox_areaMin.Text);
+            //int filterAreaMax = int.Parse(textBox_areaMax.Text);
+
+            //int filterWidthMin = int.Parse(textBox_widthMin.Text);
+            //int filterWidthMax = int.Parse(textBox_widthMax.Text);
+
+            //int filterHeightMin = int.Parse(textBox_heightMin.Text);
+            //int filterHeightMax = int.Parse(textBox_heightMax.Text);
+
+
+            blobAlgo.AreaMinFilter = filterAreaMin;
+            //blobAlgo.AreaMaxFilter = filterAreaMax;
+
+            //blobAlgo.WidthMinFilter = filterWidthMin;
+            //blobAlgo.WidthMaxFilter = filterWidthMax;
+
+            //blobAlgo.HeightMinFilter = filterHeightMin;
+            //blobAlgo.HeightMaxFilter = filterHeightMax;
 
             //#INSP WORKER#10 이진화 검사시, 해당 InspWindow와 이진화 알고리즘만 실행
             Global.Inst.InspStage.InspWorker.TryInspect(inspWindow, InspectType.InspBinary);
 
         }
 
+        private void checkBox_area_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_width_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_height_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
     }
     public class RangeChangedEventArgs : EventArgs
     {

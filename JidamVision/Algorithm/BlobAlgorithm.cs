@@ -20,7 +20,12 @@ namespace JidamVision.Algorithm
         public  BinaryThreshold BinThreshold { get; set; } = new BinaryThreshold();
 
         // min, max 추가해서 Area 범위 지정할 수 있오록, 범위에 해당하는 영역 찾아내기****************
-        public int AreaFilter { get; set; } = 100;
+        public int AreaMinFilter { get; set; } = 100;
+        //public int AreaMaxFilter { get; set; } = 10000;
+        //public int WidthMinFilter { get; set; } = 100;
+        //public int WidthMaxFilter { get; set; } = 10000;
+        //public int HeightMinFilter { get; set; } = 100;
+        //public int HeightMaxFilter { get; set; } = 10000;
 
         public BlobAlgorithm()
         {
@@ -47,12 +52,13 @@ namespace JidamVision.Algorithm
             if (BinThreshold.invert)
                 binaryImage = ~binaryImage;
 
-            if (AreaFilter > 0)
+            if (AreaMinFilter > 0)
             {
-                if (!BlobFilter(binaryImage, AreaFilter))
+                if (!BlobFilter(binaryImage, AreaMinFilter))
                     return false;
-
             }
+
+            isInspected = true;
             return true;
         }
 
@@ -65,7 +71,7 @@ namespace JidamVision.Algorithm
             // ContourApproximationModes.ApproxSimple 빠르게 찾기 위한 설정
             Cv2.FindContours(binImage, out contours, out hierarchy, RetrievalModes.External, ContourApproximationModes.ApproxSimple);
 
-            //Mat filteredImage = Mat.Zeros(binImage.Size(), MatType.CV_8UC1);
+            Mat filteredImage = Mat.Zeros(binImage.Size(), MatType.CV_8UC1);
             
             if (_findArea is null)
                 _findArea = new List<Rect>();
@@ -99,11 +105,17 @@ namespace JidamVision.Algorithm
             return true;
         }
 
-        public int GetResultRect(out List<Rect> resultArea)
+        //#BINARY FILTER#4 이진화 영역 반환
+        public override int GetResultRect(out List<Rect> resultArea)
         {
             resultArea = null;
 
-            if (_findArea is null || _findArea.Count <= 0) return -1;
+            //#ABSTRACT ALGORITHM#7 검사가 완료되지 않았다면, 리턴
+            if (!isInspected)
+                return -1;
+
+            if (_findArea is null || _findArea.Count <= 0)
+                return -1;
 
             resultArea = _findArea;
             return resultArea.Count;
