@@ -7,6 +7,40 @@ using OpenCvSharp;
 
 namespace JidamVision.Algorithm
 {
+    public class BlobFilterCondition
+    {
+        // 면적 필터 사용 여부
+        public bool UseAreaFilter { get; set; }
+        public int AreaMin { get; set; }
+        public int AreaMax { get; set; }
+
+        // 너비 필터 사용 여부
+        public bool UseWidthFilter { get; set; }
+        public int WidthMin { get; set; }
+        public int WidthMax { get; set; }
+
+        // 높이 필터 사용 여부
+        public bool UseHeightFilter { get; set; }
+        public int HeightMin { get; set; }
+        public int HeightMax { get; set; }
+
+        // 필터 조건 초기화 함수
+        public void Reset()
+        {
+            UseAreaFilter = true;
+            AreaMin = 100;
+            AreaMax = 100000;
+
+            UseWidthFilter = false;
+            WidthMin = 100;
+            WidthMax = 100000;
+
+            UseHeightFilter = false;
+            HeightMin = 100;
+            HeightMax = 100000;
+        }
+    }
+
     public struct BinaryThreshold
     {
         public int lower;
@@ -19,18 +53,43 @@ namespace JidamVision.Algorithm
 
         public  BinaryThreshold BinThreshold { get; set; } = new BinaryThreshold();
 
-        // min, max 추가해서 Area 범위 지정할 수 있오록, 범위에 해당하는 영역 찾아내기****************
-        public int AreaMinFilter { get; set; } = 100;
-        //public int AreaMaxFilter { get; set; } = 10000;
-        //public int WidthMinFilter { get; set; } = 100;
-        //public int WidthMaxFilter { get; set; } = 10000;
-        //public int HeightMinFilter { get; set; } = 100;
-        //public int HeightMaxFilter { get; set; } = 10000;
+        public BlobFilterCondition FilterCondition { get; set; } = new BlobFilterCondition();
 
         public BlobAlgorithm()
         {
             InspectType = InspectType.InspBinary;
+            FilterCondition.Reset(); // 필터 조건 기본값 설정
         }
+
+        //public override bool DoInspect()
+        //{
+        //    isInspected = false;
+
+        //    if (_srcImage == null)
+        //        return false;
+
+        //    Mat grayImage = new Mat();
+        //    if (_srcImage.Type() == MatType.CV_8UC3)
+        //        Cv2.CvtColor(_srcImage, grayImage, ColorConversionCodes.BGR2GRAY);
+        //    else
+        //        grayImage = _srcImage;
+
+        //    Mat binaryImage = new Mat();
+        //    //Cv2.Threshold(grayImage, binaryMask, lowerValue, upperValue, ThresholdTypes.Binary);
+        //    Cv2.InRange(grayImage, BinThreshold.lower, BinThreshold.upper, binaryImage);
+
+        //    if (BinThreshold.invert)
+        //        binaryImage = ~binaryImage;
+
+        //    if (AreaMinFilter > 0)
+        //    {
+        //        if (!BlobFilter(binaryImage, AreaMinFilter))
+        //            return false;
+        //    }
+
+        //    isInspected = true;
+        //    return true;
+        //}
 
         public override bool DoInspect()
         {
@@ -52,17 +111,16 @@ namespace JidamVision.Algorithm
             if (BinThreshold.invert)
                 binaryImage = ~binaryImage;
 
-            if (AreaMinFilter > 0)
-            {
-                if (!BlobFilter(binaryImage, AreaMinFilter))
-                    return false;
-            }
+            // Blob 필터링 적용 (조건 기반 영역 추출)
+            if (!BlobFilter(binaryImage, FilterCondition))
+                return false;
 
             isInspected = true;
+
             return true;
         }
 
-        private bool BlobFilter(Mat binImage, int areaFilter)
+        private bool BlobFilter(Mat binImage, BlobFilterCondition filter)
         {
             Point[][] contours;
             HierarchyIndex[] hierarchy;
@@ -81,8 +139,6 @@ namespace JidamVision.Algorithm
             foreach(var contour in contours)
             {                
                 double area = Cv2.ContourArea(contour);
-                if (area < areaFilter)
-                    continue;
 
                 // 필터링된 객체를 이미지에 그림
                 // Contour : 4개의 폐곡선을 이어서 내부영역을 계산
@@ -93,7 +149,15 @@ namespace JidamVision.Algorithm
                 // Cv2.MinAreaRect : 마름모모양 그대로 꽉차게, 최외곽을 두르는 박스, RotatedRec 구조체에에 회전값 들어있음
                 //RotatedRect rotatedRect = Cv2.MinAreaRect(contour);
                 Rect boundingRect = Cv2.BoundingRect(contour);
-
+                // [면적 필터 조건] 적용
+                if (filter.UseAreaFilter && (area < filter.AreaMin || area > filter.AreaMax))
+                    continue;
+                // [너비 필터 조건] 적용
+                if (filter.UseWidthFilter && (boundingRect.Width < filter.WidthMin || boundingRect.Width > filter.WidthMax))
+                    continue;
+                // [높이 필터 조건] 적용
+                if (filter.UseHeightFilter && (boundingRect.Height < filter.HeightMin || boundingRect.Height > filter.HeightMax))
+                    continue;
                 _findArea.Add(boundingRect);
 
                 // RotatedRect 정보 출력

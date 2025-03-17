@@ -53,20 +53,29 @@ namespace JidamVision.Property
                 BlobAlgorithm blobAlgo = (BlobAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspBinary);
                 if (blobAlgo != null)
                 {
-                    int filterMinArea = blobAlgo.AreaMinFilter;
-                    textBox_areaMin.Text = filterMinArea.ToString();
-                    //int filterMaxArea = blobAlgo.AreaMaxFilter;
-                    //textBox_areaMax.Text = filterMaxArea.ToString();
+                    var cond = blobAlgo.FilterCondition;
 
-                    //int filterMinWidth = blobAlgo.WidthMinFilter;
-                    //textBox_widthMin.Text = filterMinWidth.ToString();
-                    //int filterMaxWidth = blobAlgo.WidthMaxFilter;
-                    //textBox_widthMax.Text = filterMaxWidth.ToString();
+                    // 면적 필터 UI 반영
+                    textBox_areaMin.Text = cond.AreaMin.ToString();
+                    textBox_areaMax.Text = cond.AreaMax.ToString();
+                    checkBox_area.Checked = cond.UseAreaFilter;
+                    textBox_areaMin.Enabled = checkBox_area.Checked;
+                    textBox_areaMax.Enabled = checkBox_area.Checked;
 
-                    //int filterMinHeight = blobAlgo.HeightMinFilter;
-                    //textBox_heightMin.Text = filterMinHeight.ToString();
-                    //int filterMaxHeight = blobAlgo.HeightMaxFilter;
-                    //textBox_heightMax.Text = filterMaxHeight.ToString();
+                    // 너비 필터 UI 반영
+                    textBox_widthMin.Text = cond.WidthMin.ToString();
+                    textBox_widthMax.Text = cond.WidthMax.ToString();
+                    checkBox_width.Checked = cond.UseWidthFilter;
+                    textBox_widthMin.Enabled = checkBox_width.Checked;
+                    textBox_widthMax.Enabled = checkBox_width.Checked;
+
+                    // 높이 필터 UI 반영
+                    textBox_heightMin.Text = cond.HeightMin.ToString();
+                    textBox_heightMax.Text = cond.HeightMax.ToString();
+                    checkBox_height.Checked = cond.UseHeightFilter;
+                    textBox_heightMin.Enabled = checkBox_height.Checked;
+                    textBox_heightMax.Enabled = checkBox_height.Checked;
+
                 }
             }
         }
@@ -132,24 +141,8 @@ namespace JidamVision.Property
 
             blobAlgo.BinThreshold = threshold;
 
-            int filterAreaMin = int.Parse(textBox_areaMin.Text);
-            //int filterAreaMax = int.Parse(textBox_areaMax.Text);
-
-            //int filterWidthMin = int.Parse(textBox_widthMin.Text);
-            //int filterWidthMax = int.Parse(textBox_widthMax.Text);
-
-            //int filterHeightMin = int.Parse(textBox_heightMin.Text);
-            //int filterHeightMax = int.Parse(textBox_heightMax.Text);
-
-
-            blobAlgo.AreaMinFilter = filterAreaMin;
-            //blobAlgo.AreaMaxFilter = filterAreaMax;
-
-            //blobAlgo.WidthMinFilter = filterWidthMin;
-            //blobAlgo.WidthMaxFilter = filterWidthMax;
-
-            //blobAlgo.HeightMinFilter = filterHeightMin;
-            //blobAlgo.HeightMaxFilter = filterHeightMax;
+            // 필터 조건 업데이트(최소값, 최대값 입력 시 업데이트)
+            UpdateBlobFilter(blobAlgo);
 
             //#INSP WORKER#10 이진화 검사시, 해당 InspWindow와 이진화 알고리즘만 실행
             Global.Inst.InspStage.InspWorker.TryInspect(inspWindow, InspectType.InspBinary);
@@ -158,17 +151,65 @@ namespace JidamVision.Property
 
         private void checkBox_area_CheckedChanged(object sender, EventArgs e)
         {
-
+            textBox_areaMin.Enabled = checkBox_area.Checked;
+            textBox_areaMax.Enabled = checkBox_area.Checked;
         }
 
         private void checkBox_width_CheckedChanged(object sender, EventArgs e)
         {
-
+            textBox_widthMin.Enabled = checkBox_width.Checked;
+            textBox_widthMax.Enabled = checkBox_width.Checked;
         }
 
         private void checkBox_height_CheckedChanged(object sender, EventArgs e)
         {
+            textBox_heightMin.Enabled = checkBox_height.Checked;
+            textBox_heightMax.Enabled = checkBox_height.Checked;
+        }
 
+        private void UpdateBlobFilter(BlobAlgorithm blobAlgo)
+        {
+            if (blobAlgo == null) return;
+            var cond = blobAlgo.FilterCondition;
+
+            //int.Parse 예외처리(값이 올바르지 않으면 오류가 남)
+            try
+            {
+
+                // 면적 조건
+                cond.UseAreaFilter = checkBox_area.Checked;
+                if (checkBox_area.Checked)
+                {
+                    cond.AreaMin = int.Parse(textBox_areaMin.Text);
+                    cond.AreaMax = int.Parse(textBox_areaMax.Text);
+                    if (cond.AreaMax <= 0) cond.AreaMax = int.MaxValue;
+                }
+
+                // 너비 조건
+                cond.UseWidthFilter = checkBox_width.Checked;
+                if (checkBox_width.Checked)
+                {
+                    cond.WidthMin = int.Parse(textBox_widthMin.Text);
+                    cond.WidthMax = int.Parse(textBox_widthMax.Text);
+                    if (cond.WidthMax <= 0) cond.WidthMax = int.MaxValue;
+                }
+
+                // 높이 조건
+                cond.UseHeightFilter = checkBox_height.Checked;
+                if (checkBox_height.Checked)
+                {
+                    cond.HeightMin = int.Parse(textBox_heightMin.Text);
+                    cond.HeightMax = int.Parse(textBox_heightMax.Text);
+                    if (cond.HeightMax <= 0) cond.HeightMax = int.MaxValue;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("필터 값이 잘못되었습니다.\n" + ex.Message, "입력 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            // 필터 조건 반영
+            blobAlgo.FilterCondition = cond;
         }
     }
     public class RangeChangedEventArgs : EventArgs
