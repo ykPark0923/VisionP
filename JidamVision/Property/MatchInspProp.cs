@@ -92,37 +92,50 @@ namespace JidamVision.Property
                 MessageBox.Show("티칭 실패");
         }
 
-        private void btnTraceSearch_Click(object sender, EventArgs e)
+        private async void btnTraceSearch_Click(object sender, EventArgs e)
         {
             _isTraced = !_isTraced;
 
-            while (_isTraced)
+            if (!_isTraced)
+                return;
+
+            await Task.Run(() =>
             {
-                InspWindow inspWindow = Global.Inst.InspStage.InspWindow;
-                if (inspWindow is null)
-                    return;
+                while (_isTraced)
+                {
+                    InspWindow inspWindow = Global.Inst.InspStage.InspWindow;
+                    if (inspWindow is null)
+                        return;
 
-                //#INSP WORKER#11 inspWindow에서 매칭 알고리즘 찾는 코드 추가
-                MatchAlgorithm matchAlgo = (MatchAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspMatch);
-                if (matchAlgo is null)
-                    return;
+                    // 매칭 알고리즘 가져오기
+                    MatchAlgorithm matchAlgo = (MatchAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspMatch);
+                    if (matchAlgo is null)
+                        return;
 
+                    // 설정된 정보를 MatchAlgorithm에 적용
+                    OpenCvSharp.Size extendSize = new OpenCvSharp.Size();
+                    extendSize.Width = int.Parse(txtExtendX.Text);
+                    extendSize.Height = int.Parse(txtExtendY.Text);
+                    int matchScore = int.Parse(txtScore.Text);
+                    int matchCount = int.Parse(txtMatchCount.Text);
 
-                //GUI에 설정된 정보를 MatchAlgorithm에 설정
-                OpenCvSharp.Size extendSize = new OpenCvSharp.Size();
-                extendSize.Width = int.Parse(txtExtendX.Text);
-                extendSize.Height = int.Parse(txtExtendY.Text);
-                int matchScore = int.Parse(txtScore.Text);
-                int matchCount = int.Parse(txtMatchCount.Text);
+                    matchAlgo.ExtSize = extendSize;
+                    matchAlgo.MatchScore = matchScore;
+                    matchAlgo.MatchCount = matchCount;
 
-                matchAlgo.ExtSize = extendSize;
-                matchAlgo.MatchScore = matchScore;
-                matchAlgo.MatchCount = matchCount;
+                    // 매칭 실행
+                    bool isMatched = Global.Inst.InspStage.InspWorker.TryInspect(inspWindow, InspectType.InspMatch);
 
-                //#INSP WORKER#12 매칭 검사시, 해당 InspWindow와 매칭 알고리즘만 실행
-                Global.Inst.InspStage.InspWorker.TryInspect(inspWindow, InspectType.InspMatch);
-            }
-            
+                    if (isMatched)
+                    {
+                        // ROI를 갱신하는 로직 추가 (매칭된 위치 기반으로 업데이트)
+                        //UpdateROI(inspWindow, matchAlgo);
+                    }
+
+                    // 추적 주기 조정 (CPU 점유율 낮추기 위해)
+                    System.Threading.Thread.Sleep(200);
+                }
+            });
         }
     }
 }
