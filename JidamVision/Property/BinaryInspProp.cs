@@ -42,6 +42,16 @@ namespace JidamVision.Property
             trackBarLower.ValueChanged += OnValueChanged;
             trackBarUpper.ValueChanged += OnValueChanged;
 
+            trackBar_areaMin.ValueChanged += OnValueChanged;
+            trackBar_areaMax.ValueChanged += OnValueChanged;
+
+            trackBar_widthMin.ValueChanged += OnValueChanged;
+            trackBar_widthMax.ValueChanged += OnValueChanged;
+
+            trackBar_heightMin.ValueChanged += OnValueChanged;
+            trackBar_heightMax.ValueChanged += OnValueChanged;
+
+
             trackBarLower.Value = 0;
             trackBarUpper.Value = 128;
 
@@ -53,7 +63,7 @@ namespace JidamVision.Property
                 if (blobAlgo != null)
                 {
                     int filterArea = blobAlgo.AreaFilter;
-                    txtArea.Text = filterArea.ToString();
+                    //txtArea.Text = filterArea.ToString();
                 }
             }
         }
@@ -119,8 +129,8 @@ namespace JidamVision.Property
 
             blobAlgo.BinThreshold = threshold;
 
-            int filterArea = int.Parse(txtArea.Text);
-            blobAlgo.AreaFilter = filterArea;
+            //int filterArea = int.Parse(txtArea.Text);
+            //blobAlgo.AreaFilter = filterArea;
 
             //#INSP WORKER#10 이진화 검사시, 해당 InspWindow와 이진화 알고리즘만 실행
             Global.Inst.InspStage.InspWorker.TryInspect(inspWindow, InspectType.InspBinary);
