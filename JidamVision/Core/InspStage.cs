@@ -11,10 +11,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using JidamVision.Core;
 using JidamVision.Teach;
 using JidamVision.Inspect;
 using static JidamVision.Core.Define;
+using System.Windows.Forms;
 
 namespace JidamVision.Core
 {
@@ -25,7 +25,7 @@ namespace JidamVision.Core
 
         private ImageSpace _imageSpace = null;
         private GrabModel _grabManager = null;
-        private CameraType _camType = CameraType.WebCam;
+        public CameraType _camType = CameraType.WebCam;
         private PreviewImage _previewImage = null;
 
         private InspWindow _inspWindow = null;

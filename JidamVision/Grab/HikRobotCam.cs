@@ -300,7 +300,6 @@ namespace JidamVision.Grab
             {
                 Console.WriteLine("Set Exposure Time Fail!", nRet);
             }
-
             return true;
         }
                    
@@ -309,23 +308,19 @@ namespace JidamVision.Grab
             exposure = 0;
             if (_camera == null)
                 return false;
-
             MyCamera.MVCC_FLOATVALUE stParam = new MyCamera.MVCC_FLOATVALUE();
             int nRet = _camera.MV_CC_GetFloatValue_NET("ExposureTime", ref stParam);
             if (MyCamera.MV_OK == nRet)
             {
                 exposure = (long)stParam.fCurValue;
             }
-
             return true;
         }
                    
         internal override bool SetGain(long gain)
         {
-
             if (_camera == null)
                 return false;
-
             _camera.MV_CC_SetEnumValue_NET("GainAuto", 0);
             int nRet = _camera.MV_CC_SetFloatValue_NET("Gain", gain);
             if (nRet != MyCamera.MV_OK)
@@ -333,7 +328,6 @@ namespace JidamVision.Grab
                 Console.WriteLine("Set Gain Fail!", nRet);
                 return false;
             }
-
             return true;
         }
                    
@@ -349,7 +343,6 @@ namespace JidamVision.Grab
             {
                 gain = (long)stParam.fCurValue;
             }
-
             return true;
         }
         internal override bool GetResolution(out int width, out int height, out int stride)
