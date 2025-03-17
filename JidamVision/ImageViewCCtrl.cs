@@ -844,7 +844,7 @@ namespace JidamVision
 
 
             // 줌 아웃 시 점진적으로 초기 크기와 중심위치로 복귀
-            if (ZoomChange < 1.0f)
+            if (ZoomChange < 1.0f && NewZoomFactor>1.0f)
             {
 
                 ///******************************************************************************************************
@@ -877,7 +877,18 @@ namespace JidamVision
                     NewHeight
                 );
 
-                ZoomFactor = ZoomFactor * (1 - t) + 1.0f * t;
+
+                // ZoomFactor를 보정 (오차 허용)
+                if (Math.Abs(ZoomFactor - 1.0f) < 0.1f)
+                {
+                    ZoomFactor = 1.0f; // 강제 보정
+                    Console.WriteLine("ZoomFactor 보정: 1.0f");
+                }
+                else
+                {
+                    ZoomFactor = ZoomFactor * (1 - t) + 1.0f * t;
+                }
+                
 
             }
             else if (ZoomChange > 1.0f)// 줌 인 시 마우스 위치 기준 확대
@@ -934,6 +945,7 @@ namespace JidamVision
             float roiY_ratio = (_roiRect.Y - CurrentStartY) / CurrentHeight;
             float roiW_ratio = _roiRect.Width / CurrentWidth;
             float roiH_ratio = _roiRect.Height / CurrentHeight;
+
 
 
             // 새로운 ImageRect 크기에 맞춰 ROI 조정
