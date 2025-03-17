@@ -31,6 +31,10 @@ namespace JidamVision.Core
         private InspWorker _inspWorker = null;
         //private InspWindow _baseWindow = null;
 
+
+        //#MODEL#6 모델 변수 선언
+        private Model _model = null;
+
         public ImageSpace ImageSpace
         {
             get => _imageSpace;
@@ -44,6 +48,11 @@ namespace JidamVision.Core
         public InspWorker InspWorker
         { 
             get => _inspWorker;
+        }
+
+        internal Model CurModel
+        {
+            get => _model;
         }
 
         public InspWindow InspWindow

@@ -14,6 +14,7 @@ using System.Web;
 using JidamVision.Teach;
 using System.IO;
 using OpenCvSharp;
+using static JidamVision.Core.Define;
 
 namespace JidamVision
 {
@@ -199,5 +200,9 @@ namespace JidamVision
             Global.Inst.InspStage.InspWorker.RunInspect();
         }
 
+        internal void AddRoi(InspWindowType inspWindowType)
+        {
+            //imageViewer.NewRoi(inspWindowType);
+        }
     }
 }

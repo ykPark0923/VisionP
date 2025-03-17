@@ -9,6 +9,7 @@ using JidamVision.Core;
 using System.Security.Policy;
 using System.Drawing;
 using System.IO;
+using static JidamVision.Core.Define;
 
 namespace JidamVision.Teach
 {
@@ -22,6 +23,12 @@ namespace JidamVision.Teach
         //템플릿 매칭 이미지
         private Mat _teachingImage;
 
+        internal InspWindowType InspWindowType { get; private set; }
+
+        public string Name { get; private set; }
+        public string UID { get; set; }
+
+        public Rect WindowArea { get; set; }
 
         //템플릿 매칭으로 찾은 위치 리스트
         private List<OpenCvSharp.Point> _outPoints;
@@ -53,6 +60,14 @@ namespace JidamVision.Teach
             AddInspAlgorithm(InspectType.InspMatch);
             AddInspAlgorithm(InspectType.InspBinary);
 
+        }
+
+        internal InspWindow(InspWindowType windowType, string name)
+        {
+            InspWindowType = windowType;
+            Name = name;
+            AddInspAlgorithm(InspectType.InspMatch);
+            AddInspAlgorithm(InspectType.InspBinary);
         }
 
 

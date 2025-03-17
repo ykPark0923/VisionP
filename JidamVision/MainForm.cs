@@ -47,6 +47,10 @@ namespace JidamVision
             var resultWindow = new ResultForm();
             resultWindow.Show(cameraWindow.Pane, DockAlignment.Bottom, 0.3);
 
+            //모델 트리창 40% 비율로 추가
+            var modeltreeWindow = new ModelTreeForm();
+            modeltreeWindow.Show(resultWindow.Pane, DockAlignment.Right, 0.4);
+
             //속성창 추가
             var propWindow = new PropertiesForm();
             propWindow.Show(_dockPanel, DockState.DockRight);
