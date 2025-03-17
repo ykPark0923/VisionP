@@ -14,6 +14,7 @@ using System.Web;
 using JidamVision.Core;
 using JidamVision.Teach;
 using JidamVision.Inspect;
+using static JidamVision.Core.Define;
 
 namespace JidamVision.Core
 {
@@ -30,7 +31,6 @@ namespace JidamVision.Core
         private InspWindow _inspWindow = null;
         private InspWorker _inspWorker = null;
         //private InspWindow _baseWindow = null;
-
 
         //#MODEL#6 모델 변수 선언
         private Model _model = null;
@@ -74,6 +74,8 @@ namespace JidamVision.Core
             _imageSpace = new ImageSpace();
             _previewImage = new PreviewImage();
             _inspWorker = new InspWorker();
+            
+            _model = new Model();
 
             switch (_camType)
             {
@@ -144,7 +146,7 @@ namespace JidamVision.Core
 
             imageWidth = (matImage.Width + 3) / 4 * 4;
             imageHeight = matImage.Height;
-            imageStride = (int)matImage.Step();
+            //imageStride = (int)matImage.Step();
             imageStride = imageWidth * matImage.ElemSize();
 
             if (_imageSpace != null)
@@ -268,8 +270,8 @@ namespace JidamVision.Core
 
         private void InitInspWindow()
         {
-            _inspWindow = new InspWindow();
-            InspWindowList.Add(_inspWindow);
+            //_inspWindow = new InspWindow();
+            //InspWindowList.Add(_inspWindow);
 
             var propForm = MainForm.GetDockForm<PropertiesForm>();
             if (propForm != null)
@@ -281,5 +283,44 @@ namespace JidamVision.Core
                 //propForm.SetInspType(InspectType.InspFilter);
             }
         }
+
+        internal void AddInspWindow(InspWindowType windowType, Rect rect)
+        {
+            InspWindow inspWindow = _model.AddInspWindow(windowType);
+            if (inspWindow is null) return;
+
+            inspWindow.WindowArea = rect;
+            UpdateDiagramEntity();
+        }
+
+        public void ModifyInspWindow(InspWindow inspWindow, Rect rect)
+        {
+            if(inspWindow == null) return;
+
+            inspWindow.WindowArea = rect;
+        }
+
+        public void DelInspWindow(InspWindow inspWindow)
+        {
+            _model.DelInspWindow(InspWindow);
+            UpdateDiagramEntity();
+        }
+
+        public void UpdateDiagramEntity()
+        {
+            CameraForm cameraForm = MainForm.GetDockForm<CameraForm>();
+            if (cameraForm != null)
+            {
+                cameraForm.UpdateDiagramEntity();
+            }
+
+            ModelTreeForm modelTreeForm = MainForm.GetDockForm<ModelTreeForm>();
+            if(modelTreeForm != null)
+            {
+                modelTreeForm.UpdateDiagramEntity();
+            }
+        }
     }
+
+
 }

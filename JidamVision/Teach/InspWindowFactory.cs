@@ -39,6 +39,7 @@ namespace JidamVision.Teach
             if (inspWindow is null)
                 return null;
 
+            //dicionary는 기존에 없으면 생성함.
             if (!_windowTypeNo.ContainsKey(name))
                 _windowTypeNo[name] = 0;
 
