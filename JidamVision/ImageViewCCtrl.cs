@@ -113,12 +113,9 @@ namespace JidamVision
             float NewWidth = Bitmap.Width * Scale;
             float NewHeight = Bitmap.Height * Scale;
 
-            //줌 아웃을 위한 이미지 핏되는 width, height
-            if(ZoomOutWidth ==0 || ZoomOutHeight == 0)
-            {
-                ZoomOutWidth = Bitmap.Width * Scale;
-                ZoomOutHeight = Bitmap.Height * Scale;
-            }
+
+            ZoomOutWidth = Bitmap.Width * Scale;
+            ZoomOutHeight = Bitmap.Height * Scale;
 
             if (InitialStartX == 0 || InitialStartY == 0)
             {
