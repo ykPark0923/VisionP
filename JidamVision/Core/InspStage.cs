@@ -270,7 +270,7 @@ namespace JidamVision.Core
 
         private void InitInspWindow()
         {
-            //_inspWindow = new InspWindow();
+            _inspWindow = new InspWindow();
             //InspWindowList.Add(_inspWindow);
 
             var propForm = MainForm.GetDockForm<PropertiesForm>();
