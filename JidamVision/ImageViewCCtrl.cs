@@ -20,6 +20,7 @@ namespace JidamVision
         private bool _isSelectingRoi = false;
         private bool _isResizingRoi = false;
         private bool _isMovingRoi = false;
+        private bool _isInitialized = false;
         private Point _resizeStart = Point.Empty;
         private Point _moveStart = Point.Empty;
         private int _resizeDirection = -1;
@@ -54,19 +55,19 @@ namespace JidamVision
         private float ZoomFactor = 1.0f;
 
         // 최소 및 최대 줌 제한 값
-        private const float MinZoom = 1f;
+        private const float MinZoom = 1.0f;
         private const float MaxZoom = 200.0f;
 
         //줌아웃위하 초기값
-        private float InitialCenterX;  // 초기 이미지 중심 X
-        private float InitialCenterY;  // 초기 이미지 중심 Y
-        private float InitialStartX;    //resize 위한 초기 X값 저장
-        private float InitialStartY;    //resize 위한 초기 Y값 저장
-        private float InitialWidth;    // 초기 이미지 너비
-        private float InitialHeight;   // 초기 이미지 높이
+        private float CurrentCenterX;  // 초기 이미지 중심 X
+        private float CurrentCenterY;  // 초기 이미지 중심 Y
+        private float CurrentStartX;    //resize 위한 초기 X값 저장
+        private float CurrentStartY;    //resize 위한 초기 Y값 저장
+        private float CurrentWidth;    // 초기 이미지 너비
+        private float CurrentHeight;   // 초기 이미지 높이
 
-        private float ZoomOutWidth;    // 이미지로드 너비
-        private float ZoomOutHeight;   // 이미지로드 높이
+        private float InitialWidth;    // 이미지로드 너비
+        private float InitialHeight;   // 이미지로드 높이
 
         //#MATCH PROP#11 템플릿 매칭 결과 출력을 위해 Rectangle 리스트 변수 설정
         private List<Rectangle> _rectangles = new List<Rectangle>();
@@ -114,19 +115,19 @@ namespace JidamVision
             float NewHeight = Bitmap.Height * Scale;
 
 
-            ZoomOutWidth = Bitmap.Width * Scale;
-            ZoomOutHeight = Bitmap.Height * Scale;
+            InitialWidth = Bitmap.Width * Scale;
+            InitialHeight = Bitmap.Height * Scale;
 
-            if (InitialStartX == 0 || InitialStartY == 0)
+            if (CurrentStartX == 0 || CurrentStartY == 0)
             {
-                InitialStartX = ImageRect.X;
-                InitialStartY = ImageRect.Y;
+                CurrentStartX = ImageRect.X;
+                CurrentStartY = ImageRect.Y;
             }
 
-            if (InitialWidth == 0 || InitialHeight == 0)
+            if (CurrentWidth == 0 || CurrentHeight == 0)
             {
-                InitialWidth = NewWidth;
-                InitialHeight = NewHeight;
+                CurrentWidth = NewWidth;
+                CurrentHeight = NewHeight;
             }
 
             // 이미지가 UserControl 중앙에 배치되도록 정렬
@@ -140,13 +141,13 @@ namespace JidamVision
             UpdateROI();
 
             //줌아웃위한 초기값 저장
-            InitialCenterX = ImageRect.X + (ImageRect.Width / 2);
-            InitialCenterY = ImageRect.Y + (ImageRect.Height / 2);
+            CurrentCenterX = ImageRect.X + (ImageRect.Width / 2);
+            CurrentCenterY = ImageRect.Y + (ImageRect.Height / 2);
 
-            InitialStartX = ImageRect.X;
-            InitialStartY = ImageRect.Y;
-            InitialWidth = NewWidth;
-            InitialHeight = NewHeight;
+            CurrentStartX = ImageRect.X;
+            CurrentStartY = ImageRect.Y;
+            CurrentWidth = NewWidth;
+            CurrentHeight = NewHeight;
         }
 
         public void LoadBitmap(Bitmap bitmap)
@@ -179,10 +180,10 @@ namespace JidamVision
             );
 
             //줌아웃위한 초기값 저장
-            InitialCenterX = ImageRect.X + (ImageRect.Width / 2);
-            InitialCenterY = ImageRect.Y + (ImageRect.Height / 2);
-            InitialWidth = NewWidth;
-            InitialHeight = NewHeight;
+            CurrentCenterX = ImageRect.X + (ImageRect.Width / 2);
+            CurrentCenterY = ImageRect.Y + (ImageRect.Height / 2);
+            CurrentWidth = NewWidth;
+            CurrentHeight = NewHeight;
 
             // 줌 초기화
             ZoomFactor = 1.0f;
@@ -525,6 +526,13 @@ namespace JidamVision
 
         private void ImageViewCCtrl_MouseWheel(object sender, MouseEventArgs e)
         {
+            //bitmap==null 예외처리도 초기화되지않은 변수들 초기화
+            if (_isInitialized == false)
+            {
+                _isInitialized = true;
+                ResizeCanvas();
+            }
+
             // 마우스 휠 위(줌 인) 또는 아래(줌 아웃) 이벤트 처리
             float ZoomChange = e.Delta > 0 ? 1.1f : 0.9f; //마우스휠 위로(+) 1.1배,아래로(-) 0.9배 축소
             float NewZoomFactor = ZoomFactor * ZoomChange; //현재줌배율*새로운줌배율
@@ -555,15 +563,15 @@ namespace JidamVision
                 float t = 0.5f; // 이미지 점진적으로 줄어들도록 보간
 
                 // 현재 크기를 점진적으로 초기 크기로 조정********************************************************************************
-                float NewWidth = ImageRect.Width * (1 - t) + ZoomOutWidth * t;
-                float NewHeight = ImageRect.Height * (1 - t) + ZoomOutHeight * t;
+                float NewWidth = ImageRect.Width * (1 - t) + InitialWidth * t;
+                float NewHeight = ImageRect.Height * (1 - t) + InitialHeight * t;
 
                 // 현재 중심에서 점진적으로 초기 중심으로 이동
                 float CurrentCenterX = ImageRect.X + (ImageRect.Width / 2);
                 float CurrentCenterY = ImageRect.Y + (ImageRect.Height / 2);
 
-                float NewCenterX = CurrentCenterX * (1 - t) + InitialCenterX * t;
-                float NewCenterY = CurrentCenterY * (1 - t) + InitialCenterY * t;
+                float NewCenterX = CurrentCenterX * (1 - t) + this.CurrentCenterX * t;
+                float NewCenterY = CurrentCenterY * (1 - t) + this.CurrentCenterY * t;
 
 
                 // 새로운 이미지 위치 반영 (점진적으로 초기 상태로 회귀)
@@ -575,8 +583,9 @@ namespace JidamVision
                 );
 
                 ZoomFactor = ZoomFactor * (1 - t) + 1.0f * t;
+
             }
-            else  // 줌 인 시 마우스 위치 기준 확대
+            else  if(ZoomChange > 1.0f)// 줌 인 시 마우스 위치 기준 확대
             {
                 // 마우스 위치를 기준으로 줌 좌표 변환
                 float MouseXRatio = (e.X - ImageRect.X) / ImageRect.Width;
@@ -597,6 +606,7 @@ namespace JidamVision
                 // 배율 업데이트
                 ZoomFactor = NewZoomFactor;
             }
+
 
             UpdateROI();
 
@@ -621,28 +631,14 @@ namespace JidamVision
         // 창 resize ROI 업데이트
         private void UpdateROI()
         {
-            if (Bitmap == null || _roiRect.IsEmpty || InitialWidth == 0 || InitialHeight == 0)
+            if (Bitmap == null || _roiRect.IsEmpty || CurrentWidth == 0 || CurrentHeight == 0)
                 return;
 
-            // 초기화되지 않은 경우, ImageRect 기준으로 초기값 설정
-            if (InitialStartX == 0 && InitialStartY == 0)
-            {
-                InitialStartX = ImageRect.X;
-                InitialStartY = ImageRect.Y;
-            }
-
-
-            if (InitialWidth == 0 && InitialHeight == 0)
-            {
-                InitialWidth = ImageRect.Width;
-                InitialHeight = ImageRect.Height;
-            }
-
             // 기존 ROI 좌표를 원본 ImageRect 기준으로 변환 (비율)
-            float roiX_ratio = (_roiRect.X - InitialStartX) / InitialWidth;
-            float roiY_ratio = (_roiRect.Y - InitialStartY) / InitialHeight;
-            float roiW_ratio = _roiRect.Width / InitialWidth;
-            float roiH_ratio = _roiRect.Height / InitialHeight;
+            float roiX_ratio = (_roiRect.X - CurrentStartX) / CurrentWidth;
+            float roiY_ratio = (_roiRect.Y - CurrentStartY) / CurrentHeight;
+            float roiW_ratio = _roiRect.Width / CurrentWidth;
+            float roiH_ratio = _roiRect.Height / CurrentHeight;
 
 
             // 새로운 ImageRect 크기에 맞춰 ROI 조정
@@ -653,10 +649,10 @@ namespace JidamVision
 
 
             // 새로운 초기 크기 갱신
-            InitialStartX = ImageRect.X;
-            InitialStartY = ImageRect.Y;
-            InitialWidth = ImageRect.Width;
-            InitialHeight = ImageRect.Height;
+            CurrentStartX = ImageRect.X;
+            CurrentStartY = ImageRect.Y;
+            CurrentWidth = ImageRect.Width;
+            CurrentHeight = ImageRect.Height;
         }
 
         public Rectangle GetRoiRect()
