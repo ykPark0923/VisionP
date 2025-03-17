@@ -137,6 +137,14 @@ namespace JidamVision
                 case InspWindowType.ID:
                     color = Color.Cyan;
                     break;
+
+                case InspWindowType.Body:
+                    color = Color.LavenderBlush;
+                    break;
+
+                case InspWindowType.Header:
+                    color = Color.Khaki;
+                    break;
             }
 
             return color;
@@ -367,59 +375,59 @@ namespace JidamVision
                         }
                     }
 
-                    ////#SETROI#6 ROI 그리기
-                    //if (RoiMode && !_roiRect.IsEmpty)
-                    //{
-                    //    Rectangle rect = _roiRect;
-                    //    using (Pen pen = new Pen(Color.LightGreen, 2))
-                    //    {
-                    //        g.DrawRectangle(pen, rect);
-                    //    }
-
-                    //    // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
-                    //    using (Brush brush = new SolidBrush(Color.LightBlue))
-                    //    {
-                    //        Point[] resizeHandles = GetResizeHandles(rect);
-                    //        foreach (Point handle in resizeHandles)
-                    //        {
-                    //            g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
-                    //        }
-                    //    }
-                    //}
-
-                    //#MULTI ROI#8 여러개 ROI를 그려주는 코드
-                    foreach (DiagramEntity entity in _diagramEntityList)
+                    //#SETROI#6 ROI 그리기
+                    if (RoiMode && !_roiRect.IsEmpty)
                     {
-                        Rectangle rect = entity.EntityROI;
-                        using (Pen pen = new Pen(entity.EntityColor, 2))
+                        Rectangle rect = _roiRect;
+                        using (Pen pen = new Pen(Color.LightGreen, 2))
                         {
                             g.DrawRectangle(pen, rect);
                         }
 
-                        //선택된 ROI가 있다면, 리사이즈 핸들 그리기
-                        if (entity == _selEntity)
+                        // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
+                        using (Brush brush = new SolidBrush(Color.LightBlue))
                         {
-                            // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
-                            using (Brush brush = new SolidBrush(Color.LightBlue))
+                            Point[] resizeHandles = GetResizeHandles(rect);
+                            foreach (Point handle in resizeHandles)
                             {
-                                Point[] resizeHandles = GetResizeHandles(rect);
-                                foreach (Point handle in resizeHandles)
-                                {
-                                    g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
-                                }
+                                g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
                             }
                         }
                     }
 
-                    //#MULTI ROI#9 신규 ROI 추가할때, 해당 ROI 그리기
-                    if (_isSelectingRoi && !_roiRect.IsEmpty)
-                    {
-                        Rectangle rect = _roiRect;
-                        using (Pen pen = new Pen(_selColor, 2))
-                        {
-                            g.DrawRectangle(pen, rect);
-                        }
-                    }
+                    ////#MULTI ROI#8 여러개 ROI를 그려주는 코드
+                    //foreach (DiagramEntity entity in _diagramEntityList)
+                    //{
+                    //    Rectangle rect = entity.EntityROI;
+                    //    using (Pen pen = new Pen(entity.EntityColor, 2))
+                    //    {
+                    //        g.DrawRectangle(pen, rect);
+                    //    }
+
+                    //    //선택된 ROI가 있다면, 리사이즈 핸들 그리기
+                    //    if (entity == _selEntity)
+                    //    {
+                    //        // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
+                    //        using (Brush brush = new SolidBrush(Color.LightBlue))
+                    //        {
+                    //            Point[] resizeHandles = GetResizeHandles(rect);
+                    //            foreach (Point handle in resizeHandles)
+                    //            {
+                    //                g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
+                    //            }
+                    //        }
+                    //    }
+                    //}
+
+                    ////#MULTI ROI#9 신규 ROI 추가할때, 해당 ROI 그리기
+                    //if (_isSelectingRoi && !_roiRect.IsEmpty)
+                    //{
+                    //    Rectangle rect = _roiRect;
+                    //    using (Pen pen = new Pen(_selColor, 2))
+                    //    {
+                    //        g.DrawRectangle(pen, rect);
+                    //    }
+                    //}
 
                     // 캔버스를 UserControl 화면에 표시
                     e.Graphics.DrawImage(Canvas, 0, 0);
@@ -430,6 +438,8 @@ namespace JidamVision
 
         private void ImageViewCCtrl_MouseDown(object sender, MouseEventArgs e)
         {
+
+
             //#MULTI ROI#10 여러개 ROI 기능에 맞게 코드 수정
             if (e.Button == MouseButtons.Left)
             {
@@ -488,6 +498,9 @@ namespace JidamVision
 
         private void ImageViewCCtrl_MouseMove(object sender, MouseEventArgs e)
         {
+
+
+
             //#MULTI ROI#12 마우스 이동시, 구현 코드
             if (e.Button == MouseButtons.Left)
             {
@@ -561,6 +574,8 @@ namespace JidamVision
 
         private void ImageViewCCtrl_MouseUp(object sender, MouseEventArgs e)
         {
+
+
             //#SETROI#5 ROI 크기 변경 또는 이동 완료
             //#MULTI ROI#13 마우스 업일때, 구현 코드
             if (e.Button == MouseButtons.Left)
