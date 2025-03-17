@@ -80,7 +80,8 @@ namespace JidamVision
                     break;
                 case InspectType.InspFilter:
                     FilterInspProp filterProp = new FilterInspProp();
-                    filterProp.LoadInspParam();
+                    //filterProp.LoadInspParam();
+                    filterProp.FilterSelected += FilterSelect_FilterChanged;
                     _InspProp = filterProp;
                     break;
                 default:
