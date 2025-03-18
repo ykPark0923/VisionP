@@ -16,7 +16,7 @@ namespace JidamVision.Core
             Sub,
             ID,
             Body,
-            Header,
+            Head,
             Group
         }
 

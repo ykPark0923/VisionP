@@ -142,7 +142,7 @@ namespace JidamVision
                     color = Color.LavenderBlush;
                     break;
 
-                case InspWindowType.Header:
+                case InspWindowType.Head:
                     color = Color.Khaki;
                     break;
             }
