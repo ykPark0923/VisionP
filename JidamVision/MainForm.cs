@@ -1,4 +1,5 @@
 ﻿using JidamVision.Core;
+using JidamVision.Setting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -98,6 +99,12 @@ namespace JidamVision
                     Global.Inst.InspStage.SetImageBuffer(filePath);
                 }
             }
+        }
+
+        private void setupToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SetupForm setupForm = new SetupForm();
+            setupForm.ShowDialog();
         }
     }
 }

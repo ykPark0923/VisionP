@@ -15,6 +15,7 @@ using JidamVision.Teach;
 using JidamVision.Inspect;
 using static JidamVision.Core.Define;
 using System.Windows.Forms;
+using JidamVision.Setting;
 
 namespace JidamVision.Core
 {
@@ -25,7 +26,7 @@ namespace JidamVision.Core
 
         private ImageSpace _imageSpace = null;
         private GrabModel _grabManager = null;
-        public CameraType _camType = CameraType.WebCam;
+        public CameraType _camType = CameraType.None;
         private PreviewImage _previewImage = null;
 
         private InspWindow _inspWindow = null;
@@ -76,6 +77,7 @@ namespace JidamVision.Core
             _inspWorker = new InspWorker();
             
             _model = new Model();
+            LoadSetting();
 
             switch (_camType)
             {
@@ -108,6 +110,11 @@ namespace JidamVision.Core
             return true;
         }
 
+        private void LoadSetting()
+        {
+            //카메라 설정 타입 얻기
+            _camType = SettingXml.Inst.CamType;
+        }
 
         public void InitModelGrab(int bufferCount)
         {

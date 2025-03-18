@@ -376,61 +376,61 @@ namespace JidamVision
                     }
 
                     #region SetROIBTM
-                    //#SETROI#6 ROI 그리기
-                    if (RoiMode && !_roiRect.IsEmpty)
+                    ////#SETROI#6 ROI 그리기
+                    //if (RoiMode && !_roiRect.IsEmpty)
+                    //{
+                    //    Rectangle rect = _roiRect;
+                    //    using (Pen pen = new Pen(Color.LightGreen, 2))
+                    //    {
+                    //        g.DrawRectangle(pen, rect);
+                    //    }
+
+                    //    // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
+                    //    using (Brush brush = new SolidBrush(Color.LightBlue))
+                    //    {
+                    //        Point[] resizeHandles = GetResizeHandles(rect);
+                    //        foreach (Point handle in resizeHandles)
+                    //        {
+                    //            g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
+                    //        }
+                    //    }
+                    //}
+                    #endregion
+
+                    #region multiROI
+                    //#MULTI ROI#8 여러개 ROI를 그려주는 코드
+                    foreach (DiagramEntity entity in _diagramEntityList)
                     {
-                        Rectangle rect = _roiRect;
-                        using (Pen pen = new Pen(Color.LightGreen, 2))
+                        Rectangle rect = entity.EntityROI;
+                        using (Pen pen = new Pen(entity.EntityColor, 2))
                         {
                             g.DrawRectangle(pen, rect);
                         }
 
-                        // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
-                        using (Brush brush = new SolidBrush(Color.LightBlue))
+                        //선택된 ROI가 있다면, 리사이즈 핸들 그리기
+                        if (entity == _selEntity)
                         {
-                            Point[] resizeHandles = GetResizeHandles(rect);
-                            foreach (Point handle in resizeHandles)
+                            // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
+                            using (Brush brush = new SolidBrush(Color.LightBlue))
                             {
-                                g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
+                                Point[] resizeHandles = GetResizeHandles(rect);
+                                foreach (Point handle in resizeHandles)
+                                {
+                                    g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
+                                }
                             }
                         }
                     }
-                    #endregion
 
-                    #region multiROI
-                    ////#MULTI ROI#8 여러개 ROI를 그려주는 코드
-                    //foreach (DiagramEntity entity in _diagramEntityList)
-                    //{
-                    //    Rectangle rect = entity.EntityROI;
-                    //    using (Pen pen = new Pen(entity.EntityColor, 2))
-                    //    {
-                    //        g.DrawRectangle(pen, rect);
-                    //    }
-
-                    //    //선택된 ROI가 있다면, 리사이즈 핸들 그리기
-                    //    if (entity == _selEntity)
-                    //    {
-                    //        // 리사이즈 핸들 그리기 (8개 포인트: 4 모서리 + 4 변 중간)
-                    //        using (Brush brush = new SolidBrush(Color.LightBlue))
-                    //        {
-                    //            Point[] resizeHandles = GetResizeHandles(rect);
-                    //            foreach (Point handle in resizeHandles)
-                    //            {
-                    //                g.FillRectangle(brush, handle.X - _ResizeHandleSize / 2, handle.Y - _ResizeHandleSize / 2, _ResizeHandleSize, _ResizeHandleSize);
-                    //            }
-                    //        }
-                    //    }
-                    //}
-
-                    ////#MULTI ROI#9 신규 ROI 추가할때, 해당 ROI 그리기
-                    //if (_isSelectingRoi && !_roiRect.IsEmpty)
-                    //{
-                    //    Rectangle rect = _roiRect;
-                    //    using (Pen pen = new Pen(_selColor, 2))
-                    //    {
-                    //        g.DrawRectangle(pen, rect);
-                    //    }
-                    //}
+                    //#MULTI ROI#9 신규 ROI 추가할때, 해당 ROI 그리기
+                    if (_isSelectingRoi && !_roiRect.IsEmpty)
+                    {
+                        Rectangle rect = _roiRect;
+                        using (Pen pen = new Pen(_selColor, 2))
+                        {
+                            g.DrawRectangle(pen, rect);
+                        }
+                    }
                     #endregion
 
                     // 캔버스를 UserControl 화면에 표시
@@ -443,168 +443,105 @@ namespace JidamVision
         private void ImageViewCCtrl_MouseDown(object sender, MouseEventArgs e)
         {
             #region SetROIBTN
-            //#SETROI#3 ROI 모드에서 ROI 그리기 시작 또는 ROI 크기 이동/변경 모드 설정
-            if (RoiMode && e.Button == MouseButtons.Left)
-            {
-                //마우스 클릭 위치가 ROI 크기 변경을 하기 위한 위치(모서리,엣지)인지 여부 판단
-                _resizeDirection = GetResizeHandleIndex(e.Location);
-                if (_resizeDirection != -1)
-                {
-                    _isResizingRoi = true;
-                    _resizeStart = e.Location;
-                }
-                //ROI 크기 변경 이외에 이동을 위해, 입력좌표가 ROI 안에 있는지 여부 판단
-                else if (_roiRect.Contains(e.Location))
-                {
-                    _isMovingRoi = true;
-                    _moveStart = e.Location;
-                }
-                else
-                {
-                    //새로운 ROI 그리기 시작 위치 설저어
-                    _roiStart = e.Location;
-                    _isSelectingRoi = true;
-                }
-            }
-
-            if (e.Button == MouseButtons.Right)
-            {
-                RightClick = e.Location;
-
-                // UserControl이 포커스를 받아야 마우스 휠이 정상적으로 동작함
-                Focus();
-            }
-            #endregion
-
-            #region multiroi
-            ////#MULTI ROI#10 여러개 ROI 기능에 맞게 코드 수정
-            //if (e.Button == MouseButtons.Left)
+            ////#SETROI#3 ROI 모드에서 ROI 그리기 시작 또는 ROI 크기 이동/변경 모드 설정
+            //if (RoiMode && e.Button == MouseButtons.Left)
             //{
-            //    if (_newRoiType != InspWindowType.None)
+            //    //마우스 클릭 위치가 ROI 크기 변경을 하기 위한 위치(모서리,엣지)인지 여부 판단
+            //    _resizeDirection = GetResizeHandleIndex(e.Location);
+            //    if (_resizeDirection != -1)
+            //    {
+            //        _isResizingRoi = true;
+            //        _resizeStart = e.Location;
+            //    }
+            //    //ROI 크기 변경 이외에 이동을 위해, 입력좌표가 ROI 안에 있는지 여부 판단
+            //    else if (_roiRect.Contains(e.Location))
+            //    {
+            //        _isMovingRoi = true;
+            //        _moveStart = e.Location;
+            //    }
+            //    else
             //    {
             //        //새로운 ROI 그리기 시작 위치 설저어
             //        _roiStart = e.Location;
             //        _isSelectingRoi = true;
-            //        _selEntity = null;
-            //    }
-            //    else
-            //    {
-            //        if (_selEntity != null)
-            //        {
-            //            Rectangle rect = _selEntity.EntityROI;
-            //            //마우스 클릭 위치가 ROI 크기 변경을 하기 위한 위치(모서리,엣지)인지 여부 판단
-            //            _resizeDirection = GetResizeHandleIndex(rect, e.Location);
-            //            if (_resizeDirection != -1)
-            //            {
-            //                _isResizingRoi = true;
-            //                _resizeStart = e.Location;
-            //                Invalidate();
-            //                return;
-            //            }
-            //        }
-
-            //        _selEntity = null;
-            //        foreach (DiagramEntity entity in _diagramEntityList)
-            //        {
-            //            Rectangle rect = entity.EntityROI;
-            //            if (rect.Contains(e.Location))
-            //            {
-            //                _selEntity = entity;
-            //                _isMovingRoi = true;
-            //                _moveStart = e.Location;
-            //                _roiRect = entity.EntityROI;
-            //                break;
-            //            }
-            //        }
-
-            //        Invalidate();
             //    }
             //}
-            //// 마우스 오른쪽 버튼이 눌렸을 때 클릭 위치 저장
-            //else if (e.Button == MouseButtons.Right)
-            //{
-            //    //#MULTI ROI#11 같은 타입의 ROI추가가 더이상 없다면 초기화하여, ROI가 추가되지 않도록 함
-            //    _newRoiType = InspWindowType.None;
 
+            //if (e.Button == MouseButtons.Right)
+            //{
             //    RightClick = e.Location;
 
             //    // UserControl이 포커스를 받아야 마우스 휠이 정상적으로 동작함
             //    Focus();
             //}
             #endregion
+
+            #region multiroi
+            //#MULTI ROI#10 여러개 ROI 기능에 맞게 코드 수정
+            if (e.Button == MouseButtons.Left)
+            {
+                if (_newRoiType != InspWindowType.None)
+                {
+                    //새로운 ROI 그리기 시작 위치 설저어
+                    _roiStart = e.Location;
+                    _isSelectingRoi = true;
+                    _selEntity = null;
+                }
+                else
+                {
+                    if (_selEntity != null)
+                    {
+                        Rectangle rect = _selEntity.EntityROI;
+                        //마우스 클릭 위치가 ROI 크기 변경을 하기 위한 위치(모서리,엣지)인지 여부 판단
+                        _resizeDirection = GetResizeHandleIndex(rect, e.Location);
+                        if (_resizeDirection != -1)
+                        {
+                            _isResizingRoi = true;
+                            _resizeStart = e.Location;
+                            Invalidate();
+                            return;
+                        }
+                    }
+
+                    _selEntity = null;
+                    foreach (DiagramEntity entity in _diagramEntityList)
+                    {
+                        Rectangle rect = entity.EntityROI;
+                        if (rect.Contains(e.Location))
+                        {
+                            _selEntity = entity;
+                            _isMovingRoi = true;
+                            _moveStart = e.Location;
+                            _roiRect = entity.EntityROI;
+                            break;
+                        }
+                    }
+
+                    Invalidate();
+                }
+            }
+            // 마우스 오른쪽 버튼이 눌렸을 때 클릭 위치 저장
+            else if (e.Button == MouseButtons.Right)
+            {
+                //#MULTI ROI#11 같은 타입의 ROI추가가 더이상 없다면 초기화하여, ROI가 추가되지 않도록 함
+                _newRoiType = InspWindowType.None;
+
+                RightClick = e.Location;
+
+                // UserControl이 포커스를 받아야 마우스 휠이 정상적으로 동작함
+                Focus();
+            }
+            #endregion
         }
 
         private void ImageViewCCtrl_MouseMove(object sender, MouseEventArgs e)
         {
             #region setROI BTN
-            //#SETROI#4 ROI 크기 변경 또는 이동 진행
-            if (RoiMode)
-            {
-                //최초 ROI 생성하여 그리기
-                if (_isSelectingRoi && e.Button == MouseButtons.Left)
-                {
-                    int x = Math.Min(_roiStart.X, e.X);
-                    int y = Math.Min(_roiStart.Y, e.Y);
-                    int width = Math.Abs(e.X - _roiStart.X);
-                    int height = Math.Abs(e.Y - _roiStart.Y);
-                    _roiRect = new Rectangle(x, y, width, height);
-                    Invalidate();
-                }
-                else if (_isResizingRoi && e.Button == MouseButtons.Left)
-                {
-                    ResizeROI(e.Location); _resizeStart = e.Location;
-                    Invalidate();
-                }
-                //ROI 위치 이동
-                else if (_isMovingRoi && e.Button == MouseButtons.Left)
-                {
-                    int dx = e.X - _moveStart.X;
-                    int dy = e.Y - _moveStart.Y;
-                    _roiRect.X += dx;
-                    _roiRect.Y += dy;
-                    _moveStart = e.Location;
-                    Invalidate();
-                }
-                //마우스 클릭없이, 위치만 이동시에, 커서의 위치가 크기변경또는 이동 위치일때, 커서 변경
-                else
-                {
-                    int index = GetResizeHandleIndex(e.Location); if (index != -1)
-                    {
-                        Cursor = GetCursorForHandle(index);
-                    }
-                    else if (_roiRect.Contains(e.Location))
-                    {
-                        Cursor = Cursors.SizeAll; // ROI 내부 이동
-                    }
-                    else
-                    {
-                        Cursor = Cursors.Default;
-                    }
-                }
-            }
-
-            // 마우스 오른쪽 버튼이 눌린 상태에서만 이동 처리
-            if (e.Button == MouseButtons.Right)
-            {
-                // 현재 마우스 위치와 이전 클릭 위치를 비교하여 이동 거리 계산
-                Offset.X = e.Location.X - RightClick.X + LastOffset.X;
-                Offset.Y = e.Location.Y - RightClick.Y + LastOffset.Y;
-
-                // 이미지 위치 업데이트
-                ImageRect.X = Offset.X;
-                ImageRect.Y = Offset.Y;
-
-                // 변경된 화면을 다시 그리도록 요청
-                Invalidate();
-            }
-            #endregion
-
-            #region multiROI
-            ////#MULTI ROI#12 마우스 이동시, 구현 코드
-            //if (e.Button == MouseButtons.Left)
+            ////#SETROI#4 ROI 크기 변경 또는 이동 진행
+            //if (RoiMode)
             //{
             //    //최초 ROI 생성하여 그리기
-            //    if (_isSelectingRoi)
+            //    if (_isSelectingRoi && e.Button == MouseButtons.Left)
             //    {
             //        int x = Math.Min(_roiStart.X, e.X);
             //        int y = Math.Min(_roiStart.Y, e.Y);
@@ -613,49 +550,25 @@ namespace JidamVision
             //        _roiRect = new Rectangle(x, y, width, height);
             //        Invalidate();
             //    }
-            //    //기존 ROI 크기 변경
-            //    else if (_isResizingRoi)
+            //    else if (_isResizingRoi && e.Button == MouseButtons.Left)
             //    {
-            //        ResizeROI(e.Location);
-            //        if (_selEntity != null)
-            //            _selEntity.EntityROI = _roiRect;
-            //        _resizeStart = e.Location;
+            //        ResizeROI(e.Location); _resizeStart = e.Location;
             //        Invalidate();
             //    }
             //    //ROI 위치 이동
-            //    else if (_isMovingRoi)
+            //    else if (_isMovingRoi && e.Button == MouseButtons.Left)
             //    {
             //        int dx = e.X - _moveStart.X;
             //        int dy = e.Y - _moveStart.Y;
             //        _roiRect.X += dx;
             //        _roiRect.Y += dy;
-            //        if (_selEntity != null)
-            //            _selEntity.EntityROI = _roiRect;
             //        _moveStart = e.Location;
             //        Invalidate();
             //    }
-            //}
-            //// 마우스 오른쪽 버튼이 눌린 상태에서만 이동 처리
-            //else if (e.Button == MouseButtons.Right)
-            //{
-            //    // 현재 마우스 위치와 이전 클릭 위치를 비교하여 이동 거리 계산
-            //    Offset.X = e.Location.X - RightClick.X + LastOffset.X;
-            //    Offset.Y = e.Location.Y - RightClick.Y + LastOffset.Y;
-
-            //    // 이미지 위치 업데이트
-            //    ImageRect.X = Offset.X;
-            //    ImageRect.Y = Offset.Y;
-
-            //    // 변경된 화면을 다시 그리도록 요청
-            //    Invalidate();
-            //}
-            ////마우스 클릭없이, 위치만 이동시에, 커서의 위치가 크기변경또는 이동 위치일때, 커서 변경
-            //else
-            //{
-            //    if (_selEntity != null)
+            //    //마우스 클릭없이, 위치만 이동시에, 커서의 위치가 크기변경또는 이동 위치일때, 커서 변경
+            //    else
             //    {
-            //        int index = GetResizeHandleIndex(_selEntity.EntityROI, e.Location);
-            //        if (index != -1)
+            //        int index = GetResizeHandleIndex(e.Location); if (index != -1)
             //        {
             //            Cursor = GetCursorForHandle(index);
             //        }
@@ -669,92 +582,179 @@ namespace JidamVision
             //        }
             //    }
             //}
+
+            //// 마우스 오른쪽 버튼이 눌린 상태에서만 이동 처리
+            //if (e.Button == MouseButtons.Right)
+            //{
+            //    // 현재 마우스 위치와 이전 클릭 위치를 비교하여 이동 거리 계산
+            //    Offset.X = e.Location.X - RightClick.X + LastOffset.X;
+            //    Offset.Y = e.Location.Y - RightClick.Y + LastOffset.Y;
+
+            //    // 이미지 위치 업데이트
+            //    ImageRect.X = Offset.X;
+            //    ImageRect.Y = Offset.Y;
+
+            //    // 변경된 화면을 다시 그리도록 요청
+            //    Invalidate();
+            //}
+            #endregion
+
+            #region multiROI
+            //#MULTI ROI#12 마우스 이동시, 구현 코드
+            if (e.Button == MouseButtons.Left)
+            {
+                //최초 ROI 생성하여 그리기
+                if (_isSelectingRoi)
+                {
+                    int x = Math.Min(_roiStart.X, e.X);
+                    int y = Math.Min(_roiStart.Y, e.Y);
+                    int width = Math.Abs(e.X - _roiStart.X);
+                    int height = Math.Abs(e.Y - _roiStart.Y);
+                    _roiRect = new Rectangle(x, y, width, height);
+                    Invalidate();
+                }
+                //기존 ROI 크기 변경
+                else if (_isResizingRoi)
+                {
+                    ResizeROI(e.Location);
+                    if (_selEntity != null)
+                        _selEntity.EntityROI = _roiRect;
+                    _resizeStart = e.Location;
+                    Invalidate();
+                }
+                //ROI 위치 이동
+                else if (_isMovingRoi)
+                {
+                    int dx = e.X - _moveStart.X;
+                    int dy = e.Y - _moveStart.Y;
+                    _roiRect.X += dx;
+                    _roiRect.Y += dy;
+                    if (_selEntity != null)
+                        _selEntity.EntityROI = _roiRect;
+                    _moveStart = e.Location;
+                    Invalidate();
+                }
+            }
+            // 마우스 오른쪽 버튼이 눌린 상태에서만 이동 처리
+            else if (e.Button == MouseButtons.Right)
+            {
+                // 현재 마우스 위치와 이전 클릭 위치를 비교하여 이동 거리 계산
+                Offset.X = e.Location.X - RightClick.X + LastOffset.X;
+                Offset.Y = e.Location.Y - RightClick.Y + LastOffset.Y;
+
+                // 이미지 위치 업데이트
+                ImageRect.X = Offset.X;
+                ImageRect.Y = Offset.Y;
+
+                // 변경된 화면을 다시 그리도록 요청
+                Invalidate();
+            }
+            //마우스 클릭없이, 위치만 이동시에, 커서의 위치가 크기변경또는 이동 위치일때, 커서 변경
+            else
+            {
+                if (_selEntity != null)
+                {
+                    int index = GetResizeHandleIndex(_selEntity.EntityROI, e.Location);
+                    if (index != -1)
+                    {
+                        Cursor = GetCursorForHandle(index);
+                    }
+                    else if (_roiRect.Contains(e.Location))
+                    {
+                        Cursor = Cursors.SizeAll; // ROI 내부 이동
+                    }
+                    else
+                    {
+                        Cursor = Cursors.Default;
+                    }
+                }
+            }
             #endregion
         }
 
 
         private void ImageViewCCtrl_MouseUp(object sender, MouseEventArgs e)
         {
-            #region setROI BTN
+                #region setROI BTN
+            //    //#SETROI#5 ROI 크기 변경 또는 이동 완료
+            //    //#MULTI ROI#13 마우스 업일때, 구현 코드
+            //    if (e.Button == MouseButtons.Left)
+            //    {
+            //        if (_isSelectingRoi)
+            //        {
+            //            _isSelectingRoi = false;
+            //        }
+            //        else if (_isResizingRoi)
+            //        {
+            //            _isResizingRoi = false;
+            //        }
+            //        else if (_isMovingRoi)
+            //        {
+            //            _isMovingRoi = false;
+            //        }
+            //    }
+            //    // 마우스를 떼면 마지막 오프셋 값을 저장하여 이후 이동을 연속적으로 처리
+            //    if (e.Button == MouseButtons.Right)
+            //    {
+            //        LastOffset = Offset;
+            //    }
+            //}
+#endregion
+
+            #region multiROI
             //#SETROI#5 ROI 크기 변경 또는 이동 완료
             //#MULTI ROI#13 마우스 업일때, 구현 코드
             if (e.Button == MouseButtons.Left)
             {
                 if (_isSelectingRoi)
                 {
+                    //ROI 크기가 10보다 작으면, 추가하지 않음
+                    if (_roiRect.Width >= 10 && _roiRect.Height >= 10)
+                    {
+                        _selEntity = new DiagramEntity(_roiRect, _selColor);
+                    }
+
                     _isSelectingRoi = false;
                 }
                 else if (_isResizingRoi)
                 {
+                    _selEntity.EntityROI = _roiRect;
                     _isResizingRoi = false;
                 }
                 else if (_isMovingRoi)
                 {
+                    _selEntity.EntityROI = _roiRect;
                     _isMovingRoi = false;
                 }
+
+                UpdateEntity();
             }
+
             // 마우스를 떼면 마지막 오프셋 값을 저장하여 이후 이동을 연속적으로 처리
             if (e.Button == MouseButtons.Right)
             {
                 LastOffset = Offset;
             }
         }
-            #endregion
 
-            #region multiROI
-        //    //#SETROI#5 ROI 크기 변경 또는 이동 완료
-        //    //#MULTI ROI#13 마우스 업일때, 구현 코드
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        if (_isSelectingRoi)
-        //        {
-        //            //ROI 크기가 10보다 작으면, 추가하지 않음
-        //            if (_roiRect.Width >= 10 && _roiRect.Height >= 10)
-        //            {
-        //                _selEntity = new DiagramEntity(_roiRect, _selColor);
-        //            }
+        //#MULTI ROI#14 ROI 추가,수정,삭제 시, 이벤트 발생
+        private void UpdateEntity()
+        {
+            if (_selEntity is null)
+                return;
 
-        //            _isSelectingRoi = false;
-        //        }
-        //        else if (_isResizingRoi)
-        //        {
-        //            _selEntity.EntityROI = _roiRect;
-        //            _isResizingRoi = false;
-        //        }
-        //        else if (_isMovingRoi)
-        //        {
-        //            _selEntity.EntityROI = _roiRect;
-        //            _isMovingRoi = false;
-        //        }
+            if (_selEntity.LinkedWindow is null)
+            {
+                ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Add, null, _newRoiType, _roiRect));
+                return;
+            }
 
-        //        UpdateEntity();
-        //    }
-
-        //    // 마우스를 떼면 마지막 오프셋 값을 저장하여 이후 이동을 연속적으로 처리
-        //    if (e.Button == MouseButtons.Right)
-        //    {
-        //        LastOffset = Offset;
-        //    }
-        //}
-
-        ////#MULTI ROI#14 ROI 추가,수정,삭제 시, 이벤트 발생
-        //private void UpdateEntity()
-        //{
-        //    if (_selEntity is null)
-        //        return;
-
-        //    if (_selEntity.LinkedWindow is null)
-        //    {
-        //        ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Add, null, _newRoiType, _roiRect));
-        //        return;
-        //    }
-
-        //    ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Modify, _selEntity.LinkedWindow, _newRoiType, _roiRect));
+            ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Modify, _selEntity.LinkedWindow, _newRoiType, _roiRect));
 
 
-        //    DiagramEntity entity = new DiagramEntity(_roiRect, _selColor);
-        //    _diagramEntityList.Add(entity);
-        //}
+            DiagramEntity entity = new DiagramEntity(_roiRect, _selColor);
+            _diagramEntityList.Add(entity);
+        }
 
         #endregion
 
@@ -994,6 +994,7 @@ namespace JidamVision
             roiHeight = Math.Min(Bitmap.Height - roiY, roiHeight);
 
             if (roiWidth <= 0 || roiHeight <= 0)
+                return new Rectangle(); // 유효하지 않은 ROI
                 return new Rectangle(); // 유효하지 않은 ROI
 
             // 원본 이미지에서 ROI 부분을 추출
