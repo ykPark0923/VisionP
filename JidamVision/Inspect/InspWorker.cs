@@ -100,6 +100,14 @@ namespace JidamVision.Inspect
                         matchAlgo.SetInspData(srcImage);
                         break;
                     }
+                case InspectType.InspFm:
+                    {
+                        FmInspAlgorithm fmInspAlgo = (FmInspAlgorithm)inspAlgo;
+
+                        Mat srcImage = Global.Inst.InspStage.GetMat();
+                        fmInspAlgo.SetInspData(srcImage);
+                        break;
+                    }
                 default:
                     {
                         Console.WriteLine($"Not support inspection type : %s", inspType.ToString());

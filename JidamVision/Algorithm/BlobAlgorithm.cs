@@ -61,36 +61,6 @@ namespace JidamVision.Algorithm
             FilterCondition.Reset(); // 필터 조건 기본값 설정
         }
 
-        //public override bool DoInspect()
-        //{
-        //    isInspected = false;
-
-        //    if (_srcImage == null)
-        //        return false;
-
-        //    Mat grayImage = new Mat();
-        //    if (_srcImage.Type() == MatType.CV_8UC3)
-        //        Cv2.CvtColor(_srcImage, grayImage, ColorConversionCodes.BGR2GRAY);
-        //    else
-        //        grayImage = _srcImage;
-
-        //    Mat binaryImage = new Mat();
-        //    //Cv2.Threshold(grayImage, binaryMask, lowerValue, upperValue, ThresholdTypes.Binary);
-        //    Cv2.InRange(grayImage, BinThreshold.lower, BinThreshold.upper, binaryImage);
-
-        //    if (BinThreshold.invert)
-        //        binaryImage = ~binaryImage;
-
-        //    if (AreaMinFilter > 0)
-        //    {
-        //        if (!BlobFilter(binaryImage, AreaMinFilter))
-        //            return false;
-        //    }
-
-        //    isInspected = true;
-        //    return true;
-        //}
-
         public override bool DoInspect()
         {
             isInspected = false;
@@ -105,7 +75,6 @@ namespace JidamVision.Algorithm
                 grayImage = _srcImage;
 
             Mat binaryImage = new Mat();
-            //Cv2.Threshold(grayImage, binaryMask, lowerValue, upperValue, ThresholdTypes.Binary);
             Cv2.InRange(grayImage, BinThreshold.lower, BinThreshold.upper, binaryImage);
 
             if (BinThreshold.invert)
@@ -140,14 +109,6 @@ namespace JidamVision.Algorithm
             {                
                 double area = Cv2.ContourArea(contour);
 
-                // 필터링된 객체를 이미지에 그림
-                // Contour : 4개의 폐곡선을 이어서 내부영역을 계산
-                //Cv2.DrawContours(filteredImage, new Point[][] { contour }, -1, Scalar.White, -1);
-
-                // RotatedRect 정보 계산
-                // Bounding : 마름모모양일 경우 min, max x, y값을 기준으로 바운딩 영역 찾기
-                // Cv2.MinAreaRect : 마름모모양 그대로 꽉차게, 최외곽을 두르는 박스, RotatedRec 구조체에에 회전값 들어있음
-                //RotatedRect rotatedRect = Cv2.MinAreaRect(contour);
                 Rect boundingRect = Cv2.BoundingRect(contour);
                 // [면적 필터 조건] 적용
                 if (filter.UseAreaFilter && (area < filter.AreaMin || area > filter.AreaMax))
@@ -159,12 +120,6 @@ namespace JidamVision.Algorithm
                 if (filter.UseHeightFilter && (boundingRect.Height < filter.HeightMin || boundingRect.Height > filter.HeightMax))
                     continue;
                 _findArea.Add(boundingRect);
-
-                // RotatedRect 정보 출력
-                //Console.WriteLine($"RotatedRect - Center: {rotatedRect.Center}, Size: {rotatedRect.Size}, Angle: {rotatedRect.Angle}");
-
-                // BoundingRect 정보 출력
-                //Console.WriteLine($"BoundingRect - X: {boundingRect.X}, Y: {boundingRect.Y}, Width: {boundingRect.Width}, Height: {boundingRect.Height}");
             }
             return true;
         }

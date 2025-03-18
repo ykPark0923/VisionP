@@ -66,19 +66,20 @@
             this.grpBinary.Controls.Add(this.chkHighlight);
             this.grpBinary.Controls.Add(this.trackBarUpper);
             this.grpBinary.Controls.Add(this.trackBarLower);
-            this.grpBinary.Location = new System.Drawing.Point(3, 3);
+            this.grpBinary.Location = new System.Drawing.Point(4, 4);
+            this.grpBinary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.grpBinary.Name = "grpBinary";
-            this.grpBinary.Size = new System.Drawing.Size(231, 140);
+            this.grpBinary.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.grpBinary.Size = new System.Drawing.Size(330, 210);
             this.grpBinary.TabIndex = 0;
             this.grpBinary.TabStop = false;
             this.grpBinary.Text = "이진화";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(131, 139);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Location = new System.Drawing.Point(187, 208);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(6, 5);
+            this.button2.Size = new System.Drawing.Size(9, 8);
             this.button2.TabIndex = 6;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
@@ -86,9 +87,10 @@
             // chkInvert
             // 
             this.chkInvert.AutoSize = true;
-            this.chkInvert.Location = new System.Drawing.Point(30, 122);
+            this.chkInvert.Location = new System.Drawing.Point(43, 183);
+            this.chkInvert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkInvert.Name = "chkInvert";
-            this.chkInvert.Size = new System.Drawing.Size(48, 16);
+            this.chkInvert.Size = new System.Drawing.Size(70, 22);
             this.chkInvert.TabIndex = 5;
             this.chkInvert.Text = "반전";
             this.chkInvert.UseVisualStyleBackColor = true;
@@ -97,9 +99,10 @@
             // chkShowBinary
             // 
             this.chkShowBinary.AutoSize = true;
-            this.chkShowBinary.Location = new System.Drawing.Point(117, 102);
+            this.chkShowBinary.Location = new System.Drawing.Point(167, 153);
+            this.chkShowBinary.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkShowBinary.Name = "chkShowBinary";
-            this.chkShowBinary.Size = new System.Drawing.Size(60, 16);
+            this.chkShowBinary.Size = new System.Drawing.Size(88, 22);
             this.chkShowBinary.TabIndex = 4;
             this.chkShowBinary.Text = "이진화";
             this.chkShowBinary.UseVisualStyleBackColor = true;
@@ -110,9 +113,10 @@
             this.chkHighlight.AutoSize = true;
             this.chkHighlight.Checked = true;
             this.chkHighlight.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkHighlight.Location = new System.Drawing.Point(31, 102);
+            this.chkHighlight.Location = new System.Drawing.Point(44, 153);
+            this.chkHighlight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkHighlight.Name = "chkHighlight";
-            this.chkHighlight.Size = new System.Drawing.Size(72, 16);
+            this.chkHighlight.Size = new System.Drawing.Size(99, 22);
             this.chkHighlight.TabIndex = 3;
             this.chkHighlight.Text = "Highlight";
             this.chkHighlight.UseVisualStyleBackColor = true;
@@ -120,19 +124,21 @@
             // 
             // trackBarUpper
             // 
-            this.trackBarUpper.Location = new System.Drawing.Point(42, 71);
+            this.trackBarUpper.Location = new System.Drawing.Point(60, 106);
+            this.trackBarUpper.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.trackBarUpper.Maximum = 255;
             this.trackBarUpper.Name = "trackBarUpper";
-            this.trackBarUpper.Size = new System.Drawing.Size(150, 45);
+            this.trackBarUpper.Size = new System.Drawing.Size(214, 69);
             this.trackBarUpper.TabIndex = 1;
             this.trackBarUpper.Value = 255;
             // 
             // trackBarLower
             // 
-            this.trackBarLower.Location = new System.Drawing.Point(42, 19);
+            this.trackBarLower.Location = new System.Drawing.Point(60, 28);
+            this.trackBarLower.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.trackBarLower.Maximum = 255;
             this.trackBarLower.Name = "trackBarLower";
-            this.trackBarLower.Size = new System.Drawing.Size(150, 45);
+            this.trackBarLower.Size = new System.Drawing.Size(214, 69);
             this.trackBarLower.TabIndex = 0;
             // 
             // groupBox1
@@ -147,61 +153,70 @@
             this.groupBox1.Controls.Add(this.checkBox_width);
             this.groupBox1.Controls.Add(this.checkBox_area);
             this.groupBox1.Controls.Add(this.btnFilter);
-            this.groupBox1.Location = new System.Drawing.Point(10, 148);
+            this.groupBox1.Location = new System.Drawing.Point(14, 222);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(201, 210);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(287, 315);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "필터";
             // 
             // textBox_widthMax
             // 
-            this.textBox_widthMax.Location = new System.Drawing.Point(85, 101);
+            this.textBox_widthMax.Location = new System.Drawing.Point(121, 152);
+            this.textBox_widthMax.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox_widthMax.Name = "textBox_widthMax";
-            this.textBox_widthMax.Size = new System.Drawing.Size(100, 21);
+            this.textBox_widthMax.Size = new System.Drawing.Size(141, 28);
             this.textBox_widthMax.TabIndex = 21;
             // 
             // textBox_widthMin
             // 
-            this.textBox_widthMin.Location = new System.Drawing.Point(85, 74);
+            this.textBox_widthMin.Location = new System.Drawing.Point(121, 111);
+            this.textBox_widthMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox_widthMin.Name = "textBox_widthMin";
-            this.textBox_widthMin.Size = new System.Drawing.Size(100, 21);
+            this.textBox_widthMin.Size = new System.Drawing.Size(141, 28);
             this.textBox_widthMin.TabIndex = 20;
             // 
             // textBox_heightMax
             // 
-            this.textBox_heightMax.Location = new System.Drawing.Point(85, 152);
+            this.textBox_heightMax.Location = new System.Drawing.Point(121, 228);
+            this.textBox_heightMax.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox_heightMax.Name = "textBox_heightMax";
-            this.textBox_heightMax.Size = new System.Drawing.Size(100, 21);
+            this.textBox_heightMax.Size = new System.Drawing.Size(141, 28);
             this.textBox_heightMax.TabIndex = 19;
             // 
             // textBox_heightMin
             // 
-            this.textBox_heightMin.Location = new System.Drawing.Point(85, 125);
+            this.textBox_heightMin.Location = new System.Drawing.Point(121, 188);
+            this.textBox_heightMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox_heightMin.Name = "textBox_heightMin";
-            this.textBox_heightMin.Size = new System.Drawing.Size(100, 21);
+            this.textBox_heightMin.Size = new System.Drawing.Size(141, 28);
             this.textBox_heightMin.TabIndex = 18;
             // 
             // textBox_areaMax
             // 
-            this.textBox_areaMax.Location = new System.Drawing.Point(85, 47);
+            this.textBox_areaMax.Location = new System.Drawing.Point(121, 70);
+            this.textBox_areaMax.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox_areaMax.Name = "textBox_areaMax";
-            this.textBox_areaMax.Size = new System.Drawing.Size(100, 21);
+            this.textBox_areaMax.Size = new System.Drawing.Size(141, 28);
             this.textBox_areaMax.TabIndex = 17;
             // 
             // textBox_areaMin
             // 
-            this.textBox_areaMin.Location = new System.Drawing.Point(85, 20);
+            this.textBox_areaMin.Location = new System.Drawing.Point(121, 30);
+            this.textBox_areaMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBox_areaMin.Name = "textBox_areaMin";
-            this.textBox_areaMin.Size = new System.Drawing.Size(100, 21);
+            this.textBox_areaMin.Size = new System.Drawing.Size(141, 28);
             this.textBox_areaMin.TabIndex = 16;
             // 
             // checkBox_height
             // 
             this.checkBox_height.AutoSize = true;
-            this.checkBox_height.Location = new System.Drawing.Point(10, 130);
+            this.checkBox_height.Location = new System.Drawing.Point(14, 195);
+            this.checkBox_height.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_height.Name = "checkBox_height";
-            this.checkBox_height.Size = new System.Drawing.Size(59, 16);
+            this.checkBox_height.Size = new System.Drawing.Size(83, 22);
             this.checkBox_height.TabIndex = 15;
             this.checkBox_height.Text = "Height";
             this.checkBox_height.UseVisualStyleBackColor = true;
@@ -210,9 +225,10 @@
             // checkBox_width
             // 
             this.checkBox_width.AutoSize = true;
-            this.checkBox_width.Location = new System.Drawing.Point(10, 79);
+            this.checkBox_width.Location = new System.Drawing.Point(14, 118);
+            this.checkBox_width.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_width.Name = "checkBox_width";
-            this.checkBox_width.Size = new System.Drawing.Size(54, 16);
+            this.checkBox_width.Size = new System.Drawing.Size(77, 22);
             this.checkBox_width.TabIndex = 14;
             this.checkBox_width.Text = "Width";
             this.checkBox_width.UseVisualStyleBackColor = true;
@@ -221,9 +237,10 @@
             // checkBox_area
             // 
             this.checkBox_area.AutoSize = true;
-            this.checkBox_area.Location = new System.Drawing.Point(10, 32);
+            this.checkBox_area.Location = new System.Drawing.Point(14, 48);
+            this.checkBox_area.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_area.Name = "checkBox_area";
-            this.checkBox_area.Size = new System.Drawing.Size(50, 16);
+            this.checkBox_area.Size = new System.Drawing.Size(72, 22);
             this.checkBox_area.TabIndex = 13;
             this.checkBox_area.Text = "Area";
             this.checkBox_area.UseVisualStyleBackColor = true;
@@ -231,10 +248,9 @@
             // 
             // btnFilter
             // 
-            this.btnFilter.Location = new System.Drawing.Point(10, 164);
-            this.btnFilter.Margin = new System.Windows.Forms.Padding(2);
+            this.btnFilter.Location = new System.Drawing.Point(14, 252);
             this.btnFilter.Name = "btnFilter";
-            this.btnFilter.Size = new System.Drawing.Size(69, 31);
+            this.btnFilter.Size = new System.Drawing.Size(99, 46);
             this.btnFilter.TabIndex = 2;
             this.btnFilter.Text = "필터적용";
             this.btnFilter.UseVisualStyleBackColor = true;
@@ -242,12 +258,13 @@
             // 
             // BinaryInspProp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.grpBinary);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "BinaryInspProp";
-            this.Size = new System.Drawing.Size(237, 379);
+            this.Size = new System.Drawing.Size(339, 568);
             this.grpBinary.ResumeLayout(false);
             this.grpBinary.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarUpper)).EndInit();
