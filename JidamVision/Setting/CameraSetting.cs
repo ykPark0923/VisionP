@@ -17,9 +17,6 @@ namespace JidamVision.Setting
 
     public partial class CameraSetting : UserControl
     {
-        public float ExposureTime;
-        public float Gain;
-
         public CameraSetting()
         {
             InitializeComponent();
@@ -31,16 +28,22 @@ namespace JidamVision.Setting
         private void LoadSetting()
         {
             GrabModel grabModel = Global.Inst.InspStage.GrabModel;
+
             //카메라 타입을 콤보박스에 추가
             cbCameraType.DataSource = Enum.GetValues(typeof(CameraType)).Cast<CameraType>().ToList();
             //환경설정에서 현재 카메라 타입 얻기
             cbCameraType.SelectedIndex = (int)SettingXml.Inst.CamType;
+            tbx_exposureTime.Text = SettingXml.Inst.ExposureType;
+            tbx_gain.Text = SettingXml.Inst.Gain;
+
         }
 
         private void SaveSetting()
         {
             //환경설정에 카메라 타입 설정
             SettingXml.Inst.CamType = (CameraType)cbCameraType.SelectedIndex;
+            SettingXml.Inst.ExposureType = tbx_exposureTime.Text;
+            SettingXml.Inst.Gain = tbx_gain.Text;
             //환경설정 저장
             SettingXml.Save();
         }
@@ -49,18 +52,23 @@ namespace JidamVision.Setting
         private void btnApply_Click(object sender, EventArgs e)
         {
 
+            SaveSetting();
+
             GrabModel grabModel = Global.Inst.InspStage.GrabModel;
 
-            ExposureTime = float.Parse(tbx_exposureTime.Text);
-            Gain = float.Parse(tbx_gain.Text);
+            if (grabModel == null) return;
 
 
-
-            SaveSetting();
-            grabModel.SetExposureTime(ExposureTime);
-            grabModel.SetGain(Gain);
-
-
+            if(SettingXml.Inst.CamType == CameraType.WebCam)
+            {
+                grabModel.SetExposureTime(long.Parse(tbx_exposureTime.Text));
+                grabModel.SetGain(long.Parse(tbx_gain.Text));
+            }
+            else if(SettingXml.Inst.CamType == CameraType.HikRobotCam)
+            {
+                grabModel.SetExposureTime(long.Parse(tbx_exposureTime.Text));
+                grabModel.SetGain(long.Parse(tbx_gain.Text));
+            }   
         }
     }
 }

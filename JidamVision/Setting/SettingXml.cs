@@ -12,7 +12,7 @@ using static JidamVision.Setting.NetworkSetting;
 namespace JidamVision.Setting
 {
     /*
-    #SETUP# - <<<환경설정 정보를 저장하기 위한 클래스>>> 
+    #SETUP# - <<<환경설정 정보를 저장하기 위한 클래스>>>
     환정설정 정보를 XML방식으로 저장하고, Singleton 방식으로 어디서나 호출하여 사용
     환경정설 파일은 실행파일 폴더 안에 Setup/Setting.xml로 저장
     1)프로젝트 내 Util/XmlHelper.cs 파일 복사하여 사용할것
@@ -102,7 +102,8 @@ namespace JidamVision.Setting
 
         public CameraType CamType { get; set; } = CameraType.WebCam;
 
-
+        public string ExposureType { get; set; } = "";
+        public string Gain { get; set; } = "";
 
         public CommunicationType CommType { get; set; } = CommunicationType.None;
         public string IPAddress{ get; set; } = "";

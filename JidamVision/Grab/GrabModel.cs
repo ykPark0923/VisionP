@@ -78,10 +78,10 @@ namespace JidamVision.Grab
         internal abstract bool Open();
         internal virtual bool Reconnect() { return true; }
         internal abstract bool GetPixelBpp(out int pixelBpp);
-        internal abstract bool SetExposureTime(float exposure);
-        internal abstract bool GetExposureTime(out float exposure);
-        internal abstract bool SetGain(float gain);
-        internal abstract bool GetGain(out float gain);
+        internal abstract bool SetExposureTime(long exposure);
+        internal abstract bool GetExposureTime(out long exposure);
+        internal abstract bool SetGain(long gain);
+        internal abstract bool GetGain(out long gain);
         internal abstract bool GetResolution(out int width, out int height, out int stride);
         internal virtual bool SetTriggerMode(bool hardwareTrigger) { return true; }
         internal virtual bool SetWhiteBalance(bool auto, float redGain = 1.0f, float blueGain = 1.0f) { return true; }
