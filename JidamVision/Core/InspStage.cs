@@ -135,6 +135,15 @@ namespace JidamVision.Core
             }
 
             SetBuffer(bufferCount);
+
+            if (_camType == CameraType.HikRobotCam)
+            {
+                _grabManager.SetExposureTime(20000);
+                _grabManager.SetGain(1.4f);
+                _grabManager.Grab(0);
+
+                _grabManager.SetWhiteBalance(true);
+            }
         }
         public void SetImageBuffer(string filePath)
         {
@@ -153,6 +162,11 @@ namespace JidamVision.Core
 
             imageWidth = (matImage.Width + 3) / 4 * 4;
             imageHeight = matImage.Height;
+
+            // 4바이트 정렬된 새로운 Mat 생성
+            Mat alignedMat = new Mat();
+            Cv2.CopyMakeBorder(matImage, alignedMat, 0, 0, 0, imageWidth - matImage.Width, BorderTypes.Constant, Scalar.Black);
+
             //imageStride = (int)matImage.Step();
             imageStride = imageWidth * matImage.ElemSize();
 
@@ -263,6 +277,7 @@ namespace JidamVision.Core
 
             return Global.Inst.InspStage.ImageSpace.GetBitmap(SelBufferIndex, SelImageChannel);
         }
+
         public Mat GetMat(int bufferIndex = -1, eImageChannel imageChannel = eImageChannel.Gray)
         {
             if (bufferIndex >= 0)
@@ -274,6 +289,7 @@ namespace JidamVision.Core
 
             return Global.Inst.InspStage.ImageSpace.GetMat(SelBufferIndex, SelImageChannel);
         }
+
 
         private void InitInspWindow()
         {

@@ -16,6 +16,9 @@ namespace JidamVision.Setting
 
     public partial class CameraSetting : UserControl
     {
+        public float ExposureTime;
+        public float Gain;
+
         public CameraSetting()
         {
             InitializeComponent();
@@ -44,6 +47,11 @@ namespace JidamVision.Setting
         private void btnApply_Click(object sender, EventArgs e)
         {
             SaveSetting();
+
+            //******************************************************************
+            ExposureTime = float.Parse(tbx_exposureTime.Text);
+            Gain = float.Parse(tbx_gain.Text);
+            Console.WriteLine(ExposureTime + "," + Gain);
         }
     }
 }
