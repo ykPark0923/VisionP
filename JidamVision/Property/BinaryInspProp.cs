@@ -53,26 +53,26 @@ namespace JidamVision.Property
                 BlobAlgorithm blobAlgo = (BlobAlgorithm)inspWindow.FindInspAlgorithm(InspectType.InspBinary);
                 if (blobAlgo != null)
                 {
-                    var cond = blobAlgo.FilterCondition;
+                    var FilterCondition = blobAlgo.FilterCondition;
 
                     // 면적 필터 UI 반영
-                    textBox_areaMin.Text = cond.AreaMin.ToString();
-                    textBox_areaMax.Text = cond.AreaMax.ToString();
-                    checkBox_area.Checked = cond.UseAreaFilter;
+                    textBox_areaMin.Text = FilterCondition.AreaMin.ToString();
+                    textBox_areaMax.Text = FilterCondition.AreaMax.ToString();
+                    checkBox_area.Checked = FilterCondition.IsCheckedArea;
                     textBox_areaMin.Enabled = checkBox_area.Checked;
                     textBox_areaMax.Enabled = checkBox_area.Checked;
 
                     // 너비 필터 UI 반영
-                    textBox_widthMin.Text = cond.WidthMin.ToString();
-                    textBox_widthMax.Text = cond.WidthMax.ToString();
-                    checkBox_width.Checked = cond.UseWidthFilter;
+                    textBox_widthMin.Text = FilterCondition.WidthMin.ToString();
+                    textBox_widthMax.Text = FilterCondition.WidthMax.ToString();
+                    checkBox_width.Checked = FilterCondition.IsCheckWidth;
                     textBox_widthMin.Enabled = checkBox_width.Checked;
                     textBox_widthMax.Enabled = checkBox_width.Checked;
 
                     // 높이 필터 UI 반영
-                    textBox_heightMin.Text = cond.HeightMin.ToString();
-                    textBox_heightMax.Text = cond.HeightMax.ToString();
-                    checkBox_height.Checked = cond.UseHeightFilter;
+                    textBox_heightMin.Text = FilterCondition.HeightMin.ToString();
+                    textBox_heightMax.Text = FilterCondition.HeightMax.ToString();
+                    checkBox_height.Checked = FilterCondition.IsCheckedHeight;
                     textBox_heightMin.Enabled = checkBox_height.Checked;
                     textBox_heightMax.Enabled = checkBox_height.Checked;
 
@@ -172,41 +172,55 @@ namespace JidamVision.Property
             if (blobAlgo == null) return;
             var cond = blobAlgo.FilterCondition;
 
-            //int.Parse 예외처리(값이 올바르지 않으면 오류가 남)
             try
             {
-
                 // 면적 조건
-                cond.UseAreaFilter = checkBox_area.Checked;
+                cond.IsCheckedArea = checkBox_area.Checked;
                 if (checkBox_area.Checked)
                 {
                     cond.AreaMin = int.Parse(textBox_areaMin.Text);
                     cond.AreaMax = int.Parse(textBox_areaMax.Text);
+
                     if (cond.AreaMax <= 0) cond.AreaMax = int.MaxValue;
+                    if (cond.AreaMin > cond.AreaMax)
+                        throw new ArgumentException("면적 최소값이 최대값보다 클 수 없습니다.");
                 }
 
                 // 너비 조건
-                cond.UseWidthFilter = checkBox_width.Checked;
+                cond.IsCheckWidth = checkBox_width.Checked;
                 if (checkBox_width.Checked)
                 {
                     cond.WidthMin = int.Parse(textBox_widthMin.Text);
                     cond.WidthMax = int.Parse(textBox_widthMax.Text);
                     if (cond.WidthMax <= 0) cond.WidthMax = int.MaxValue;
+                    if (cond.WidthMin > cond.WidthMax)
+                        throw new ArgumentException("너비 최소값이 최대값보다 클 수 없습니다.");
                 }
 
                 // 높이 조건
-                cond.UseHeightFilter = checkBox_height.Checked;
+                cond.IsCheckedHeight = checkBox_height.Checked;
                 if (checkBox_height.Checked)
                 {
                     cond.HeightMin = int.Parse(textBox_heightMin.Text);
                     cond.HeightMax = int.Parse(textBox_heightMax.Text);
                     if (cond.HeightMax <= 0) cond.HeightMax = int.MaxValue;
+                    if (cond.HeightMin > cond.HeightMax)
+                        throw new ArgumentException("높이 최소값이 최대값보다 클 수 없습니다.");
                 }
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("숫자만 입력해야 합니다.", "입력 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "입력 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("필터 값이 잘못되었습니다.\n" + ex.Message, "입력 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
 
             // 필터 조건 반영
             blobAlgo.FilterCondition = cond;

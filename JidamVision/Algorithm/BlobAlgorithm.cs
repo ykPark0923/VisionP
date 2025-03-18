@@ -10,35 +10,19 @@ namespace JidamVision.Algorithm
     public class BlobFilterCondition
     {
         // 면적 필터 사용 여부
-        public bool UseAreaFilter { get; set; }
-        public int AreaMin { get; set; }
-        public int AreaMax { get; set; }
+        public bool IsCheckedArea { get; set; } = true;
+        public int AreaMin { get; set; } = 100;
+        public int AreaMax { get; set; } = 100000;
 
         // 너비 필터 사용 여부
-        public bool UseWidthFilter { get; set; }
-        public int WidthMin { get; set; }
-        public int WidthMax { get; set; }
+        public bool IsCheckWidth { get; set; } = false;
+        public int WidthMin { get; set; } = 100;
+        public int WidthMax { get; set; } = 100000;
 
         // 높이 필터 사용 여부
-        public bool UseHeightFilter { get; set; }
-        public int HeightMin { get; set; }
-        public int HeightMax { get; set; }
-
-        // 필터 조건 초기화 함수
-        public void Reset()
-        {
-            UseAreaFilter = true;
-            AreaMin = 100;
-            AreaMax = 100000;
-
-            UseWidthFilter = false;
-            WidthMin = 100;
-            WidthMax = 100000;
-
-            UseHeightFilter = false;
-            HeightMin = 100;
-            HeightMax = 100000;
-        }
+        public bool IsCheckedHeight { get; set; } = false;
+        public int HeightMin { get; set; } = 100;
+        public int HeightMax { get; set; } = 100000;
     }
 
     public struct BinaryThreshold
@@ -58,7 +42,6 @@ namespace JidamVision.Algorithm
         public BlobAlgorithm()
         {
             InspectType = InspectType.InspBinary;
-            FilterCondition.Reset(); // 필터 조건 기본값 설정
         }
 
         public override bool DoInspect()
@@ -111,13 +94,13 @@ namespace JidamVision.Algorithm
 
                 Rect boundingRect = Cv2.BoundingRect(contour);
                 // [면적 필터 조건] 적용
-                if (filter.UseAreaFilter && (area < filter.AreaMin || area > filter.AreaMax))
+                if (filter.IsCheckedArea && (area < filter.AreaMin || area > filter.AreaMax))
                     continue;
                 // [너비 필터 조건] 적용
-                if (filter.UseWidthFilter && (boundingRect.Width < filter.WidthMin || boundingRect.Width > filter.WidthMax))
+                if (filter.IsCheckWidth && (boundingRect.Width < filter.WidthMin || boundingRect.Width > filter.WidthMax))
                     continue;
                 // [높이 필터 조건] 적용
-                if (filter.UseHeightFilter && (boundingRect.Height < filter.HeightMin || boundingRect.Height > filter.HeightMax))
+                if (filter.IsCheckedHeight && (boundingRect.Height < filter.HeightMin || boundingRect.Height > filter.HeightMax))
                     continue;
                 _findArea.Add(boundingRect);
             }
