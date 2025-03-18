@@ -39,7 +39,7 @@
             // 
             this.tbx_gain.Location = new System.Drawing.Point(202, 141);
             this.tbx_gain.Name = "tbx_gain";
-            this.tbx_gain.Size = new System.Drawing.Size(100, 28);
+            this.tbx_gain.Size = new System.Drawing.Size(184, 28);
             this.tbx_gain.TabIndex = 13;
             // 
             // lblIPAdress

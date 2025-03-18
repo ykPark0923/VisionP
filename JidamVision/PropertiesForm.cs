@@ -20,6 +20,7 @@ namespace JidamVision
         InspBinary,
         InspMatch,
         InspFilter,
+        InspFm,
         InspCount  //전체 enum의 count를 알고 있음, InspNone = -1이므로 카운트 제외
     }
 
@@ -83,6 +84,11 @@ namespace JidamVision
                     filterProp.FilterSelected += FilterSelect_FilterChanged;
                     _InspProp = filterProp;
                     break;
+                case InspectType.InspFm:
+                    FmInspProp fmProp = new FmInspProp();
+                    fmProp.LoadInspParam();
+                    _InspProp = fmProp;
+                    break;                    
                 default:
                     MessageBox.Show("유효하지 않은 옵션입니다.");
                     return null;

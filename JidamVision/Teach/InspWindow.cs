@@ -59,6 +59,7 @@ namespace JidamVision.Teach
             //_blobAlgorithm = new BlobAlgorithm();
             AddInspAlgorithm(InspectType.InspMatch);
             AddInspAlgorithm(InspectType.InspBinary);
+            AddInspAlgorithm(InspectType.InspFm);
 
         }
 
@@ -68,6 +69,7 @@ namespace JidamVision.Teach
             Name = name;
             AddInspAlgorithm(InspectType.InspMatch);
             AddInspAlgorithm(InspectType.InspBinary);
+            AddInspAlgorithm(InspectType.InspFm);
         }
 
 
@@ -112,6 +114,9 @@ namespace JidamVision.Teach
                     break;
                 case InspectType.InspMatch:
                     inspAlgo = new MatchAlgorithm();
+                    break;
+                case InspectType.InspFm:
+                    inspAlgo = new FmInspAlgorithm();
                     break;
             }
 
