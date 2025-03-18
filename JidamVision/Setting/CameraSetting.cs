@@ -30,6 +30,7 @@ namespace JidamVision.Setting
 
         private void LoadSetting()
         {
+            GrabModel grabModel = Global.Inst.InspStage.GrabModel;
             //카메라 타입을 콤보박스에 추가
             cbCameraType.DataSource = Enum.GetValues(typeof(CameraType)).Cast<CameraType>().ToList();
             //환경설정에서 현재 카메라 타입 얻기
@@ -47,14 +48,17 @@ namespace JidamVision.Setting
         //적용 버튼 선택시 저장하기
         private void btnApply_Click(object sender, EventArgs e)
         {
-            //********************************************************************
+
+            GrabModel grabModel = Global.Inst.InspStage.GrabModel;
+
             ExposureTime = float.Parse(tbx_exposureTime.Text);
             Gain = float.Parse(tbx_gain.Text);
 
-            SaveSetting();
 
-            Global.Inst.InspStage.GrabModel.SetExposureTime(ExposureTime);
-            Global.Inst.InspStage.GrabModel.SetGain(Gain);
+
+            SaveSetting();
+            grabModel.SetExposureTime(ExposureTime);
+            grabModel.SetGain(Gain);
 
 
         }
