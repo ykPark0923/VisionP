@@ -63,6 +63,7 @@
             this.btnApply.TabIndex = 2;
             this.btnApply.Text = "적용";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // lbl_exposureTime
             // 
