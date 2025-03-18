@@ -118,7 +118,7 @@ namespace JidamVision.Grab
 
             return true;
         }
-        internal override bool SetExposureTime(long exposure)
+        internal override bool SetExposureTime(float exposure)
         {
             if (_capture == null)
                 return false;
@@ -126,7 +126,7 @@ namespace JidamVision.Grab
             _capture.Set(VideoCaptureProperties.Exposure, exposure);
             return true;
         }
-        internal override bool GetExposureTime(out long exposure)
+        internal override bool GetExposureTime(out float exposure)
         {
             exposure = 0;
 

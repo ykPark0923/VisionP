@@ -292,7 +292,7 @@ namespace JidamVision.Grab
             return true;
         }               
                    
-        internal override bool SetExposureTime(long exposure)
+        internal override bool SetExposureTime(float exposure)
         {
             if (_camera == null)
                 return false;  //정사적인 길로 가지 않을 경우 죽는 경우를 막아줌
@@ -306,7 +306,7 @@ namespace JidamVision.Grab
             return true;
         }
                    
-        internal override bool GetExposureTime(out long exposure)
+        internal override bool GetExposureTime(out float exposure)
         {
             exposure = 0;
             if (_camera == null)

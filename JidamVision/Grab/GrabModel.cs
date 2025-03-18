@@ -78,8 +78,8 @@ namespace JidamVision.Grab
         internal abstract bool Open();
         internal virtual bool Reconnect() { return true; }
         internal abstract bool GetPixelBpp(out int pixelBpp);
-        internal abstract bool SetExposureTime(long exposure);
-        internal abstract bool GetExposureTime(out long exposure);
+        internal abstract bool SetExposureTime(float exposure);
+        internal abstract bool GetExposureTime(out float exposure);
         internal abstract bool SetGain(float gain);
         internal abstract bool GetGain(out float gain);
         internal abstract bool GetResolution(out int width, out int height, out int stride);
@@ -120,5 +120,10 @@ namespace JidamVision.Grab
             TransferCompleted?.Invoke(this, obj);
         }
         internal abstract void Dispose();
+
+        public GrabModel()
+        {
+        }
+
     }
 }

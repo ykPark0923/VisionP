@@ -36,6 +36,11 @@ namespace JidamVision.Core
         //#MODEL#6 모델 변수 선언
         private Model _model = null;
 
+        internal GrabModel GrabModel
+        {
+            get => _grabManager;
+        }
+
         public ImageSpace ImageSpace
         {
             get => _imageSpace;

@@ -1,4 +1,5 @@
-﻿using JidamVision.Grab;
+﻿using JidamVision.Core;
+using JidamVision.Grab;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,12 +47,16 @@ namespace JidamVision.Setting
         //적용 버튼 선택시 저장하기
         private void btnApply_Click(object sender, EventArgs e)
         {
-            SaveSetting();
-
-            //******************************************************************
+            //********************************************************************
             ExposureTime = float.Parse(tbx_exposureTime.Text);
             Gain = float.Parse(tbx_gain.Text);
-            Console.WriteLine(ExposureTime + "," + Gain);
+
+            SaveSetting();
+
+            Global.Inst.InspStage.GrabModel.SetExposureTime(ExposureTime);
+            Global.Inst.InspStage.GrabModel.SetGain(Gain);
+
+
         }
     }
 }
