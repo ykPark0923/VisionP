@@ -4,23 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenCvSharp;
+using System.Windows.Forms;
 
 namespace JidamVision.Algorithm
 {
     public class BlobFilterCondition
     {
         // 면적 필터 사용 여부
-        public bool IsCheckedArea { get; set; } = true;
+        public bool isCheckedArea { get; set; } = true;
         public int AreaMin { get; set; } = 100;
         public int AreaMax { get; set; } = 100000;
 
         // 너비 필터 사용 여부
-        public bool IsCheckWidth { get; set; } = false;
+        public bool isCheckedWidth { get; set; } = false;
         public int WidthMin { get; set; } = 100;
         public int WidthMax { get; set; } = 100000;
 
         // 높이 필터 사용 여부
-        public bool IsCheckedHeight { get; set; } = false;
+        public bool isCheckedHeight { get; set; } = false;
         public int HeightMin { get; set; } = 100;
         public int HeightMax { get; set; } = 100000;
     }
@@ -88,22 +89,43 @@ namespace JidamVision.Algorithm
 
             _findArea.Clear();
 
-            foreach(var contour in contours)
-            {                
+            foreach (var contour in contours)
+            {
                 double area = Cv2.ContourArea(contour);
-
                 Rect boundingRect = Cv2.BoundingRect(contour);
+
+                // 필터 값 범위를 자동 보정
+                filter.AreaMin = Math.Max(filter.AreaMin, 1);
+                filter.AreaMax = Math.Min(filter.AreaMax, binImage.Rows * binImage.Cols);
+
+                filter.WidthMin = Math.Max(filter.WidthMin, 1);
+                filter.WidthMax = Math.Min(filter.WidthMax, binImage.Cols);
+
+                filter.HeightMin = Math.Max(filter.HeightMin, 1);
+                filter.HeightMax = Math.Min(filter.HeightMax, binImage.Rows);
+
                 // [면적 필터 조건] 적용
-                if (filter.IsCheckedArea && (area < filter.AreaMin || area > filter.AreaMax))
+                if (filter.isCheckedArea && (area < filter.AreaMin || area > filter.AreaMax))
                     continue;
+
                 // [너비 필터 조건] 적용
-                if (filter.IsCheckWidth && (boundingRect.Width < filter.WidthMin || boundingRect.Width > filter.WidthMax))
+                if (filter.isCheckedWidth && (boundingRect.Width < filter.WidthMin || boundingRect.Width > filter.WidthMax))
                     continue;
+
                 // [높이 필터 조건] 적용
-                if (filter.IsCheckedHeight && (boundingRect.Height < filter.HeightMin || boundingRect.Height > filter.HeightMax))
+                if (filter.isCheckedHeight && (boundingRect.Height < filter.HeightMin || boundingRect.Height > filter.HeightMax))
                     continue;
+
                 _findArea.Add(boundingRect);
             }
+            // 필터링된 영역이 없으면 경고 메시지 표시
+            if (_findArea.Count == 0)
+            {
+                MessageBox.Show("설정한 필터 조건을 만족하는 블롭이 없습니다. 필터 값을 조정해주세요.",
+                                "필터링 결과 없음", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
             return true;
         }
 

@@ -58,21 +58,21 @@ namespace JidamVision.Property
                     // 면적 필터 UI 반영
                     textBox_areaMin.Text = FilterCondition.AreaMin.ToString();
                     textBox_areaMax.Text = FilterCondition.AreaMax.ToString();
-                    checkBox_area.Checked = FilterCondition.IsCheckedArea;
+                    checkBox_area.Checked = FilterCondition.isCheckedArea;
                     textBox_areaMin.Enabled = checkBox_area.Checked;
                     textBox_areaMax.Enabled = checkBox_area.Checked;
 
                     // 너비 필터 UI 반영
                     textBox_widthMin.Text = FilterCondition.WidthMin.ToString();
                     textBox_widthMax.Text = FilterCondition.WidthMax.ToString();
-                    checkBox_width.Checked = FilterCondition.IsCheckWidth;
+                    checkBox_width.Checked = FilterCondition.isCheckedWidth;
                     textBox_widthMin.Enabled = checkBox_width.Checked;
                     textBox_widthMax.Enabled = checkBox_width.Checked;
 
                     // 높이 필터 UI 반영
                     textBox_heightMin.Text = FilterCondition.HeightMin.ToString();
                     textBox_heightMax.Text = FilterCondition.HeightMax.ToString();
-                    checkBox_height.Checked = FilterCondition.IsCheckedHeight;
+                    checkBox_height.Checked = FilterCondition.isCheckedHeight;
                     textBox_heightMin.Enabled = checkBox_height.Checked;
                     textBox_heightMax.Enabled = checkBox_height.Checked;
 
@@ -175,7 +175,7 @@ namespace JidamVision.Property
             try
             {
                 // 면적 조건
-                cond.IsCheckedArea = checkBox_area.Checked;
+                cond.isCheckedArea = checkBox_area.Checked;
                 if (checkBox_area.Checked)
                 {
                     cond.AreaMin = int.Parse(textBox_areaMin.Text);
@@ -187,7 +187,7 @@ namespace JidamVision.Property
                 }
 
                 // 너비 조건
-                cond.IsCheckWidth = checkBox_width.Checked;
+                cond.isCheckedWidth = checkBox_width.Checked;
                 if (checkBox_width.Checked)
                 {
                     cond.WidthMin = int.Parse(textBox_widthMin.Text);
@@ -198,7 +198,7 @@ namespace JidamVision.Property
                 }
 
                 // 높이 조건
-                cond.IsCheckedHeight = checkBox_height.Checked;
+                cond.isCheckedHeight = checkBox_height.Checked;
                 if (checkBox_height.Checked)
                 {
                     cond.HeightMin = int.Parse(textBox_heightMin.Text);
