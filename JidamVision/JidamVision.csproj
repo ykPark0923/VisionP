@@ -183,6 +183,12 @@
     <Compile Include="Setting\CameraSetting.Designer.cs">
       <DependentUpon>CameraSetting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Setting\NetworkSetting.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Setting\NetworkSetting.Designer.cs">
+      <DependentUpon>NetworkSetting.cs</DependentUpon>
+    </Compile>
     <Compile Include="Setting\PathSetting.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -247,6 +253,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\CameraSetting.resx">
       <DependentUpon>CameraSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Setting\NetworkSetting.resx">
+      <DependentUpon>NetworkSetting.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Setting\PathSetting.resx">
       <DependentUpon>PathSetting.cs</DependentUpon>

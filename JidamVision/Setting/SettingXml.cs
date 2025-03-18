@@ -7,6 +7,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using static JidamVision.Setting.NetworkSetting;
 
 namespace JidamVision.Setting
 {
@@ -100,6 +101,11 @@ namespace JidamVision.Setting
         public string ModelDir { get; set; } = "";
 
         public CameraType CamType { get; set; } = CameraType.WebCam;
+
+
+
+        public CommunicationType CommType { get; set; } = CommunicationType.None;
+        public string IPAddress{ get; set; } = "";
 
     }
 }
