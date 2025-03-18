@@ -28,34 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbx_gain = new System.Windows.Forms.TextBox();
             this.lblIPAdress = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
             this.cbCommType = new System.Windows.Forms.ComboBox();
             this.lbCommType = new System.Windows.Forms.Label();
+            this.maskedtbx_ip = new System.Windows.Forms.MaskedTextBox();
             this.SuspendLayout();
-            // 
-            // tbx_gain
-            // 
-            this.tbx_gain.Location = new System.Drawing.Point(202, 141);
-            this.tbx_gain.Name = "tbx_gain";
-            this.tbx_gain.Size = new System.Drawing.Size(184, 28);
-            this.tbx_gain.TabIndex = 13;
             // 
             // lblIPAdress
             // 
             this.lblIPAdress.AutoSize = true;
-            this.lblIPAdress.Location = new System.Drawing.Point(62, 141);
+            this.lblIPAdress.Location = new System.Drawing.Point(43, 94);
+            this.lblIPAdress.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblIPAdress.Name = "lblIPAdress";
-            this.lblIPAdress.Size = new System.Drawing.Size(96, 18);
+            this.lblIPAdress.Size = new System.Drawing.Size(67, 12);
             this.lblIPAdress.TabIndex = 11;
             this.lblIPAdress.Text = "IP Address";
             // 
             // btnApply
             // 
-            this.btnApply.Location = new System.Drawing.Point(202, 213);
+            this.btnApply.Location = new System.Drawing.Point(141, 147);
+            this.btnApply.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 42);
+            this.btnApply.Size = new System.Drawing.Size(52, 28);
             this.btnApply.TabIndex = 9;
             this.btnApply.Text = "적용";
             this.btnApply.UseVisualStyleBackColor = true;
@@ -65,42 +60,54 @@
             // 
             this.cbCommType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbCommType.FormattingEnabled = true;
-            this.cbCommType.Location = new System.Drawing.Point(202, 91);
+            this.cbCommType.Location = new System.Drawing.Point(141, 61);
+            this.cbCommType.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.cbCommType.Name = "cbCommType";
-            this.cbCommType.Size = new System.Drawing.Size(184, 26);
+            this.cbCommType.Size = new System.Drawing.Size(130, 20);
             this.cbCommType.TabIndex = 8;
             // 
             // lbCommType
             // 
             this.lbCommType.AutoSize = true;
-            this.lbCommType.Location = new System.Drawing.Point(17, 99);
+            this.lbCommType.Location = new System.Drawing.Point(12, 66);
+            this.lbCommType.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lbCommType.Name = "lbCommType";
-            this.lbCommType.Size = new System.Drawing.Size(179, 18);
+            this.lbCommType.Size = new System.Drawing.Size(127, 12);
             this.lbCommType.TabIndex = 7;
             this.lbCommType.Text = "Communication Type";
             // 
+            // maskedtbx_ip
+            // 
+            this.maskedtbx_ip.Location = new System.Drawing.Point(141, 94);
+            this.maskedtbx_ip.Mask = "000.000.000.000";
+            this.maskedtbx_ip.Name = "maskedtbx_ip";
+            this.maskedtbx_ip.Size = new System.Drawing.Size(130, 21);
+            this.maskedtbx_ip.TabIndex = 14;
+            this.maskedtbx_ip.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.maskedtbx_ip.TextMaskFormat = System.Windows.Forms.MaskFormat.IncludePromptAndLiterals;
+            // 
             // NetworkSetting
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tbx_gain);
+            this.Controls.Add(this.maskedtbx_ip);
             this.Controls.Add(this.lblIPAdress);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.cbCommType);
             this.Controls.Add(this.lbCommType);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "NetworkSetting";
-            this.Size = new System.Drawing.Size(441, 365);
+            this.Size = new System.Drawing.Size(309, 243);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox tbx_gain;
         private System.Windows.Forms.Label lblIPAdress;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.ComboBox cbCommType;
         private System.Windows.Forms.Label lbCommType;
+        private System.Windows.Forms.MaskedTextBox maskedtbx_ip;
     }
 }

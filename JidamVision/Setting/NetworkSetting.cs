@@ -35,14 +35,14 @@ namespace JidamVision.Setting
             cbCommType.SelectedIndex = (int)SettingXml.Inst.CommType;
 
             //환경설정에서 모델 저장 경로 얻기
-            tbx_gain.Text = SettingXml.Inst.IPAddress;
+            maskedtbx_ip.Text = SettingXml.Inst.IPAddress;
         }
 
         private void SaveSetting()
         {
             //환경설정에 카메라 타입 설정
             SettingXml.Inst.CommType = (CommunicationType)cbCommType.SelectedIndex;
-            SettingXml.Inst.IPAddress = tbx_gain.Text;
+            SettingXml.Inst.IPAddress = maskedtbx_ip.Text;
             //환경설정 저장
             SettingXml.Save();
         }
