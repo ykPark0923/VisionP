@@ -123,7 +123,7 @@ namespace JidamVision.Algorithm
             {
                 MessageBox.Show("설정한 필터 조건을 만족하는 블롭이 없습니다. 필터 값을 조정해주세요.",
                                 "필터링 결과 없음", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
+                //return false;
             }
 
             return true;
@@ -138,7 +138,8 @@ namespace JidamVision.Algorithm
             if (!isInspected)
                 return -1;
 
-            if (_findArea is null || _findArea.Count <= 0)
+            //if (_findArea is null || _findArea.Count <= 0)
+            if (_findArea is null )
                 return -1;
 
             resultArea = _findArea;
