@@ -12,6 +12,7 @@ using System.Web;
 using System.Windows.Forms;
 using JidamVision.Core;
 using JidamVision.Teach;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using static JidamVision.Core.Define;
 
 namespace JidamVision
@@ -758,7 +759,6 @@ namespace JidamVision
 
         #endregion
 
-
         //마우스 위치가 ROI 크기 변경을 위한 여부를 확인하기 위해, 4개 모서리와 사각형 라인의 중간 위치 반환
         private Point[] GetResizeHandles(Rectangle rect)
         {
@@ -1008,6 +1008,13 @@ namespace JidamVision
             _rectangles = rectangles;
             Invalidate();
         }
+
+        public void RemoveRoi(Rectangle roiRect)
+        {
+            _rectangles.RemoveAll(roi => roi.IntersectsWith(roiRect));
+            Invalidate();
+        }
+
 
         internal void SetDiagramEntityList(List<DiagramEntity> diagramEntityList)
         {
