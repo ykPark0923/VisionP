@@ -59,12 +59,12 @@ namespace JidamVision.Setting
             if (grabModel == null) return;
 
 
-            if(SettingXml.Inst.CamType == CameraType.WebCam)
+            if((CameraType)cbCameraType.SelectedIndex == CameraType.WebCam)
             {
                 grabModel.SetExposureTime(long.Parse(tbx_exposureTime.Text));
                 grabModel.SetGain(long.Parse(tbx_gain.Text));
             }
-            else if(SettingXml.Inst.CamType == CameraType.HikRobotCam)
+            else if((CameraType)cbCameraType.SelectedIndex == CameraType.HikRobotCam)
             {
                 grabModel.SetExposureTime(long.Parse(tbx_exposureTime.Text));
                 grabModel.SetGain(long.Parse(tbx_gain.Text));
