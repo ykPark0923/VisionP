@@ -129,13 +129,6 @@ namespace JidamVision
                 Global.Inst.InspStage.Grab(0);
         }
 
-        private void CameraForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-
         private void rbtnColorChannel_CheckedChanged(object sender, EventArgs e)
         {
 

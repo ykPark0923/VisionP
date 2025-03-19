@@ -12,8 +12,6 @@ using System.Web;
 using System.Windows.Forms;
 using JidamVision.Core;
 using JidamVision.Teach;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using static JidamVision.Core.Define;
 
 namespace JidamVision
 {
