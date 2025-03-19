@@ -175,6 +175,7 @@ namespace JidamVision
                 if (result == DialogResult.Yes)
                 {
                     tvModelTree.SelectedNode.Remove();
+                    //ImageViewCCtrl.RemoveRoi(_roiRect);
                 }
             }
         }
