@@ -9,7 +9,7 @@ using JidamVision.Core;
 using System.Security.Policy;
 using System.Drawing;
 using System.IO;
-using static JidamVision.Core.Define;
+using System.Xml.Serialization;
 
 namespace JidamVision.Teach
 {
@@ -23,17 +23,20 @@ namespace JidamVision.Teach
         //템플릿 매칭 이미지
         private Mat _teachingImage;
 
-        internal InspWindowType InspWindowType { get; private set; }
+        public InspWindowType InspWindowType { get; set; }
 
-        public string Name { get; private set; }
+        //#MODEL SAVE#5 모델 저장을 위한 Serialize를 위해서, prvate set -> set으로 변경
+        //public string Name {  get; private set; }
+        public string Name { get;  set; }
         public string UID { get; set; }
 
         public Rect WindowArea { get; set; }
 
         //템플릿 매칭으로 찾은 위치 리스트
-        private List<OpenCvSharp.Point> _outPoints;
+        //private List<OpenCvSharp.Point> _outPoints;
 
 
+        [XmlElement("InspAlgorithm")]
         internal List<InspAlgorithm> AlgorithmList { get; set; } = new List<InspAlgorithm>();
 
 
@@ -151,20 +154,20 @@ namespace JidamVision.Teach
         }
 
         //#MATCH PROP#6 템플릿 매칭 검사 결과 위치를 Rectangle 리스트로 반환
-        public int GetMatchRect(out List<Rect> rects)
-        {
-            rects = new List<Rect>();
+        //public int GetMatchRect(out List<Rect> rects)
+        //{
+        //    rects = new List<Rect>();
 
-            int halfWidth = _teachingImage.Width;
-            int halfHeight = _teachingImage.Height;
+        //    int halfWidth = _teachingImage.Width;
+        //    int halfHeight = _teachingImage.Height;
 
-            foreach (var point in _outPoints)
-            {
-                Console.WriteLine($"매칭된 위치: {_outPoints}");
-                rects.Add(new Rect(point.X - halfWidth, point.Y - halfHeight, _teachingImage.Width, _teachingImage.Height));
-            }
+        //    foreach (var point in _outPoints)
+        //    {
+        //        Console.WriteLine($"매칭된 위치: {_outPoints}");
+        //        rects.Add(new Rect(point.X - halfWidth, point.Y - halfHeight, _teachingImage.Width, _teachingImage.Height));
+        //    }
 
-            return rects.Count;
-        }
+        //    return rects.Count;
+        //}
     }
 }

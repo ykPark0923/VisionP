@@ -106,5 +106,42 @@ namespace JidamVision
             SetupForm setupForm = new SetupForm();
             setupForm.ShowDialog();
         }
+
+        private void modelNewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //신규 모델 추가를 위한 모델 정보를 받기 위한 창 띄우기
+            NewModel newModel = new NewModel();
+            newModel.ShowDialog();
+        }
+
+        private void modelOpenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //모델 파일 열기
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Title = "모델 파일 선택";
+                openFileDialog.Filter = "Model Files|*.xml;";
+                openFileDialog.Multiselect = false;
+                openFileDialog.InitialDirectory = SettingXml.Inst.ModelDir;
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    Global.Inst.InspStage.LoadModel(filePath);
+                }
+            }
+        }
+
+        private void modelSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //모델 파일 저장
+            Global.Inst.InspStage.SaveModel();
+        }
+
+        private void modelSaveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewModel newModel = new NewModel(true);
+            newModel.ShowDialog();
+        }
+
     }
 }

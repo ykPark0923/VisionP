@@ -29,7 +29,7 @@ namespace JidamVision.Teach
         public InspWindowFactory() { }
 
         //InspWindow를 생성하기 위해, 타입을 입력받아, 생성된 InspWindow 반환
-        internal InspWindow Create(InspWindowType windowType)
+        public InspWindow Create(InspWindowType windowType)
         {
             string name, prefix;
             if (!GetWindowName(windowType, out name, out prefix))
@@ -39,7 +39,6 @@ namespace JidamVision.Teach
             if (inspWindow is null)
                 return null;
 
-            //dicionary는 기존에 없으면 생성함.
             if (!_windowTypeNo.ContainsKey(name))
                 _windowTypeNo[name] = 0;
 

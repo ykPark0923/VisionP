@@ -28,20 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lbModelDir = new System.Windows.Forms.Label();
+            this.lblModelDir = new System.Windows.Forms.Label();
             this.txtModelDir = new System.Windows.Forms.TextBox();
             this.btnSelModelDir = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // lbModelDir
+            // lblModelDir
             // 
-            this.lbModelDir.AutoSize = true;
-            this.lbModelDir.Location = new System.Drawing.Point(22, 90);
-            this.lbModelDir.Name = "lbModelDir";
-            this.lbModelDir.Size = new System.Drawing.Size(86, 18);
-            this.lbModelDir.TabIndex = 0;
-            this.lbModelDir.Text = "모델 경로";
+            this.lblModelDir.AutoSize = true;
+            this.lblModelDir.Location = new System.Drawing.Point(22, 90);
+            this.lblModelDir.Name = "lblModelDir";
+            this.lblModelDir.Size = new System.Drawing.Size(86, 18);
+            this.lblModelDir.TabIndex = 0;
+            this.lblModelDir.Text = "모델 경로";
             // 
             // txtModelDir
             // 
@@ -58,6 +58,7 @@
             this.btnSelModelDir.TabIndex = 2;
             this.btnSelModelDir.Text = "...";
             this.btnSelModelDir.UseVisualStyleBackColor = true;
+            this.btnSelModelDir.Click += new System.EventHandler(this.btnSelModelDir_Click);
             // 
             // btnApply
             // 
@@ -67,6 +68,7 @@
             this.btnApply.TabIndex = 3;
             this.btnApply.Text = "적용";
             this.btnApply.UseVisualStyleBackColor = true;
+            this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
             // PathSetting
             // 
@@ -75,7 +77,7 @@
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnSelModelDir);
             this.Controls.Add(this.txtModelDir);
-            this.Controls.Add(this.lbModelDir);
+            this.Controls.Add(this.lblModelDir);
             this.Name = "PathSetting";
             this.Size = new System.Drawing.Size(506, 437);
             this.ResumeLayout(false);
@@ -85,7 +87,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lbModelDir;
+        private System.Windows.Forms.Label lblModelDir;
         private System.Windows.Forms.TextBox txtModelDir;
         private System.Windows.Forms.Button btnSelModelDir;
         private System.Windows.Forms.Button btnApply;
