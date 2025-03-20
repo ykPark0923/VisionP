@@ -54,6 +54,12 @@ namespace JidamVision.Teach
         // 내부(internal)에서만 접근 가능하며, MatchAlgorithm 타입의 읽기 전용 속성
         //internal MatchAlgorithm MatchAlgorithm => _matchAlgorithm;
 
+        //부모-자식 관계를 위한 변수 추가
+        public InspWindow Parent { get; set; }
+
+        [XmlElement("ChildWindow")]
+        public List<InspWindow> Children { get; set; } = new List<InspWindow>();
+
         public InspWindow()
         {
             //_matchAlgorithm = new MatchAlgorithm();
@@ -133,11 +139,11 @@ namespace JidamVision.Teach
 
         internal InspAlgorithm FindInspAlgorithm(InspectType inspType)
         {
-            foreach (var algorithm in AlgorithmList)
-            {
-                if (algorithm.InspectType == inspType) return algorithm;
-            }
-            return null;
+            //foreach (var algorithm in AlgorithmList)
+            //{
+            //    if (algorithm.InspectType == inspType) return algorithm;
+            //}
+            return AlgorithmList.Find(algo => algo.InspectType == inspType); ;
         }
 
         //#MATCH PROP#5 템플릿 매칭 검사
@@ -152,6 +158,42 @@ namespace JidamVision.Teach
             }
             return true;
         }
+
+
+        #region 부모 - 자식 관계 관리 메서드 추가
+
+        public void AddChild(InspWindow child)
+        {
+            if (child == null || Children.Contains(child))
+                return;
+
+            child.Parent = this;
+            Children.Add(child);
+        }
+
+        public bool RemoveChild(InspWindow child)
+        {
+            if (child == null || !Children.Contains(child))
+                return false;
+
+            child.Parent = null;
+            if (!Children.Remove(child))
+                return false;
+
+            return true;
+        }
+
+        public InspWindow GetRoot()
+        {
+            InspWindow root = this;
+            while (root.Parent != null)
+                root = root.Parent;
+
+            return root;
+        }
+
+
+        #endregion
 
         //#MATCH PROP#6 템플릿 매칭 검사 결과 위치를 Rectangle 리스트로 반환
         //public int GetMatchRect(out List<Rect> rects)
