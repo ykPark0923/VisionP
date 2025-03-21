@@ -16,6 +16,7 @@ using JidamVision.Inspect;
 using static JidamVision.Core.Define;
 using System.Windows.Forms;
 using JidamVision.Setting;
+using JidamVision.Util;
 
 namespace JidamVision.Core
 {
@@ -77,6 +78,8 @@ namespace JidamVision.Core
 
         public bool Initialize()
         {
+            SLogger.Write("InspStage 초기화!");
+
             _imageSpace = new ImageSpace();
             _previewImage = new PreviewImage();
             _inspWorker = new InspWorker();
