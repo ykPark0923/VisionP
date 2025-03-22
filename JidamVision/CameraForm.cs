@@ -241,28 +241,5 @@ namespace JidamVision
 
             imageViewer.SetDiagramEntityList(diagramEntityList);
         }
-
-        public void DeleteRoiByName(string roiName)
-        {
-            // ROI 데이터 삭제
-            InspWindow roiToDelete = Global.Inst.InspStage.CurModel.InspWindowList
-                .FirstOrDefault(roi => roi.UID == roiName);
-
-            if (roiToDelete != null)
-            {
-                Global.Inst.InspStage.DelInspWindow(roiToDelete);
-
-                //OpenCV rect=> system.drawing.rect
-                Rectangle roiRect = new Rectangle(roiToDelete.WindowArea.X, roiToDelete.WindowArea.Y,
-                                          roiToDelete.WindowArea.Width, roiToDelete.WindowArea.Height);
-
-                // 화면에서 ROI 삭제
-                imageViewer.RemoveRoi(roiRect);
-
-                // 화면 갱신
-                imageViewer.Invalidate();
-            }
-        }
-
     }
 }

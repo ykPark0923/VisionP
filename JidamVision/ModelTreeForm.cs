@@ -175,9 +175,16 @@ namespace JidamVision
                 if (result == DialogResult.Yes)
                 {
                     tvModelTree.SelectedNode.Remove();
-                    //ImageViewCCtrl.RemoveRoi(_roiRect);
+
+                    CameraForm cameraForm = MainForm.GetDockForm<CameraForm>();
+                    if (cameraForm != null)
+                    {
+                        ImageViewCCtrl img = new ImageViewCCtrl();
+                        img.DeleteSelectedRoi();  // <-- 이 함수를 구현하거나 forwarding
+                    }
                 }
             }
         }
+
     }
 }
