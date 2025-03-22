@@ -70,13 +70,13 @@ namespace JidamVision
         private const float MinZoom = 1.0f;
         private const float MaxZoom = 200.0f;
 
-        //줌아웃위하 초기값
-        private float CurrentCenterX;  // 초기 이미지 중심 X
-        private float CurrentCenterY;  // 초기 이미지 중심 Y
-        private float CurrentStartX;    //resize 위한 초기 X값 저장
-        private float CurrentStartY;    //resize 위한 초기 Y값 저장
-        private float CurrentWidth;    // 초기 이미지 너비
-        private float CurrentHeight;   // 초기 이미지 높이
+        //줌위한 현재값
+        private float CurrentCenterX;  // 현재 이미지 중심 X
+        private float CurrentCenterY;  // 현재 이미지 중심 Y
+        private float CurrentStartX;    //resize 위한 현재 X값 저장
+        private float CurrentStartY;    //resize 위한 현재 Y값 저장
+        private float CurrentWidth;    // 현재 이미지 너비
+        private float CurrentHeight;   // 현재 이미지 높이
 
         private float InitialWidth;    // 이미지로드 너비
         private float InitialHeight;   // 이미지로드 높이
@@ -1039,13 +1039,33 @@ namespace JidamVision
             return _diagramEntityList;
         }
 
-
         internal void SetDiagramEntityList(List<DiagramEntity> diagramEntityList)
         {
             _diagramEntityList = diagramEntityList;
             _selEntity = null;
             Invalidate();
         }
+
+        internal void DeleteRoiEntity(DiagramEntity entity)
+        {
+            if (entity == null) return;
+
+            if (_diagramEntityList.Contains(entity))
+            {
+                _diagramEntityList.Remove(entity);
+
+                ModifyROI?.Invoke(this, new DiagramEntityEventArgs(
+                    EntityActionType.Delete,
+                    entity.LinkedWindow,
+                    entity.LinkedWindow?.InspWindowType ?? InspWindowType.None,
+                    entity.EntityROI));
+
+                _selEntity = null;
+                Invalidate();
+            }
+        }
+
+
     }
     public class DiagramEntityEventArgs : EventArgs
     {

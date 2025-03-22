@@ -43,11 +43,20 @@ namespace JidamVision.Teach
         }
 
         //#MODEL#5 기존 InspWindow를 삭제할때
+        //UID값 못가져옴***********************************************************************
         public bool DelInspWindow(InspWindow inspWindow)
         {
-            if (InspWindowList.Contains(inspWindow))
+
+            Console.WriteLine("삭제 요청 UID: " + inspWindow.UID);
+            foreach (var win in InspWindowList)
             {
-                InspWindowList.Remove(inspWindow);
+                Console.WriteLine("모델 안 UID: " + win.UID);
+            }
+
+            int idx = InspWindowList.FindIndex(w => w.UID == inspWindow.UID);
+            if (idx >= 0)
+            {
+                InspWindowList.RemoveAt(idx);
                 return true;
             }
             return false;

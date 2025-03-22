@@ -164,7 +164,6 @@ namespace JidamVision
         }
 
         // ROI 삭제 기능
-        //********************************현재 트리폼에서만 delete됨
         private void DeleteNode_Click(object sender, EventArgs e)
         {
             if (tvModelTree.SelectedNode != null)
@@ -174,17 +173,28 @@ namespace JidamVision
 
                 if (result == DialogResult.Yes)
                 {
+                    // 현재 선택된 UID
+                    string selectedUid = tvModelTree.SelectedNode.Text;
+
+                    // Tree에서 먼저 삭제
                     tvModelTree.SelectedNode.Remove();
 
+                    // 실제 ROI 데이터도 삭제
                     CameraForm cameraForm = MainForm.GetDockForm<CameraForm>();
                     if (cameraForm != null)
                     {
-                        ImageViewCCtrl img = new ImageViewCCtrl();
-                        img.DeleteSelectedRoi();  // <-- 이 함수를 구현하거나 forwarding
+                        // 현재 모델에서 일치하는 윈도우 찾기
+                        var model = Global.Inst.InspStage.CurModel;
+                        var targetWindow = model.InspWindowList.FirstOrDefault(w => w.UID == selectedUid);
+                        if (targetWindow != null)
+                        {
+                            cameraForm.DeleteRoi(targetWindow);
+                        }
                     }
                 }
             }
         }
+
 
     }
 }

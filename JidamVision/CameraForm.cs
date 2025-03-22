@@ -241,5 +241,24 @@ namespace JidamVision
 
             imageViewer.SetDiagramEntityList(diagramEntityList);
         }
+
+        public void DeleteRoi(InspWindow window)
+        {
+            var entities = imageViewer.GetDiagramEntities();
+            var target = entities.FirstOrDefault(e => e.LinkedWindow == window);
+
+            if (target != null)
+            {
+                imageViewer.DeleteRoiEntity(target);
+
+                // 모델에서도 삭제
+                Global.Inst.InspStage.DelInspWindow(window);
+
+                // 트리뷰 갱신
+                ModelTreeForm treeForm = MainForm.GetDockForm<ModelTreeForm>();
+                treeForm?.UpdateDiagramEntity();
+            }
+        }
+
     }
 }
