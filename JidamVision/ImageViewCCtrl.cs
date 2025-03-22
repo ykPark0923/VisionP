@@ -748,15 +748,17 @@ namespace JidamVision
 
             if (_selEntity.LinkedWindow is null)
             {
+                // 여기서만 Add
+                var newEntity = new DiagramEntity(_roiRect, _selColor);
+                _diagramEntityList.Add(newEntity);
+
                 ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Add, null, _newRoiType, _roiRect));
             }
             else
             {
+                // 수정일 경우는 기존 ROI 좌표로 이벤트만 발생
                 ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Modify, _selEntity.LinkedWindow, _newRoiType, _roiRect));
             }
-
-            DiagramEntity entity = new DiagramEntity(_roiRect, _selColor);
-            _diagramEntityList.Add(entity);
         }
 
         #endregion
