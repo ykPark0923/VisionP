@@ -438,7 +438,6 @@ namespace JidamVision
                 }
             }
         }
-
         private void ImageViewCCtrl_MouseDown(object sender, MouseEventArgs e)
         {
             #region SetROIBTN
@@ -637,12 +636,13 @@ namespace JidamVision
             // 마우스 오른쪽 버튼이 눌린 상태에서만 이동 처리
             else if (e.Button == MouseButtons.Right)
             {
-                int dx = e.Location.X - RightClick.X;
-                int dy = e.Location.Y - RightClick.Y;
+                // 현재 마우스 위치와 이전 클릭 위치를 비교하여 이동 거리 계산
+                Offset.X = e.Location.X - RightClick.X + LastOffset.X;
+                Offset.Y = e.Location.Y - RightClick.Y + LastOffset.Y;
 
-                // 이미지 위치 이동
-                ImageRect.X = LastOffset.X + dx;
-                ImageRect.Y = LastOffset.Y + dy;
+                // 이미지 위치 업데이트
+                ImageRect.X = Offset.X;
+                ImageRect.Y = Offset.Y;
 
                 // ROI도 같이 이동하지 않고 → 비율 기준으로 다시 계산해야 함
                 UpdateROI();
@@ -672,7 +672,6 @@ namespace JidamVision
             }
             #endregion
         }
-
 
         private void ImageViewCCtrl_MouseUp(object sender, MouseEventArgs e)
         {
@@ -712,7 +711,7 @@ namespace JidamVision
                     //ROI 크기가 10보다 작으면, 추가하지 않음
                     if (_roiRect.Width >= 10 && _roiRect.Height >= 10)
                     {
-                        _selEntity = new DiagramEntity(_roiRect, _selColor);
+                        _selEntity = new DiagramEntity(_roiRect, ConvertToImageRect(_roiRect), _selColor);
                     }
 
                     _isSelectingRoi = false;
@@ -734,9 +733,7 @@ namespace JidamVision
             // 마우스를 떼면 마지막 오프셋 값을 저장하여 이후 이동을 연속적으로 처리
             if (e.Button == MouseButtons.Right)
             {
-                // 최종 위치 저장 (다음 이동 기준)
-                LastOffset.X = (int)ImageRect.X;
-                LastOffset.Y = (int)ImageRect.Y;
+                LastOffset = Offset;
             }
         }
 
@@ -746,21 +743,23 @@ namespace JidamVision
             if (_selEntity is null)
                 return;
 
+            var imageRect = ConvertToImageRect(_roiRect);
+
             if (_selEntity.LinkedWindow is null)
             {
-                // 여기서만 Add
-                var newEntity = new DiagramEntity(_roiRect, _selColor);
+                var newEntity = new DiagramEntity(_roiRect, imageRect, _selColor);
                 _diagramEntityList.Add(newEntity);
 
                 ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Add, null, _newRoiType, _roiRect));
             }
             else
             {
-                // 수정일 경우는 기존 ROI 좌표로 이벤트만 발생
+                _selEntity.EntityROI = _roiRect;
+                _selEntity.ImageBasedROI = imageRect;
+
                 ModifyROI?.Invoke(this, new DiagramEntityEventArgs(EntityActionType.Modify, _selEntity.LinkedWindow, _newRoiType, _roiRect));
             }
         }
-
         #endregion
 
         //마우스 위치가 ROI 크기 변경을 위한 여부를 확인하기 위해, 4개 모서리와 사각형 라인의 중간 위치 반환
@@ -951,34 +950,21 @@ namespace JidamVision
         // 창 resize ROI 업데이트
         private void UpdateROI()
         {
-            if (Bitmap == null || _diagramEntityList.Count == 0 || CurrentWidth == 0 || CurrentHeight == 0)
+            if (Bitmap == null || _diagramEntityList.Count == 0)
                 return;
 
-            foreach (DiagramEntity entity in _diagramEntityList)
+            foreach (var entity in _diagramEntityList)
             {
-                Rectangle oldRect = entity.EntityROI;
-
-                float roiX_ratio = (oldRect.X - CurrentStartX) / CurrentWidth;
-                float roiY_ratio = (oldRect.Y - CurrentStartY) / CurrentHeight;
-                float roiW_ratio = oldRect.Width / CurrentWidth;
-                float roiH_ratio = oldRect.Height / CurrentHeight;
-
-                Rectangle newRect = new Rectangle(
-                    (int)(ImageRect.X + roiX_ratio * ImageRect.Width),
-                    (int)(ImageRect.Y + roiY_ratio * ImageRect.Height),
-                    (int)(roiW_ratio * ImageRect.Width),
-                    (int)(roiH_ratio * ImageRect.Height)
-                );
-
-                entity.EntityROI = newRect;
+                // 이미지 좌표 → 화면 좌표로 변환
+                entity.EntityROI = ConvertToScreenRect(entity.ImageBasedROI);
             }
 
+            // ROI 계산을 위한 기준 저장
             CurrentStartX = ImageRect.X;
             CurrentStartY = ImageRect.Y;
             CurrentWidth = ImageRect.Width;
             CurrentHeight = ImageRect.Height;
         }
-
 
         public Rectangle GetRoiRect()
         {
@@ -1064,7 +1050,34 @@ namespace JidamVision
                 Invalidate();
             }
         }
+        private RectangleF ConvertToImageRect(Rectangle screenRect)
+        {
+            if (Bitmap == null) return RectangleF.Empty;
 
+            float scaleX = (float)Bitmap.Width / ImageRect.Width;
+            float scaleY = (float)Bitmap.Height / ImageRect.Height;
+
+            float x = (screenRect.X - ImageRect.X) * scaleX;
+            float y = (screenRect.Y - ImageRect.Y) * scaleY;
+            float w = screenRect.Width * scaleX;
+            float h = screenRect.Height * scaleY;
+
+            return new RectangleF(x, y, w, h);
+        }
+        private Rectangle ConvertToScreenRect(RectangleF imageRect)
+        {
+            if (Bitmap == null) return Rectangle.Empty;
+
+            float scaleX = ImageRect.Width / (float)Bitmap.Width;
+            float scaleY = ImageRect.Height / (float)Bitmap.Height;
+
+            int x = (int)(ImageRect.X + imageRect.X * scaleX);
+            int y = (int)(ImageRect.Y + imageRect.Y * scaleY);
+            int w = (int)(imageRect.Width * scaleX);
+            int h = (int)(imageRect.Height * scaleY);
+
+            return new Rectangle(x, y, w, h);
+        }
 
     }
     public class DiagramEntityEventArgs : EventArgs

@@ -13,18 +13,22 @@ namespace JidamVision.Teach
         public Rectangle EntityROI { get; set; }
         public Color EntityColor { get; set; }
         public bool IsHold {  get; set; }
+        public RectangleF ImageBasedROI { get; set; }
 
         public DiagramEntity()
         {
             LinkedWindow = null;
             EntityROI = new Rectangle(0, 0, 0, 0);
+            ImageBasedROI = new Rectangle(0, 0, 0, 0);
             EntityColor = Color.White;
             IsHold = false;
         }
 
-        public DiagramEntity(Rectangle rect, Color entityColor, bool hold = false){
+        public DiagramEntity(Rectangle screenRect, RectangleF imageRect, Color entityColor, bool hold = false)
+        {
             LinkedWindow = null;
-            EntityROI = rect;
+            EntityROI = screenRect;
+            ImageBasedROI = imageRect;
             EntityColor = entityColor;
             IsHold = hold;
         }
